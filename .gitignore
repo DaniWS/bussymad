@@ -1,0 +1,26 @@
+# Raw open-data dumps (large, not for git)
+data/raw/
+
+# Local GBFS collection logs (JSONL snapshots are committed; logs are noisy)
+data/collected/*.log
+data/collected/launchd.*.log
+
+# Editor / local tooling
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+
+# Build / deps (when we add a frontend)
+node_modules/
+dist/
+.astro/

@@ -1,0 +1,54 @@
+# Hourly BiciMAD GBFS snapshot collector (cloud).
+# Runs even when your Mac is asleep. Commits one JSONL line into
+# data/collected/gbfs_station_status_YYYY-MM-DD.jsonl (UTC day).
+#
+# Scheduled cron on GitHub needs a public repo (or GitHub Pro).
+# Enable: push this workflow, then Actions → Collect GBFS hourly → Run workflow.
+
+name: Collect GBFS hourly
+
+on:
+  schedule:
+    # Every hour at :05 UTC
+    - cron: "5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: collect-gbfs
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Fetch GBFS snapshot
+        run: python3 scripts/collect_gbfs.py
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          git config user.name "bussymad-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/collected/gbfs_station_status_*.jsonl
+          if git diff --staged --quiet; then
+            echo "No new data"
+            exit 0
+          fi
+          git commit -m "data: hourly GBFS station snapshot"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            if git push; then
+              exit 0
+            fi
+            echo "Push failed (attempt ${attempt}), retrying…"
+            sleep 5
+          done
+          echo "Push failed after retries" >&2
+          exit 1

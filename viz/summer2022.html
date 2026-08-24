@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bussymad — summer 2022 hourly occupancy</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --ink: #1c1a16;
+      --muted: #5c564c;
+      --june: #0b6e4f;
+      --july: #c45c26;
+      --august: #2c4a7c;
+      --panel: rgba(255, 252, 245, 0.92);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #dfe8d8 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #e8dcc8 0%, transparent 50%),
+        var(--bg);
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.35rem;
+    }
+    .lede {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.45;
+      max-width: 38rem;
+      margin: 0 0 1.5rem;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      font: inherit;
+      border: 1px solid #cfc6b6;
+      background: #fffaf0;
+      color: var(--ink);
+      padding: 0.45rem 0.9rem;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    button[aria-pressed="true"] {
+      background: var(--ink);
+      color: #fffaf0;
+      border-color: var(--ink);
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid #ddd4c4;
+      padding: 1rem 1rem 0.5rem;
+      backdrop-filter: blur(4px);
+    }
+    .findings {
+      margin-top: 1.25rem;
+      padding: 1rem 1.1rem;
+      border-left: 3px solid var(--june);
+      background: rgba(255, 252, 245, 0.7);
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    .findings strong { color: var(--ink); }
+    .meta { font-size: 0.85rem; color: var(--muted); margin-top: 1rem; }
+    canvas { width: 100% !important; max-height: 420px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>BiciMAD occupancy by hour</h1>
+    <p class="lede">
+      Citywide mean station occupancy (<code>dock_bikes / total_bases</code>) for
+      June, July, and August 2022 — the last complete summer in public open data.
+    </p>
+
+    <div class="controls" role="group" aria-label="Day type">
+      <button type="button" id="btn-weekday" aria-pressed="true">Weekday</button>
+      <button type="button" id="btn-weekend" aria-pressed="false">Weekend</button>
+    </div>
+
+    <div class="panel">
+      <canvas id="chart" height="320"></canvas>
+    </div>
+
+    <div class="findings" id="findings">Loading…</div>
+    <p class="meta">Source: EMT / datos.madrid.es históricos 900034 (station snapshots). Open stations only.</p>
+  </main>
+
+  <script>
+    const COLORS = { june: "#0b6e4f", july: "#c45c26", august: "#2c4a7c" };
+    let data = null;
+    let chart = null;
+    let dayType = "weekday";
+
+    async function load() {
+      const res = await fetch("../data/aggregates/summer2022_hourly.json");
+      data = await res.json();
+      document.getElementById("findings").innerHTML = findingsHtml(dayType);
+      render();
+    }
+
+    function seriesFor(month, dtype) {
+      return data.data[month].hourly_mean_occupancy[dtype].map((v) =>
+        v == null ? null : +(v * 100).toFixed(2)
+      );
+    }
+
+    function maePct(a, b) {
+      let s = 0;
+      for (let i = 0; i < 24; i++) s += Math.abs(a[i] - b[i]);
+      return s / 24;
+    }
+
+    function findingsHtml(dtype) {
+      const jn = seriesFor("june", dtype);
+      const jl = seriesFor("july", dtype);
+      const ag = seriesFor("august", dtype);
+      const d1 = maePct(jn, jl).toFixed(2);
+      const d2 = maePct(jn, ag).toFixed(2);
+      const d3 = maePct(jl, ag).toFixed(2);
+      return `
+        <strong>Pattern check (${dtype}):</strong>
+        Months overlay tightly — mean absolute difference is only
+        ${d1} pp (Jun–Jul), ${d2} pp (Jun–Aug), ${d3} pp (Jul–Aug).
+        Occupancy peaks in the early morning (~04–06) and dips in the evening (~19–21).
+        A single ${dtype} typical-day profile is enough for a first map slider;
+        keep weekday vs weekend as a control, not month.
+      `;
+    }
+
+    function render() {
+      const labels = data.hours.map((h) => String(h).padStart(2, "0") + ":00");
+      const datasets = ["june", "july", "august"].map((m) => ({
+        label: m[0].toUpperCase() + m.slice(1) + " 2022",
+        data: seriesFor(m, dayType),
+        borderColor: COLORS[m],
+        backgroundColor: "transparent",
+        tension: 0.25,
+        pointRadius: 2,
+        borderWidth: 2,
+      }));
+
+      document.getElementById("findings").innerHTML = findingsHtml(dayType);
+
+      if (chart) {
+        chart.data.labels = labels;
+        chart.data.datasets = datasets;
+        chart.update();
+        return;
+      }
+
+      chart = new Chart(document.getElementById("chart"), {
+        type: "line",
+        data: { labels, datasets },
+        options: {
+          responsive: true,
+          interaction: { mode: "index", intersect: false },
+          plugins: {
+            legend: { position: "bottom" },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`,
+              },
+            },
+          },
+          scales: {
+            y: {
+              title: { display: true, text: "Mean occupancy (%)" },
+              suggestedMin: 35,
+              suggestedMax: 50,
+            },
+            x: { title: { display: true, text: "Hour of day (local)" } },
+          },
+        },
+      });
+    }
+
+    function setDayType(next) {
+      dayType = next;
+      document.getElementById("btn-weekday").setAttribute("aria-pressed", next === "weekday");
+      document.getElementById("btn-weekend").setAttribute("aria-pressed", next === "weekend");
+      render();
+    }
+
+    document.getElementById("btn-weekday").onclick = () => setDayType("weekday");
+    document.getElementById("btn-weekend").onclick = () => setDayType("weekend");
+    load();
+  </script>
+</body>
+</html>
