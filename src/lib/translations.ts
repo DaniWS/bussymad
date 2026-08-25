@@ -28,6 +28,8 @@ export type Copy = {
   themeToLight: string;
   attribution: string;
   githubLabel: string;
+  linkedinLabel: string;
+  aboutLabel: string;
   emailLabel: string;
   licenseNav: string;
   copyrightLine: string;
@@ -50,6 +52,9 @@ export const AUTHOR = 'Daniel Vilela García';
 export const COPYRIGHT_YEAR = 2026;
 export const LICENSE_SPDX = 'CC-BY-NC-ND-4.0';
 export const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc-nd/4.0/';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/daniel-vilela-garcia';
+/** Personal site — update when the domain is final. */
+export const PERSONAL_SITE_URL = 'https://dani.dev';
 
 export const copy: Record<Locale, Copy> = {
   es: {
@@ -81,6 +86,8 @@ export const copy: Record<Locale, Copy> = {
     themeToLight: 'Cambiar a modo claro',
     attribution: '© OpenStreetMap · datos BiciMAD',
     githubLabel: 'Ver el código en GitHub',
+    linkedinLabel: 'Perfil de LinkedIn',
+    aboutLabel: 'Sobre mí — web personal',
     emailLabel: 'Enviar un correo a daniruso@duck.com',
     licenseNav: 'Licencia',
     copyrightLine: '© 2026 Daniel Vilela García',
@@ -129,6 +136,8 @@ export const copy: Record<Locale, Copy> = {
     themeToLight: 'Switch to light mode',
     attribution: '© OpenStreetMap · BiciMAD data',
     githubLabel: 'View source on GitHub',
+    linkedinLabel: 'LinkedIn profile',
+    aboutLabel: 'About me — personal site',
     emailLabel: 'Email daniruso@duck.com',
     licenseNav: 'License',
     copyrightLine: '© 2026 Daniel Vilela García',
