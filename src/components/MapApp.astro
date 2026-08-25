@@ -24,6 +24,11 @@ const strings = t(locale);
       aria-label={strings.tagline}
       data-occupancy={strings.occupancy}
       data-avg-occupancy={strings.avgOccupancy}
+      data-rating-very-good={strings.ratingVeryGood}
+      data-rating-good={strings.ratingGood}
+      data-rating-fair={strings.ratingFair}
+      data-rating-bad={strings.ratingBad}
+      data-rating-very-bad={strings.ratingVeryBad}
       data-bikes={strings.bikes}
       data-docks={strings.docks}
       data-no-data={strings.noData}
@@ -113,6 +118,68 @@ const strings = t(locale);
     color: var(--accent);
   }
 
+  :global(.map-popup__rating) {
+    display: inline-block;
+    align-self: flex-start;
+    margin: 0.1rem 0 0.05rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+  }
+
+  :global(.map-popup__rating--veryGood) {
+    color: #0f5132;
+    background: rgba(42, 157, 143, 0.22);
+  }
+
+  :global(.map-popup__rating--good) {
+    color: #1b5e3b;
+    background: rgba(82, 183, 136, 0.22);
+  }
+
+  :global(.map-popup__rating--fair) {
+    color: #7a5a12;
+    background: rgba(233, 196, 106, 0.28);
+  }
+
+  :global(.map-popup__rating--bad) {
+    color: #8a3b1a;
+    background: rgba(244, 132, 95, 0.24);
+  }
+
+  :global(.map-popup__rating--veryBad) {
+    color: #842029;
+    background: rgba(230, 57, 70, 0.2);
+  }
+
+  :global(html[data-theme='dark'] .map-popup__rating--veryGood) {
+    color: #2dd4a0;
+    background: rgba(45, 212, 160, 0.18);
+  }
+
+  :global(html[data-theme='dark'] .map-popup__rating--good) {
+    color: #52b788;
+    background: rgba(82, 183, 136, 0.18);
+  }
+
+  :global(html[data-theme='dark'] .map-popup__rating--fair) {
+    color: #e9c46a;
+    background: rgba(233, 196, 106, 0.16);
+  }
+
+  :global(html[data-theme='dark'] .map-popup__rating--bad) {
+    color: #f4a261;
+    background: rgba(244, 162, 97, 0.16);
+  }
+
+  :global(html[data-theme='dark'] .map-popup__rating--veryBad) {
+    color: #f07167;
+    background: rgba(240, 113, 103, 0.18);
+  }
+
   :global(.maplibregl-popup-tip) {
     display: none;
   }
@@ -169,6 +236,11 @@ const strings = t(locale);
     const localeStrings = {
       occupancy: mapEl.dataset.occupancy ?? 'Occupancy',
       avgOccupancy: mapEl.dataset.avgOccupancy ?? 'Avg occupancy',
+      ratingVeryGood: mapEl.dataset.ratingVeryGood ?? 'Very good',
+      ratingGood: mapEl.dataset.ratingGood ?? 'Good',
+      ratingFair: mapEl.dataset.ratingFair ?? 'Fair',
+      ratingBad: mapEl.dataset.ratingBad ?? 'Bad',
+      ratingVeryBad: mapEl.dataset.ratingVeryBad ?? 'Very bad',
       bikes: mapEl.dataset.bikes ?? 'bikes',
       docks: mapEl.dataset.docks ?? 'docks',
       noData: mapEl.dataset.noData ?? mapEl.getAttribute('data-no-data') ?? 'No data',

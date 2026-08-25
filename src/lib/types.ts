@@ -6,6 +6,9 @@ export type StationMeta = {
   totalBases: number;
 };
 
+/** Precomputed at deploy by scripts/aggregate_stations_summer2022.py */
+export type RatingTier = 'veryBad' | 'bad' | 'fair' | 'good' | 'veryGood';
+
 export type StationDataset = {
   meta: {
     season: string;
@@ -16,11 +19,32 @@ export type StationDataset = {
     hours: number[];
     n_snapshots: number;
     n_stations: number;
+    ratingTiers?: RatingTier[];
+    ratingPercentileEdges?: number[];
+    ratingCutoffs?: {
+      weekday: Record<string, number>;
+      weekend: Record<string, number>;
+    };
   };
   stations: StationMeta[];
   profiles: {
     weekday: (number | null)[][];
     weekend: (number | null)[][];
+  };
+  /** 24h mean occupancy per station, parallel to `stations`. */
+  meanOccupancy: {
+    weekday: (number | null)[];
+    weekend: (number | null)[];
+  };
+  /** Empirical percentile of mean occupancy among stations. */
+  percentile: {
+    weekday: (number | null)[];
+    weekend: (number | null)[];
+  };
+  /** Quintile label from percentile (precomputed). */
+  rating: {
+    weekday: (RatingTier | null)[];
+    weekend: (RatingTier | null)[];
   };
 };
 

@@ -7,7 +7,7 @@ Iterative product/data spec. Update this file as we learn more.
 Busymad is a web / responsive mobile app that shows a **map of BiciMAD station availability at a chosen time of day**.
 
 - Time slider at **1h** intervals (30 min later if data supports it).
-- **Rating** view mode: per-station **mean occupancy across the 24h** (best/worst stations in general).
+- **Rating** view mode: per-station **mean occupancy across the 24h**. Hover shows a **precomputed percentile classifier** (baked into `stations_summer2022.json` by `npm run data` / deploy): quintiles of mean occupancy among stations for that day type → *muy bueno* / *bueno* / *regular* / *malo* / *muy malo*. Occupancy cutoffs at P20/P40/P60/P80 live in `meta.ratingCutoffs`.
 - Color gradient: **red (low bikes)** → **green (high bikes)**.
 - Primary metric: **occupancy rate** `dock_bikes / total_bases` (not raw bike counts).
 - **Season toggle:** `summer` (Jun–Aug typical day) vs `all-year` (full-year typical day).

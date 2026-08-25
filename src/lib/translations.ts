@@ -32,6 +32,11 @@ export type Copy = {
   dayPulseHint: string;
   dayPulseValue: string;
   avgOccupancy: string;
+  ratingVeryGood: string;
+  ratingGood: string;
+  ratingFair: string;
+  ratingBad: string;
+  ratingVeryBad: string;
   timeLabel: string;
   dayTypeLabel: string;
   weekday: string;
@@ -117,9 +122,14 @@ export const copy: Record<Locale, Copy> = {
     viewHourly: 'Por hora',
     viewDayPulse: 'Rating',
     dayPulseHint:
-      'Promedio de ocupación a lo largo del día. Verde: estaciones que suelen tener más bicis; rojo: las que suelen ir más vacías.',
+      'Promedio de ocupación a lo largo del día. Al pasar el ratón ves el rating: quintiles precalculados del dataset (muy bueno → muy malo según la ocupación media frente al resto de estaciones).',
     dayPulseValue: '24 h',
     avgOccupancy: 'Ocupación media',
+    ratingVeryGood: 'Muy bueno',
+    ratingGood: 'Bueno',
+    ratingFair: 'Regular',
+    ratingBad: 'Malo',
+    ratingVeryBad: 'Muy malo',
     timeLabel: 'Hora del día',
     dayTypeLabel: 'Tipo de día',
     weekday: 'Laborable',
@@ -197,9 +207,14 @@ export const copy: Record<Locale, Copy> = {
     viewHourly: 'By hour',
     viewDayPulse: 'Rating',
     dayPulseHint:
-      'Average occupancy across the day. Green: stations that usually have more bikes; red: ones that usually run emptier.',
+      'Average occupancy across the day. Hover a station to see its rating: deploy-time quintiles from the dataset (very good → very bad by mean occupancy vs the rest of the network).',
     dayPulseValue: 'All day',
     avgOccupancy: 'Avg occupancy',
+    ratingVeryGood: 'Very good',
+    ratingGood: 'Good',
+    ratingFair: 'Fair',
+    ratingBad: 'Bad',
+    ratingVeryBad: 'Very bad',
     timeLabel: 'Time of day',
     dayTypeLabel: 'Day type',
     weekday: 'Weekday',

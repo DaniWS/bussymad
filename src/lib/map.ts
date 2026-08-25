@@ -1,13 +1,18 @@
 import maplibregl from 'maplibre-gl';
 import type { Copy } from './translations';
 import { occupancyColorExpression, MAP_STYLES, MAP_THEME } from './colors';
-import type { MapState, StationDataset, ViewMode } from './types';
+import type { MapState, RatingTier, StationDataset, ViewMode } from './types';
 import type { Locale } from './i18n';
 
 type LocaleStrings = Pick<
   Copy,
   | 'occupancy'
   | 'avgOccupancy'
+  | 'ratingVeryGood'
+  | 'ratingGood'
+  | 'ratingFair'
+  | 'ratingBad'
+  | 'ratingVeryBad'
   | 'bikes'
   | 'docks'
   | 'noData'
@@ -25,6 +30,11 @@ let mapLocale: Locale = 'es';
 let localeStrings: LocaleStrings = {
   occupancy: 'Occupancy',
   avgOccupancy: 'Avg occupancy',
+  ratingVeryGood: 'Very good',
+  ratingGood: 'Good',
+  ratingFair: 'Fair',
+  ratingBad: 'Bad',
+  ratingVeryBad: 'Very bad',
   bikes: 'bikes',
   docks: 'docks',
   noData: 'No data',
@@ -58,16 +68,32 @@ function localeTag(): string {
   return mapLocale === 'es' ? 'es-ES' : 'en-GB';
 }
 
-function meanOccupancy(hours: (number | null)[] | undefined): number | null {
-  if (!hours) return null;
-  let sum = 0;
-  let n = 0;
-  for (const v of hours) {
-    if (v === null || v === undefined) continue;
-    sum += v;
-    n += 1;
+function ratingLabel(tier: RatingTier): string {
+  switch (tier) {
+    case 'veryGood':
+      return localeStrings.ratingVeryGood;
+    case 'good':
+      return localeStrings.ratingGood;
+    case 'fair':
+      return localeStrings.ratingFair;
+    case 'bad':
+      return localeStrings.ratingBad;
+    case 'veryBad':
+      return localeStrings.ratingVeryBad;
   }
-  return n === 0 ? null : sum / n;
+}
+
+function parseRating(raw: unknown): RatingTier | '' {
+  if (
+    raw === 'veryGood' ||
+    raw === 'good' ||
+    raw === 'fair' ||
+    raw === 'bad' ||
+    raw === 'veryBad'
+  ) {
+    return raw;
+  }
+  return '';
 }
 
 function buildGeoJSON(
@@ -77,11 +103,15 @@ function buildGeoJSON(
   viewMode: ViewMode,
 ) {
   const profile = data.profiles[dayType];
+  const means = data.meanOccupancy?.[dayType];
+  const ratings = data.rating?.[dayType];
+
   return {
     type: 'FeatureCollection' as const,
     features: data.stations.map((st, i) => {
       const row = profile[i];
-      const occ = viewMode === 'dayPulse' ? meanOccupancy(row) : (row?.[hour] ?? null);
+      const occ = viewMode === 'dayPulse' ? (means?.[i] ?? null) : (row?.[hour] ?? null);
+      const rating = viewMode === 'dayPulse' ? parseRating(ratings?.[i]) : '';
       return {
         type: 'Feature' as const,
         geometry: {
@@ -93,6 +123,7 @@ function buildGeoJSON(
           name: st.name,
           totalBases: st.totalBases,
           occupancy: occ === null ? -1 : occ,
+          rating,
         },
       };
     }),
@@ -202,16 +233,26 @@ function parseOccupancy(raw: unknown): number | null {
   return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
-function formatPopup(name: string, occ: number | null, totalBases: number): string {
+function formatPopup(
+  name: string,
+  occ: number | null,
+  totalBases: number,
+  rating: RatingTier | '',
+): string {
   const pct =
     occ === null
       ? localeStrings.noData
       : new Intl.NumberFormat(localeTag(), { style: 'percent', maximumFractionDigits: 0 }).format(occ);
 
   if (state.viewMode === 'dayPulse') {
+    const tierHtml =
+      rating === ''
+        ? ''
+        : `<span class="map-popup__rating map-popup__rating--${rating}">${escapeHtml(ratingLabel(rating))}</span>`;
     return `
     <div class="map-popup">
       <strong>${escapeHtml(name)}</strong>
+      ${tierHtml}
       <span>${localeStrings.avgOccupancy}: <em>${pct}</em></span>
     </div>
   `;
@@ -330,12 +371,16 @@ export async function initMap(container: HTMLElement, locale: Locale, strings: L
       number,
       number,
     ];
-    const { name, occupancy: occRaw, totalBases } = f.properties as {
+    const { name, occupancy: occRaw, totalBases, rating: ratingRaw } = f.properties as {
       name: string;
       occupancy: unknown;
       totalBases: number;
+      rating?: string;
     };
-    popup.setLngLat(coords).setHTML(formatPopup(name, parseOccupancy(occRaw), totalBases)).addTo(map);
+    popup
+      .setLngLat(coords)
+      .setHTML(formatPopup(name, parseOccupancy(occRaw), totalBases, parseRating(ratingRaw)))
+      .addTo(map);
   });
 
   map.on('mouseleave', LAYER_CIRCLES, () => {
