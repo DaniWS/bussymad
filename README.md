@@ -41,6 +41,12 @@ npm run build
 npm run preview
 ```
 
+## Analytics (Umami Cloud)
+
+Privacy-friendly pageviews via [Umami Cloud](https://cloud.umami.is) (Hobby / free tier). No tracking cookies.
+
+The tracker is in `BaseLayout.astro` (`data-website-id` for this project). It only fires on `busymad.dev` and `busymad.pages.dev` (`data-domains`), so localhost stays quiet. Override with `PUBLIC_UMAMI_WEBSITE_ID` if needed.
+
 ## Install as app (Android WebAPK)
 
 Chrome on Android can install a real **WebAPK** (clean icon in the app drawer, `standalone` without the browser bar) only over **HTTPS** — e.g. [https://busymad.dev](https://busymad.dev) or an HTTPS tunnel. Opening the site via `http://192.168.…` only creates a **shortcut** with a Chrome badge.

@@ -67,7 +67,6 @@ export type Copy = {
   attribution: string;
   githubLabel: string;
   linkedinLabel: string;
-  aboutLabel: string;
   emailLabel: string;
   licenseNav: string;
   copyrightLine: string;
@@ -96,8 +95,6 @@ export const COPYRIGHT_YEAR = 2026;
 export const LICENSE_SPDX = 'CC-BY-NC-ND-4.0';
 export const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc-nd/4.0/';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/daniel-vilela-garcia';
-/** Personal site — update when the domain is final. */
-export const PERSONAL_SITE_URL = 'https://dani.dev';
 export const GITHUB_REPO_URL = 'https://github.com/DaniWS/busymad';
 export const EMT_URL = 'https://www.emtmadrid.es';
 export const EMT_TERMS_URL = 'https://mobilitylabs.emtmadrid.es/sip/terms-of-use';
@@ -180,7 +177,6 @@ export const copy: Record<Locale, Copy> = {
       "© OpenStreetMap · Powered by <a href='https://www.emtmadrid.es' target='_blank' rel='noopener noreferrer'>EMT de Madrid</a>",
     githubLabel: 'Ver el código en GitHub',
     linkedinLabel: 'Perfil de LinkedIn',
-    aboutLabel: 'Sobre mí — web personal',
     emailLabel: 'Enviar un correo a daniruso@duck.com',
     licenseNav: 'Licencia',
     copyrightLine: '© 2026 Daniel Vilela García',
@@ -204,7 +200,7 @@ export const copy: Record<Locale, Copy> = {
       'BusyMAD es un proyecto personal e independiente. No está afiliado, respaldado ni operado por EMT de Madrid, BiciMAD ni el Ayuntamiento de Madrid. Los mapas y ratings se basan en datos históricos o agregados y se ofrecen «tal cual», sin garantía de exactitud, actualidad ni idoneidad. No uses BusyMAD como única fuente para desplazarte; el uso es bajo tu responsabilidad.',
     licensePrivacyTitle: 'Privacidad',
     licensePrivacy:
-      'BusyMAD no usa analytics ni cookies de seguimiento. Solo guarda en tu navegador (localStorage) preferencias locales como el tema y si ocultaste el aviso de instalación. La geolocalización solo se activa si pulsas «Ir a mi ubicación»; la posición la gestiona el navegador en tu dispositivo y no se envía a un servidor de BusyMAD. Si escribes a',
+      'BusyMAD usa Umami Cloud (plan gratuito) para estadísticas anónimas de visitas: sin cookies de seguimiento ni identificación personal entre sitios. Solo guarda en tu navegador (localStorage) preferencias locales como el tema y si ocultaste el aviso de instalación. La geolocalización solo se activa si pulsas «Ir a mi ubicación»; la posición la gestiona el navegador en tu dispositivo y no se envía a un servidor de BusyMAD. Si escribes a',
     licensePrivacyAfter: ', trataré tu mensaje solo para responderte.',
   },
   en: {
@@ -282,7 +278,6 @@ export const copy: Record<Locale, Copy> = {
       "© OpenStreetMap · Powered by <a href='https://www.emtmadrid.es' target='_blank' rel='noopener noreferrer'>EMT de Madrid</a>",
     githubLabel: 'View source on GitHub',
     linkedinLabel: 'LinkedIn profile',
-    aboutLabel: 'About me — personal site',
     emailLabel: 'Email daniruso@duck.com',
     licenseNav: 'License',
     copyrightLine: '© 2026 Daniel Vilela García',
@@ -306,7 +301,7 @@ export const copy: Record<Locale, Copy> = {
       'BusyMAD is an independent personal project. It is not affiliated with, endorsed by, or operated by EMT de Madrid, BiciMAD, or the City of Madrid. Maps and ratings are based on historical or aggregated data and are provided “as is”, with no warranty of accuracy, currency, or fitness for purpose. Do not rely on BusyMAD as your only source when travelling; use is at your own risk.',
     licensePrivacyTitle: 'Privacy',
     licensePrivacy:
-      'BusyMAD does not use analytics or tracking cookies. It only stores local preferences in your browser (localStorage), such as theme and whether you dismissed the install prompt. Geolocation runs only if you tap “Go to my location”; your position is handled by the browser on your device and is not sent to a BusyMAD server. If you email',
+      'BusyMAD uses Umami Cloud (free tier) for anonymous visit statistics: no tracking cookies and no cross-site personal identification. It only stores local preferences in your browser (localStorage), such as theme and whether you dismissed the install prompt. Geolocation runs only if you tap “Go to my location”; your position is handled by the browser on your device and is not sent to a BusyMAD server. If you email',
     licensePrivacyAfter: ', I will use your message only to reply.',
   },
 };

@@ -30,6 +30,8 @@ const ogImagePath = Astro.props.ogImage ?? '/demo/rating.png';
 const ogImageUrl = new URL(ogImagePath, siteOrigin).href;
 const skipHref = layout === 'map' ? '#map-root' : '#main-content';
 const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
+const umamiWebsiteId =
+  import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ?? '540c677d-8a72-43b9-9936-4412d6826fec';
 
 if (layout === 'site') {
   await import('@fontsource/dm-sans/latin-400.css');
@@ -80,6 +82,14 @@ if (layout === 'site') {
     )}
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
     <title>{pageTitle}</title>
+    {umamiWebsiteId && (
+      <script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id={umamiWebsiteId}
+        data-domains="busymad.dev,busymad.pages.dev"
+      />
+    )}
     <script is:inline>
       (function () {
         try {
