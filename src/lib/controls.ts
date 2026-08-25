@@ -24,8 +24,8 @@ export function initControls() {
     if (display) display.textContent = hoursLabels[hour] ?? `${String(hour).padStart(2, '0')}:00`;
     setMapState({ hour });
 
-    sunMark?.classList.toggle('is-near', hour >= 11 && hour <= 13);
-    moonMark?.classList.toggle('is-near', hour >= 22);
+    sunMark?.classList.toggle('is-near', hour >= 9 && hour <= 15);
+    moonMark?.classList.toggle('is-near', hour >= 21);
   }
 
   slider?.addEventListener('input', () => {
