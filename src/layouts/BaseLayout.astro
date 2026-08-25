@@ -32,6 +32,15 @@ const skipHref = layout === 'map' ? '#map-root' : '#main-content';
 const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
 const umamiWebsiteId =
   import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ?? '540c677d-8a72-43b9-9936-4412d6826fec';
+const siteHostname = new URL(siteOrigin).hostname;
+const umamiExtraDomains =
+  import.meta.env.PUBLIC_UMAMI_DOMAINS?.split(',')
+    .map((domain) => domain.trim())
+    .filter(Boolean) ?? [];
+// Production: only count real domains. Dev/preview: no filter so you can verify in Umami.
+const umamiDomains = import.meta.env.PROD
+  ? [...new Set([siteHostname, ...umamiExtraDomains])].join(',')
+  : undefined;
 
 if (layout === 'site') {
   await import('@fontsource/dm-sans/latin-400.css');
@@ -87,7 +96,7 @@ if (layout === 'site') {
         defer
         src="https://cloud.umami.is/script.js"
         data-website-id={umamiWebsiteId}
-        data-domains="busymad.pages.dev"
+        {...(umamiDomains ? { 'data-domains': umamiDomains } : {})}
       />
     )}
     <script is:inline>

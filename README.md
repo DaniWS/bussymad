@@ -45,13 +45,15 @@ npm run preview
 
 Privacy-friendly pageviews via [Umami Cloud](https://cloud.umami.is) (Hobby / free tier). No tracking cookies.
 
-The tracker is in `BaseLayout.astro` (`data-website-id` for this project). It only fires on `busymad.pages.dev` (`data-domains`), so localhost stays quiet. Override with `PUBLIC_UMAMI_WEBSITE_ID` if needed.
+The tracker is in `BaseLayout.astro` (`data-website-id` for this project). Production builds only count `busymad.pages.dev` (`data-domains`); `npm run dev` has no domain filter so you can verify hits in Umami locally. Override with `PUBLIC_UMAMI_WEBSITE_ID` or `PUBLIC_UMAMI_DOMAINS` if needed.
+
+**No data in Umami?** Open Real-time in the Umami dashboard, visit the site in a normal browser window with ad blockers off, and check DevTools → Network for `gateway.umami.is/api/send` returning 200. Installed PWAs with an old cache may need a refresh or reinstall after analytics was added.
 
 ## Install as app (Android WebAPK)
 
-Chrome on Android can install a real **WebAPK** (clean icon in the app drawer, `standalone` without the browser bar) only over **HTTPS** — e.g. [https://busymad.dev](https://busymad.dev) or an HTTPS tunnel. Opening the site via `http://192.168.…` only creates a **shortcut** with a Chrome badge.
+Chrome on Android can install a real **WebAPK** (clean icon in the app drawer, `standalone` without the browser bar) only over **HTTPS** — e.g. [https://busymad.pages.dev](https://busymad.pages.dev) or an HTTPS tunnel. Opening the site via `http://192.168.…` only creates a **shortcut** with a Chrome badge.
 
-1. On the phone, open **https://busymad.dev** in **Chrome** (not Firefox — Firefox cannot mint WebAPKs).
+1. On the phone, open **https://busymad.pages.dev** in **Chrome** (not Firefox — Firefox cannot mint WebAPKs).
 2. When Chrome offers install (or the banner’s **Instalar** button appears), install it.
 3. Delete any **old** home-screen icon that still has the Chrome logo badge, then open only the new app icon.
 4. Optional checks: `chrome://webapk-list`, or remote DevTools → Application → Manifest + Service Workers.
