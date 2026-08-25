@@ -38,7 +38,8 @@ let localeStrings: LocaleStrings = {
   bikes: 'bikes',
   docks: 'docks',
   noData: 'No data',
-  attribution: '© OpenStreetMap · BiciMAD data',
+    attribution:
+    "© OpenStreetMap · Powered by <a href='https://www.emtmadrid.es' target='_blank' rel='noopener noreferrer'>EMT de Madrid</a>",
   locateMe: 'Go to my location',
   locateDenied: 'Could not get your location. Check GPS permission.',
   locateOutside: 'Your location is outside the Madrid map area.',

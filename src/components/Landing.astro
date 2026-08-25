@@ -20,17 +20,7 @@ const href = appPath(locale);
   <main class="page" id="main-content">
     <div class="hero">
       <span class="hero__mark" aria-hidden="true">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="5.5" cy="16.5" r="3.1"></circle>
-          <circle cx="18.5" cy="16.5" r="3.1"></circle>
-          <circle cx="11" cy="16.5" r="1.15"></circle>
-          <path d="M5.5 16.5h5.5"></path>
-          <path d="M11 16.5 8.5 8.5"></path>
-          <path d="M6.75 8.5h4"></path>
-          <path d="M10.5 8.5 15.25 12.25"></path>
-          <path d="M11 16.5 15.25 12.25 18.5 16.5"></path>
-          <path d="M15.25 12.25h3.5V9.75"></path>
-        </svg>
+        <img src="/logo.png" alt="" width="193" height="177" />
       </span>
       <p class="hero__kicker">{strings.dataBadge}</p>
       <h1>{strings.siteName}</h1>
@@ -111,8 +101,15 @@ const href = appPath(locale);
     height: 3.25rem;
     margin-bottom: 1.25rem;
     border-radius: 0.85rem;
-    background: var(--accent-soft);
-    color: var(--accent);
+    background: #1a7f5a;
+    overflow: hidden;
+  }
+
+  .hero__mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .hero__kicker {

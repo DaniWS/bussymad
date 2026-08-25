@@ -244,7 +244,9 @@ const strings = t(locale);
       bikes: mapEl.dataset.bikes ?? 'bikes',
       docks: mapEl.dataset.docks ?? 'docks',
       noData: mapEl.dataset.noData ?? mapEl.getAttribute('data-no-data') ?? 'No data',
-      attribution: mapEl.dataset.attribution ?? '© OpenStreetMap · BiciMAD data',
+      attribution:
+        mapEl.dataset.attribution ??
+        "© OpenStreetMap · Powered by <a href='https://www.emtmadrid.es' target='_blank' rel='noopener noreferrer'>EMT de Madrid</a>",
       locateMe: mapEl.dataset.locateMe ?? 'Go to my location',
       locateDenied: mapEl.dataset.locateDenied ?? 'Could not get your location. Check GPS permission.',
       locateOutside: mapEl.dataset.locateOutside ?? 'Your location is outside the Madrid map area.',

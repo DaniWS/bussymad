@@ -3,8 +3,11 @@ license. Those works remain under their own terms.
 
 BiciMAD / EMT / Ayuntamiento de Madrid
   Historical station occupancy (dataset 900034 and related dumps) and the live
-  GBFS feeds are published by the City of Madrid / EMT. Their original licences
-  and terms of use apply. BusyMAD claims no copyright over that raw data.
+  GBFS feed (madrid.publicbikesystem.net) are published by EMT / City of Madrid.
+  Their original licences and terms of use apply:
+  https://mobilitylabs.emtmadrid.es/sip/terms-of-use
+  Required attribution: "Powered by EMT de Madrid" — https://www.emtmadrid.es
+  BusyMAD claims no copyright over that raw data.
 
 OpenStreetMap
   Map tiles and place names © OpenStreetMap contributors.

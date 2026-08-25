@@ -16,6 +16,8 @@ export type Copy = {
   demoRatingAlt: string;
   landingSource: string;
   landingSourceLink: string;
+  poweredByEmt: string;
+  emtTermsLink: string;
   installAsk: string;
   installAction: string;
   installLater: string;
@@ -92,6 +94,9 @@ export const LINKEDIN_URL = 'https://www.linkedin.com/in/daniel-vilela-garcia';
 /** Personal site — update when the domain is final. */
 export const PERSONAL_SITE_URL = 'https://dani.dev';
 export const GITHUB_REPO_URL = 'https://github.com/DaniWS/busymad';
+export const EMT_URL = 'https://www.emtmadrid.es';
+export const EMT_TERMS_URL = 'https://mobilitylabs.emtmadrid.es/sip/terms-of-use';
+export const EMT_GBFS_URL = 'https://madrid.publicbikesystem.net/customer/gbfs/v2/gbfs.json';
 
 export const copy: Record<Locale, Copy> = {
   es: {
@@ -111,8 +116,10 @@ export const copy: Record<Locale, Copy> = {
     demoHourlyAlt: 'Demostración del modo por hora: mapa y control de la hora del día.',
     demoRatingAlt: 'Demostración del modo Rating: ficha de estación con clasificación y ocupación media.',
     landingSource:
-      'Los datos históricos de 2026 se recopilan a partir de la disponibilidad en tiempo real del portal de datos abiertos de Madrid.',
+      'Los datos históricos de 2026 se recopilan con capturas horarias del feed GBFS público de BiciMAD (EMT), no de dumps del portal.',
     landingSourceLink: 'Más detalles en el repositorio.',
+    poweredByEmt: 'Powered by EMT de Madrid',
+    emtTermsLink: 'Condiciones de uso EMT',
     installAsk: '¿Instalar BusyMAD como app?',
     installAction: 'Instalar',
     installLater: 'Ahora no',
@@ -163,7 +170,8 @@ export const copy: Record<Locale, Copy> = {
     langGroup: 'Idioma',
     themeToDark: 'Cambiar a modo oscuro',
     themeToLight: 'Cambiar a modo claro',
-    attribution: '© OpenStreetMap · datos BiciMAD',
+    attribution:
+      "© OpenStreetMap · Powered by <a href='https://www.emtmadrid.es' target='_blank' rel='noopener noreferrer'>EMT de Madrid</a>",
     githubLabel: 'Ver el código en GitHub',
     linkedinLabel: 'Perfil de LinkedIn',
     aboutLabel: 'Sobre mí — web personal',
@@ -183,7 +191,7 @@ export const copy: Record<Locale, Copy> = {
     licenseForbidDerivatives: 'Distribuir copias modificadas, forks públicos o productos derivados.',
     licenseForbidPlagiarism: 'Presentar el trabajo como propio o sin atribución.',
     licenseData:
-      'Los datos de BiciMAD, EMT, el Ayuntamiento de Madrid, GBFS y OpenStreetMap siguen perteneciendo a sus editores. Esta licencia no cubre esos conjuntos de datos.',
+      'Los datos de BiciMAD / EMT (histórico abierto y feed GBFS en vivo), el Ayuntamiento de Madrid y OpenStreetMap siguen perteneciendo a sus editores. BusyMAD no reclama copyright sobre esos datos. Esta licencia del proyecto no los cubre. Atribución de datos: Powered by EMT de Madrid.',
     licenseFull: 'Texto completo de la licencia',
   },
   en: {
@@ -203,8 +211,10 @@ export const copy: Record<Locale, Copy> = {
     demoHourlyAlt: 'Demo of hourly mode: map and time-of-day control.',
     demoRatingAlt: 'Demo of Rating mode: station card with classification and average occupancy.',
     landingSource:
-      'The 2026 historical data is being compiled from real-time availability on the Madrid open data portal.',
+      'The 2026 historical data is compiled from hourly snapshots of the public BiciMAD GBFS feed (EMT), not from open-data portal dumps.',
     landingSourceLink: 'More details in the repository.',
+    poweredByEmt: 'Powered by EMT de Madrid',
+    emtTermsLink: 'EMT terms of use',
     installAsk: 'Install BusyMAD as an app?',
     installAction: 'Install',
     installLater: 'Not now',
@@ -255,7 +265,8 @@ export const copy: Record<Locale, Copy> = {
     langGroup: 'Language',
     themeToDark: 'Switch to dark mode',
     themeToLight: 'Switch to light mode',
-    attribution: '© OpenStreetMap · BiciMAD data',
+    attribution:
+      "© OpenStreetMap · Powered by <a href='https://www.emtmadrid.es' target='_blank' rel='noopener noreferrer'>EMT de Madrid</a>",
     githubLabel: 'View source on GitHub',
     linkedinLabel: 'LinkedIn profile',
     aboutLabel: 'About me — personal site',
@@ -275,7 +286,7 @@ export const copy: Record<Locale, Copy> = {
     licenseForbidDerivatives: 'Distributing modified copies, public forks, or derivative products.',
     licenseForbidPlagiarism: 'Passing the work off as your own or sharing it without attribution.',
     licenseData:
-      'BiciMAD, EMT, City of Madrid, GBFS, and OpenStreetMap data remain the property of their publishers. This licence does not cover those datasets.',
+      'BiciMAD / EMT data (open historical dumps and the live GBFS feed), City of Madrid data, and OpenStreetMap remain the property of their publishers. BusyMAD claims no copyright over that raw data. This project licence does not cover those datasets. Data attribution: Powered by EMT de Madrid.',
     licenseFull: 'Full licence text',
   },
 };

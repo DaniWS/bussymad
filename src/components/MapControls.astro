@@ -1,6 +1,6 @@
 ---
 import type { Locale } from '../lib/i18n';
-import { t, formatHour } from '../lib/translations';
+import { t, formatHour, EMT_URL } from '../lib/translations';
 
 interface Props {
   locale: Locale;
@@ -109,6 +109,7 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
   <p class="controls__copy">
     <span>{strings.copyrightLine}</span>
     <a href={locale === 'en' ? '/en/license/' : '/licencia/'} rel="license">{strings.licenseShort}</a>
+    <a href={EMT_URL} target="_blank" rel="noopener noreferrer">{strings.poweredByEmt}</a>
   </p>
 </div>
 

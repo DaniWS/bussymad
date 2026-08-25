@@ -113,4 +113,4 @@ Copyright © 2026 Daniel Vilela García.
 
 BusyMAD (code, UI, design, documentation, and original visualizations) is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/): non-commercial use only, no derivatives, attribution required. See [LICENSE](LICENSE), [COPYRIGHT](COPYRIGHT), and [NOTICE](NOTICE).
 
-BiciMAD / EMT / City of Madrid data and OpenStreetMap tiles are not covered by that licence.
+BiciMAD / EMT / City of Madrid data and OpenStreetMap tiles are not covered by that licence. Data attribution: **Powered by EMT de Madrid** ([emtmadrid.es](https://www.emtmadrid.es)). EMT terms: [mobilitylabs.emtmadrid.es/sip/terms-of-use](https://mobilitylabs.emtmadrid.es/sip/terms-of-use).
