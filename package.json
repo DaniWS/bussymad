@@ -11,6 +11,7 @@
     "dev": "npm run data && astro dev",
     "build": "npm run data && astro build",
     "preview": "astro preview",
+    "seo:notify": "node scripts/notify-search-engines.mjs",
     "check": "astro check",
     "icons": "node scripts/generate-icons.mjs",
     "astro": "astro"

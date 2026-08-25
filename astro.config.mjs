@@ -22,7 +22,26 @@ export default defineConfig({
     },
   },
   integrations: [
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'es',
+        locales: {
+          es: 'es-ES',
+          en: 'en-GB',
+        },
+      },
+      serialize(item) {
+        const path = new URL(item.url).pathname;
+        if (path === '/faq/' || path === '/en/faq/') {
+          item.priority = 0.85;
+          item.changefreq = 'monthly';
+        } else if (path === '/' || path === '/en/') {
+          item.priority = 0.9;
+          item.changefreq = 'weekly';
+        }
+        return item;
+      },
+    }),
     AstroPWA({
       registerType: 'autoUpdate',
       includeAssets: [
@@ -38,7 +57,7 @@ export default defineConfig({
         id: '/',
         name: 'BusyMAD',
         short_name: 'BusyMAD',
-        description: 'BiciMAD station occupancy by hour',
+        description: 'BiciMAD Madrid open data: hourly station occupancy stats and map',
         start_url: '/app/',
         scope: '/',
         display: 'standalone',

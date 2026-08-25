@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FaqPage from '../components/FaqPage.astro';
+import { datasetJsonLd, faqJsonLd, webApplicationJsonLd } from '../lib/seo';
+import { t } from '../lib/translations';
+
+const strings = t('es');
+const pageUrl = 'https://busymad.pages.dev/faq/';
+const jsonLd = [webApplicationJsonLd('es', pageUrl), datasetJsonLd('es'), faqJsonLd('es')];
+---
+
+<BaseLayout
+  locale="es"
+  title={strings.faqPageTitle}
+  description={strings.faqMetaDescription}
+  layout="doc"
+  alternateEs="/faq/"
+  alternateEn="/en/faq/"
+  jsonLd={jsonLd}
+>
+  <FaqPage locale="es" currentPath="/faq/" />
+</BaseLayout>

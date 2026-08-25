@@ -1,7 +1,7 @@
 ---
 import Header from './Header.astro';
 import type { Locale } from '../lib/i18n';
-import { appPath } from '../lib/i18n';
+import { appPath, faqPath } from '../lib/i18n';
 import { GITHUB_REPO_URL, t } from '../lib/translations';
 
 interface Props {
@@ -71,6 +71,8 @@ const href = appPath(locale);
       {strings.landingSource}
       {' '}
       <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">{strings.landingSourceLink}</a>
+      {' · '}
+      <a href={faqPath(locale)}>{strings.landingFaqLink}</a>
     </p>
   </main>
 </div>

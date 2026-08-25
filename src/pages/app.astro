@@ -1,8 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MapApp from '../components/MapApp.astro';
+import { t } from '../lib/translations';
+import { webApplicationJsonLd } from '../lib/seo';
+
+const strings = t('es');
+const pageUrl = 'https://busymad.pages.dev/app/';
 ---
 
-<BaseLayout locale="es" layout="map" alternateEs="/app/" alternateEn="/en/app/">
+<BaseLayout
+  locale="es"
+  layout="map"
+  title={strings.appPageTitle}
+  description={strings.appMetaDescription}
+  alternateEs="/app/"
+  alternateEn="/en/app/"
+  jsonLd={webApplicationJsonLd('es', pageUrl)}
+>
   <MapApp locale="es" currentPath="/app/" />
 </BaseLayout>

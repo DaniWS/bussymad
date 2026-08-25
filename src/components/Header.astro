@@ -2,7 +2,7 @@
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import type { Locale } from '../lib/i18n';
-import { appPath, homePath, licensePath } from '../lib/i18n';
+import { appPath, faqPath, homePath, licensePath } from '../lib/i18n';
 import { t, GITHUB_REPO_URL, LINKEDIN_URL } from '../lib/translations';
 
 interface Props {
@@ -39,6 +39,7 @@ const logoHref = homePath(locale);
             </a>
           )}
           <div class="header__legal-lang">
+            <a class="header__license" href={faqPath(locale)}>{strings.faqNav}</a>
             <a class="header__license" href={licensePath(locale)} rel="license">
               {strings.licenseNav}
             </a>
