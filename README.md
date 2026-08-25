@@ -1,4 +1,4 @@
-# busymad
+# BusyMAD
 
 BiciMAD station availability over the day — interactive map with summer 2022 historical data.
 

@@ -1,4 +1,4 @@
-# Busymad — living spec
+# BusyMAD — living spec
 
 Iterative product/data spec. Update this file as we learn more.
 
