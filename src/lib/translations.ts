@@ -3,6 +3,8 @@ import type { Locale } from './i18n';
 export type Copy = {
   siteName: string;
   tagline: string;
+  pageTitle: string;
+  landingH1: string;
   metaDescription: string;
   skipLink: string;
   skipContent: string;
@@ -106,8 +108,10 @@ export const copy: Record<Locale, Copy> = {
   es: {
     siteName: 'BusyMAD',
     tagline: 'Disponibilidad BiciMAD por hora',
+    pageTitle: 'Disponibilidad BiciMAD Madrid por hora | BusyMAD',
+    landingH1: 'Disponibilidad de estaciones BiciMAD en Madrid',
     metaDescription:
-      'Mapa interactivo de ocupación de estaciones BiciMAD en Madrid, día laborable o fin de semana.',
+      'Mapa interactivo de ocupación de estaciones BiciMAD en Madrid: 259 estaciones, hora a hora, laborable o fin de semana. Proyecto independiente con datos EMT.',
     skipLink: 'Ir al mapa',
     skipContent: 'Ir al contenido',
     openApp: 'Abrir la app',
@@ -133,7 +137,7 @@ export const copy: Record<Locale, Copy> = {
     installChromeWaitHint:
       'Usa el botón Instalar cuando Chrome lo ofrezca. Borra antes cualquier icono viejo con el logo de Chrome.',
     installInsecureHint:
-      'Para una app real (icono limpio, pantalla completa) abre https://busymad.dev en Chrome. Por HTTP solo se crea un acceso con badge de Chrome.',
+      'Para una app real (icono limpio, pantalla completa) abre https://busymad.pages.dev en Chrome. Por HTTP solo se crea un acceso con badge de Chrome.',
     installFullscreenHint: 'Ábrela desde el icono instalado (sin badge de Chrome) para usarla sin la barra del navegador.',
     installRemoveOldHint: 'Si ya tenías un acceso con el icono de Chrome debajo, elimínalo e instala de nuevo desde Chrome.',
     menuOpen: 'Abrir menú',
@@ -206,8 +210,10 @@ export const copy: Record<Locale, Copy> = {
   en: {
     siteName: 'BusyMAD',
     tagline: 'BiciMAD availability by hour',
+    pageTitle: 'BiciMAD Madrid station availability by hour | BusyMAD',
+    landingH1: 'BiciMAD station availability in Madrid',
     metaDescription:
-      'Interactive map of BiciMAD station occupancy in Madrid, weekday or weekend.',
+      'Interactive map of BiciMAD station occupancy in Madrid: 259 stations, hour by hour, weekday or weekend. Independent project using EMT data.',
     skipLink: 'Skip to map',
     skipContent: 'Skip to content',
     openApp: 'Open the app',
@@ -233,7 +239,7 @@ export const copy: Record<Locale, Copy> = {
     installChromeWaitHint:
       'Use the Install button when Chrome offers it. Delete any old home-screen shortcut that shows a Chrome badge first.',
     installInsecureHint:
-      'For a real app (clean icon, fullscreen) open https://busymad.dev in Chrome. Over HTTP you only get a Chrome-badged shortcut.',
+      'For a real app (clean icon, fullscreen) open https://busymad.pages.dev in Chrome. Over HTTP you only get a Chrome-badged shortcut.',
     installFullscreenHint: 'Open it from the installed icon (no Chrome badge) to use it without the browser bar.',
     installRemoveOldHint: 'If you already have a shortcut with a Chrome badge, remove it and install again from Chrome.',
     menuOpen: 'Open menu',

@@ -1,8 +1,9 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import AstroPWA from '@vite-pwa/astro';
 
 export default defineConfig({
-  site: 'https://busymad.dev',
+  site: 'https://busymad.pages.dev',
   output: 'static',
   i18n: {
     defaultLocale: 'es',
@@ -21,6 +22,7 @@ export default defineConfig({
     },
   },
   integrations: [
+    sitemap(),
     AstroPWA({
       registerType: 'autoUpdate',
       includeAssets: [
@@ -74,7 +76,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2,json,webmanifest}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2,json,webmanifest,webm,jpg}'],
         // Offline shell only for Spanish /app/. Never intercept /en/* or the SW
         // serves Spanish HTML at English URLs and freezes the language switcher.
         navigateFallback: '/app/',

@@ -1,10 +1,5 @@
 ---
 import { pwaInfo } from 'virtual:pwa-info';
-import '@fontsource/dm-sans/latin-400.css';
-import '@fontsource/dm-sans/latin-500.css';
-import '@fontsource/dm-sans/latin-600.css';
-import '@fontsource/dm-sans/latin-700.css';
-import '@fontsource/jetbrains-mono/latin-400.css';
 import '../styles/global.css';
 import InstallBanner from '../components/InstallBanner.astro';
 import type { Locale } from '../lib/i18n';
@@ -13,23 +8,40 @@ import { t } from '../lib/translations';
 interface Props {
   locale?: Locale;
   title?: string;
+  description?: string;
   layout?: 'map' | 'doc' | 'site';
   alternateEs?: string;
   alternateEn?: string;
+  ogImage?: string;
 }
 
 const locale = Astro.props.locale ?? 'es';
 const layout = Astro.props.layout ?? 'map';
 const strings = t(locale);
-const pageTitle = Astro.props.title ?? `${strings.siteName} · ${strings.tagline}`;
-const siteOrigin = Astro.site?.origin ?? 'https://busymad.dev';
+const pageTitle = Astro.props.title ?? strings.pageTitle;
+const metaDescription = Astro.props.description ?? strings.metaDescription;
+const siteOrigin = Astro.site?.origin ?? 'https://busymad.pages.dev';
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
 const esPath = Astro.props.alternateEs ?? '/';
 const enPath = Astro.props.alternateEn ?? '/en/';
 const esUrl = new URL(esPath, siteOrigin).href;
 const enUrl = new URL(enPath, siteOrigin).href;
+const ogImagePath = Astro.props.ogImage ?? '/demo/rating.png';
+const ogImageUrl = new URL(ogImagePath, siteOrigin).href;
 const skipHref = layout === 'map' ? '#map-root' : '#main-content';
 const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
+
+if (layout === 'site') {
+  await import('@fontsource/dm-sans/latin-400.css');
+  await import('@fontsource/dm-sans/latin-600.css');
+  await import('@fontsource/dm-sans/latin-700.css');
+} else {
+  await import('@fontsource/dm-sans/latin-400.css');
+  await import('@fontsource/dm-sans/latin-500.css');
+  await import('@fontsource/dm-sans/latin-600.css');
+  await import('@fontsource/dm-sans/latin-700.css');
+  await import('@fontsource/jetbrains-mono/latin-400.css');
+}
 ---
 
 <!doctype html>
@@ -37,7 +49,7 @@ const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content={strings.metaDescription} />
+    <meta name="description" content={metaDescription} />
     <meta name="author" content="Daniel Vilela García" />
     <meta name="copyright" content="© 2026 Daniel Vilela García" />
     <meta name="theme-color" content="#1a7f5a" />
@@ -45,6 +57,17 @@ const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content={strings.siteName} />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={strings.siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_GB'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="es" href={esUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
@@ -52,6 +75,9 @@ const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
     <link rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {layout === 'site' && (
+      <link rel="preload" href="/logo.png?v=2" as="image" type="image/png" fetchpriority="high" />
+    )}
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
     <title>{pageTitle}</title>
     <script is:inline>

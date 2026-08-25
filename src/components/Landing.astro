@@ -22,7 +22,7 @@ const href = appPath(locale);
       <span class="hero__mark" aria-hidden="true">
         <img src="/logo.png?v=2" alt="" width="179" height="179" />
       </span>
-      <h1>{strings.siteName}</h1>
+      <h1>{strings.landingH1}</h1>
       <p class="hero__lede">{strings.landingLede}</p>
       <a class="hero__cta" href={href}>{strings.openApp}</a>
       <p class="hero__hint">{strings.landingHint}</p>
@@ -30,15 +30,20 @@ const href = appPath(locale);
 
     <section class="demo" aria-label={strings.demoLabel}>
       <figure class="demo__item">
-        <img
-          class="demo__media"
-          src="/demo/hourly.gif"
+        <video
+          class="demo__media demo__media--video"
           width="560"
           height="490"
-          alt={strings.demoHourlyAlt}
-          loading="lazy"
-          decoding="async"
-        />
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="none"
+          poster="/demo/hourly-poster.jpg"
+          aria-label={strings.demoHourlyAlt}
+        >
+          <source src="/demo/hourly.webm" type="video/webm" />
+        </video>
         <figcaption class="demo__caption">
           <strong>{strings.viewHourly}</strong>
           <span>{strings.demoHourlyCaption}</span>
@@ -184,6 +189,10 @@ const href = appPath(locale);
     border-radius: 0.75rem;
     border: 1px solid var(--hairline);
     background: #0f1418;
+  }
+
+  .demo__media--video {
+    pointer-events: none;
   }
 
   .demo__caption {

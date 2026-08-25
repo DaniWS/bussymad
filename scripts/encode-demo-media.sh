@@ -26,11 +26,16 @@ if [[ -z "${SHOT:-}" ]]; then
 fi
 
 ffmpeg -y -t 5.0 -i "$VIDEO" \
-  -vf "fps=10,scale=560:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128:stats_mode=diff[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3" \
-  -loop 0 "$OUT/hourly.gif"
+  -vf "fps=10,scale=560:-1:flags=lanczos" \
+  -c:v libvpx-vp9 -b:v 0 -crf 35 -an \
+  "$OUT/hourly.webm"
+
+ffmpeg -y -ss 0.5 -i "$VIDEO" -vframes 1 -update 1 \
+  -vf "scale=560:-1:flags=lanczos" \
+  "$OUT/hourly-poster.jpg"
 
 cp "$SHOT" "$OUT/rating.png"
-rm -f "$OUT/hourly.mp4" "$OUT/hourly-poster.jpg"
+rm -f "$OUT/hourly.gif" "$OUT/hourly.mp4"
 
 ls -lh "$OUT"
 echo "Demo assets ready in public/demo/"
