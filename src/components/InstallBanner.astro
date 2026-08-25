@@ -18,11 +18,14 @@ const strings = t(locale);
   aria-label={strings.installAsk}
   data-ask={strings.installAsk}
   data-ios={strings.installIosHint}
-  data-browser={strings.installBrowserHint}
+  data-firefox={strings.installFirefoxHint}
+  data-chrome-wait={strings.installChromeWaitHint}
+  data-insecure={strings.installInsecureHint}
+  data-remove-old={strings.installRemoveOldHint}
 >
   <p class="install-banner__copy" data-install-copy>{strings.installAsk}</p>
   <div class="install-banner__actions">
-    <button type="button" class="install-banner__yes" data-install-accept>
+    <button type="button" class="install-banner__yes" data-install-accept hidden>
       {strings.installAction}
     </button>
     <button type="button" class="install-banner__no" data-install-dismiss>
@@ -38,6 +41,7 @@ const strings = t(locale);
     justify-content: space-between;
     gap: 0.75rem 1rem;
     flex-shrink: 0;
+    z-index: 50;
     padding: 0.7rem 1rem;
     padding-top: max(0.7rem, env(safe-area-inset-top));
     background: var(--paper-elevated);
@@ -51,15 +55,17 @@ const strings = t(locale);
     display: none !important;
   }
 
-  :global(html.is-mobile) .install-banner:not([hidden]) {
+  .install-banner.is-visible:not([hidden]) {
     display: flex;
   }
 
   .install-banner__copy {
     margin: 0;
-    font-size: 0.875rem;
+    flex: 1;
+    min-width: 0;
+    font-size: 0.8125rem;
     font-weight: 600;
-    line-height: 1.35;
+    line-height: 1.4;
     color: var(--ink);
   }
 
@@ -81,6 +87,10 @@ const strings = t(locale);
     line-height: 1.2;
     cursor: pointer;
     white-space: nowrap;
+  }
+
+  .install-banner__yes[hidden] {
+    display: none !important;
   }
 
   .install-banner__yes {
@@ -106,12 +116,14 @@ const strings = t(locale);
 </style>
 
 <script>
-  const STORAGE_KEY = 'bussymad.install-banner';
+  const STORAGE_KEY = 'bussymad.install-banner.v4';
 
   type BeforeInstallPromptEvent = Event & {
     prompt: () => Promise<void>;
     userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
   };
+
+  type Mode = 'bip' | 'ios' | 'firefox' | 'chrome-wait' | 'insecure';
 
   const banner = document.querySelector<HTMLElement>('[data-install-banner]');
   const copyEl = banner?.querySelector<HTMLElement>('[data-install-copy]');
@@ -119,24 +131,49 @@ const strings = t(locale);
   const dismissBtn = banner?.querySelector<HTMLButtonElement>('[data-install-dismiss]');
 
   let deferredPrompt: BeforeInstallPromptEvent | null = null;
+  let mode: Mode | null = null;
 
   function isStandalone() {
     return (
       window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches ||
       ('standalone' in navigator && Boolean((navigator as Navigator & { standalone?: boolean }).standalone))
     );
   }
 
   function isMobile() {
     const ua = navigator.userAgent;
+    if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua)) return true;
+    return window.matchMedia('(max-width: 900px) and (pointer: coarse)').matches;
+  }
+
+  function isPrivateHost() {
+    const host = location.hostname;
     return (
-      /Android|iPhone|iPad|iPod/i.test(ua) ||
-      (window.matchMedia('(pointer: coarse)').matches && window.matchMedia('(max-width: 900px)').matches)
+      host === 'localhost' ||
+      host === '127.0.0.1' ||
+      /^192\.168\./.test(host) ||
+      /^10\./.test(host) ||
+      /^172\.(1[6-9]|2\d|3[0-1])\./.test(host)
     );
+  }
+
+  function isInsecureForWebApk() {
+    return !window.isSecureContext || (location.protocol === 'http:' && isPrivateHost() && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1');
   }
 
   function isIos() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  function isIosSafari() {
+    const ua = navigator.userAgent;
+    return isIos() && /WebKit/i.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);
+  }
+
+  function isFirefox() {
+    return /Firefox|FxiOS/i.test(navigator.userAgent);
   }
 
   function dismissed() {
@@ -149,18 +186,44 @@ const strings = t(locale);
 
   function hide() {
     banner?.setAttribute('hidden', '');
-    document.documentElement.classList.remove('has-install-banner');
+    banner?.classList.remove('is-visible');
   }
 
-  function show() {
-    if (!banner) return;
+  function hintFor(next: Mode): string {
+    if (!banner) return '';
+    if (next === 'ios') return banner.dataset.ios ?? banner.dataset.ask ?? '';
+    if (next === 'firefox') return banner.dataset.firefox ?? banner.dataset.ask ?? '';
+    if (next === 'insecure') return banner.dataset.insecure ?? banner.dataset.ask ?? '';
+    if (next === 'chrome-wait') return banner.dataset.chromeWait ?? banner.dataset.ask ?? '';
+    return banner.dataset.ask ?? '';
+  }
+
+  function show(nextMode: Mode) {
+    if (!banner || isStandalone()) return;
+    if (dismissed() && nextMode !== 'bip') return;
+
+    mode = nextMode;
+    if (acceptBtn) {
+      acceptBtn.hidden = nextMode !== 'bip';
+    }
+    if (copyEl) {
+      copyEl.textContent = hintFor(nextMode);
+    }
     banner.removeAttribute('hidden');
-    document.documentElement.classList.add('has-install-banner');
+    banner.classList.add('is-visible');
+  }
+
+  function pickInitialMode(): Mode {
+    if (isInsecureForWebApk() && !isIosSafari()) return 'insecure';
+    if (isIosSafari() || (isIos() && !isFirefox())) return 'ios';
+    if (isFirefox()) return 'firefox';
+    return 'chrome-wait';
   }
 
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     deferredPrompt = event as BeforeInstallPromptEvent;
+    show('bip');
   });
 
   window.addEventListener('appinstalled', () => {
@@ -172,12 +235,8 @@ const strings = t(locale);
     hide();
   });
 
-  if (isMobile()) {
-    document.documentElement.classList.add('is-mobile');
-  }
-
   if (banner && isMobile() && !isStandalone() && !dismissed()) {
-    show();
+    show(pickInitialMode());
   }
 
   dismissBtn?.addEventListener('click', () => {
@@ -190,25 +249,17 @@ const strings = t(locale);
   });
 
   acceptBtn?.addEventListener('click', async () => {
-    if (deferredPrompt) {
-      await deferredPrompt.prompt();
-      const choice = await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      if (choice.outcome === 'accepted') {
-        try {
-          localStorage.setItem(STORAGE_KEY, 'dismissed');
-        } catch {
-          /* ignore */
-        }
-        hide();
+    if (mode !== 'bip' || !deferredPrompt) return;
+    await deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    if (choice.outcome === 'accepted') {
+      try {
+        localStorage.setItem(STORAGE_KEY, 'dismissed');
+      } catch {
+        /* ignore */
       }
-      return;
-    }
-
-    if (copyEl && banner) {
-      copyEl.textContent = isIos()
-        ? (banner.dataset.ios ?? copyEl.textContent)
-        : (banner.dataset.browser ?? copyEl.textContent);
+      hide();
     }
   });
 </script>

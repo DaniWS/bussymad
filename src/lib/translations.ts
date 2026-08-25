@@ -13,7 +13,17 @@ export type Copy = {
   installAction: string;
   installLater: string;
   installIosHint: string;
-  installBrowserHint: string;
+  installFirefoxHint: string;
+  installChromeWaitHint: string;
+  installInsecureHint: string;
+  installFullscreenHint: string;
+  installRemoveOldHint: string;
+  menuOpen: string;
+  menuClose: string;
+  locateMe: string;
+  locateDenied: string;
+  locateOutside: string;
+  locateInsecure: string;
   dataBadge: string;
   dataNote: string;
   timeLabel: string;
@@ -75,12 +85,26 @@ export const copy: Record<Locale, Copy> = {
     openApp: 'Abrir la app',
     landingLede:
       'Mapa interactivo de ocupación de estaciones BiciMAD a lo largo del día — verano 2022, laborable o fin de semana.',
-    landingHint: 'En el teléfono puedes instalarla como una app.',
-    installAsk: '¿Quieres descargar BussyMAD?',
-    installAction: 'Descargar',
+    landingHint:
+      'En Chrome (Android) instálala por HTTPS para abrirla a pantalla completa, como una app, sin barra del navegador.',
+    installAsk: '¿Instalar BussyMAD como app?',
+    installAction: 'Instalar',
     installLater: 'Ahora no',
-    installIosHint: 'En Safari, pulsa Compartir y elige «Añadir a pantalla de inicio».',
-    installBrowserHint: 'Abre el menú del navegador y elige «Instalar aplicación».',
+    installIosHint: 'En Safari: Compartir → «Añadir a pantalla de inicio». Luego ábrela desde el icono.',
+    installFirefoxHint:
+      'Firefox no puede instalar BussyMAD como app a pantalla completa. Ábrela en Chrome (Android) por HTTPS e instálala ahí.',
+    installChromeWaitHint:
+      'Usa el botón Instalar cuando Chrome lo ofrezca. Borra antes cualquier icono viejo con el logo de Chrome.',
+    installInsecureHint:
+      'Para una app real (icono limpio, pantalla completa) abre https://bussymad.dev en Chrome. Por HTTP solo se crea un acceso con badge de Chrome.',
+    installFullscreenHint: 'Ábrela desde el icono instalado (sin badge de Chrome) para usarla sin la barra del navegador.',
+    installRemoveOldHint: 'Si ya tenías un acceso con el icono de Chrome debajo, elimínalo e instala de nuevo desde Chrome.',
+    menuOpen: 'Abrir menú',
+    menuClose: 'Cerrar menú',
+    locateMe: 'Ir a mi ubicación',
+    locateDenied: 'No se pudo obtener la ubicación. Revisa el permiso de GPS.',
+    locateOutside: 'Tu ubicación está fuera del área del mapa de Madrid.',
+    locateInsecure: 'La ubicación GPS solo funciona en HTTPS (o localhost). Abre el sitio por https://.',
     dataBadge: 'Verano 2022',
     dataNote: 'Red histórica (~259 estaciones). Los datos en vivo llegarán pronto.',
     timeLabel: 'Hora del día',
@@ -134,12 +158,26 @@ export const copy: Record<Locale, Copy> = {
     openApp: 'Open the app',
     landingLede:
       'Interactive map of BiciMAD station occupancy through the day — summer 2022, weekday or weekend.',
-    landingHint: 'On a phone you can install it as an app.',
-    installAsk: 'Want to download BussyMAD?',
-    installAction: 'Download',
+    landingHint:
+      'On Chrome (Android), install over HTTPS to open fullscreen like an app, without the browser bar.',
+    installAsk: 'Install BussyMAD as an app?',
+    installAction: 'Install',
     installLater: 'Not now',
-    installIosHint: 'In Safari, tap Share and choose “Add to Home Screen”.',
-    installBrowserHint: 'Open the browser menu and choose “Install app”.',
+    installIosHint: 'In Safari: Share → “Add to Home Screen”. Then open it from the icon.',
+    installFirefoxHint:
+      'Firefox cannot install BussyMAD as a fullscreen app. Open it in Chrome (Android) over HTTPS and install there.',
+    installChromeWaitHint:
+      'Use the Install button when Chrome offers it. Delete any old home-screen shortcut that shows a Chrome badge first.',
+    installInsecureHint:
+      'For a real app (clean icon, fullscreen) open https://bussymad.dev in Chrome. Over HTTP you only get a Chrome-badged shortcut.',
+    installFullscreenHint: 'Open it from the installed icon (no Chrome badge) to use it without the browser bar.',
+    installRemoveOldHint: 'If you already have a shortcut with a Chrome badge, remove it and install again from Chrome.',
+    menuOpen: 'Open menu',
+    menuClose: 'Close menu',
+    locateMe: 'Go to my location',
+    locateDenied: 'Could not get your location. Check GPS permission.',
+    locateOutside: 'Your location is outside the Madrid map area.',
+    locateInsecure: 'GPS only works over HTTPS (or localhost). Open the site via https://.',
     dataBadge: 'Summer 2022',
     dataNote: 'Historical network (~259 stations). Live data coming soon.',
     timeLabel: 'Time of day',

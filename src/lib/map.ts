@@ -4,7 +4,18 @@ import { occupancyColorExpression, MAP_STYLES, MAP_THEME } from './colors';
 import type { MapState, StationDataset } from './types';
 import type { Locale } from './i18n';
 
-type LocaleStrings = Pick<Copy, 'occupancy' | 'bikes' | 'docks' | 'noData' | 'attribution'>;
+type LocaleStrings = Pick<
+  Copy,
+  | 'occupancy'
+  | 'bikes'
+  | 'docks'
+  | 'noData'
+  | 'attribution'
+  | 'locateMe'
+  | 'locateDenied'
+  | 'locateOutside'
+  | 'locateInsecure'
+>;
 
 let map: maplibregl.Map | null = null;
 let dataset: StationDataset | null = null;
@@ -16,6 +27,10 @@ let localeStrings: LocaleStrings = {
   docks: 'docks',
   noData: 'No data',
   attribution: '© OpenStreetMap · BiciMAD data',
+  locateMe: 'Go to my location',
+  locateDenied: 'Could not get your location. Check GPS permission.',
+  locateOutside: 'Your location is outside the Madrid map area.',
+  locateInsecure: 'GPS only works over HTTPS (or localhost). Open the site via https://.',
 };
 let popup: maplibregl.Popup | null = null;
 
@@ -113,6 +128,9 @@ function swapBasemap() {
   map.once('style.load', () => {
     resolveStyleAndLayers();
     map?.jumpTo({ center, zoom, bearing, pitch });
+    const el = map?.getContainer().querySelector('.maplibregl-ctrl-attrib');
+    el?.classList.remove('maplibregl-compact-show');
+    el?.removeAttribute('open');
   });
   map.setStyle(style, { diff: false });
 }
@@ -217,13 +235,60 @@ export async function initMap(container: HTMLElement, locale: Locale, strings: L
   container.classList.toggle('map--dark', isDark());
 
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+
+  const geolocate = new maplibregl.GeolocateControl({
+    positionOptions: { enableHighAccuracy: true, timeout: 15000 },
+    trackUserLocation: false,
+    showUserLocation: true,
+    showAccuracyCircle: true,
+    fitBoundsOptions: { maxZoom: 16, padding: 48 },
+  });
+  map.addControl(geolocate, 'top-right');
+
   map.addControl(
     new maplibregl.AttributionControl({ compact: true, customAttribution: localeStrings.attribution }),
     'top-right',
   );
 
+  const msg = {
+    locateMe: localeStrings.locateMe || 'Go to my location',
+    locateDenied: localeStrings.locateDenied || 'Could not get your location. Check GPS permission.',
+    locateOutside: localeStrings.locateOutside || 'Your location is outside the Madrid map area.',
+    locateInsecure:
+      localeStrings.locateInsecure ||
+      'GPS only works over HTTPS (or localhost). Open the site via https://.',
+  };
+
+  const labelGeolocate = () => {
+    const btn = document.querySelector('.maplibregl-ctrl-geolocate') as HTMLButtonElement | null;
+    if (!btn) return;
+    btn.title = msg.locateMe;
+    btn.setAttribute('aria-label', msg.locateMe);
+  };
+
+  const collapseAttribution = () => {
+    const el = map?.getContainer().querySelector('.maplibregl-ctrl-attrib');
+    if (!el) return;
+    el.classList.remove('maplibregl-compact-show');
+    el.removeAttribute('open');
+  };
+
+  geolocate.on('outofmaxbounds', () => {
+    window.alert(msg.locateOutside);
+  });
+
+  geolocate.on('error', () => {
+    window.alert(window.isSecureContext ? msg.locateDenied : msg.locateInsecure);
+  });
+
   map.on('load', () => {
     resolveStyleAndLayers();
+    labelGeolocate();
+    collapseAttribution();
+  });
+
+  map.once('idle', () => {
+    collapseAttribution();
   });
 
   map.on('mousemove', LAYER_CIRCLES, (e) => {

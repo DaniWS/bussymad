@@ -1,4 +1,5 @@
 ---
+import { pwaInfo } from 'virtual:pwa-info';
 import '@fontsource/dm-sans/latin-400.css';
 import '@fontsource/dm-sans/latin-500.css';
 import '@fontsource/dm-sans/latin-600.css';
@@ -39,12 +40,11 @@ const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
     <meta name="description" content={strings.metaDescription} />
     <meta name="author" content="Daniel Vilela García" />
     <meta name="copyright" content="© 2026 Daniel Vilela García" />
-    <meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#141816" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#1a7f5a" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content={strings.siteName} />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="es" href={esUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
@@ -52,7 +52,7 @@ const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
     <link rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
     <title>{pageTitle}</title>
     <script is:inline>
       (function () {

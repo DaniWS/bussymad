@@ -33,6 +33,19 @@ npm run build
 npm run preview
 ```
 
+## Install as app (Android WebAPK)
+
+Chrome on Android can install a real **WebAPK** (clean icon in the app drawer, `standalone` without the browser bar) only over **HTTPS** — e.g. [https://bussymad.dev](https://bussymad.dev) or an HTTPS tunnel. Opening the site via `http://192.168.…` only creates a **shortcut** with a Chrome badge.
+
+1. On the phone, open **https://bussymad.dev** in **Chrome** (not Firefox — Firefox cannot mint WebAPKs).
+2. When Chrome offers install (or the banner’s **Instalar** button appears), install it.
+3. Delete any **old** home-screen icon that still has the Chrome logo badge, then open only the new app icon.
+4. Optional checks: `chrome://webapk-list`, or remote DevTools → Application → Manifest + Service Workers.
+
+Local `npm run preview` over HTTP on a LAN IP will not behave like Cursor’s installed app.
+
+PWA tooling uses `@vite-pwa/astro` (Astro 7 needs `npm install --legacy-peer-deps` until the integration declares a peer for Astro 7).
+
 ## Hourly collection from this Mac
 
 **Problem:** a laptop sleeps. `cron` / `launchd` jobs do **not** run while macOS is asleep, so you will miss hours overnight or when the lid is closed.

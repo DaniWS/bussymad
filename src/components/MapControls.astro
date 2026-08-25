@@ -409,6 +409,31 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
     text-underline-offset: 0.15em;
   }
 
+  @media (max-width: 520px) {
+    .controls {
+      gap: 0.55rem;
+      padding: 0.75rem 0.85rem 0.85rem;
+    }
+
+    .controls__note,
+    .controls__copy {
+      display: none;
+    }
+
+    .controls__row--chips {
+      gap: 0.35rem 0.65rem;
+    }
+
+    .chip {
+      padding: 0.35rem 0.55rem;
+      font-size: 0.75rem;
+    }
+
+    .time-control__value {
+      font-size: 1.15rem;
+    }
+  }
+
   .mono {
     font-family: var(--font-mono);
   }
