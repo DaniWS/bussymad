@@ -14,6 +14,8 @@ export type Copy = {
   demoRatingCaption: string;
   demoHourlyAlt: string;
   demoRatingAlt: string;
+  landingSource: string;
+  landingSourceLink: string;
   installAsk: string;
   installAction: string;
   installLater: string;
@@ -89,6 +91,7 @@ export const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc-nd/4.0/';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/daniel-vilela-garcia';
 /** Personal site — update when the domain is final. */
 export const PERSONAL_SITE_URL = 'https://dani.dev';
+export const GITHUB_REPO_URL = 'https://github.com/DaniWS/busymad';
 
 export const copy: Record<Locale, Copy> = {
   es: {
@@ -100,13 +103,16 @@ export const copy: Record<Locale, Copy> = {
     skipContent: 'Ir al contenido',
     openApp: 'Abrir la app',
     landingLede:
-      'Mapa interactivo de ocupación de estaciones BiciMAD a lo largo del día — verano 2022, laborable o fin de semana.',
+      'Mapa interactivo de ocupación de estaciones BiciMAD.\nNo te quedes "a pie".',
     landingHint: 'También puedes instalarla como app en el móvil.',
     demoLabel: 'Dos modos',
     demoHourlyCaption: 'Desliza la hora y ve la disponibilidad de cada estación.',
-    demoRatingCaption: 'Chequea si tu estación cercana es buena o mala. No te quedes "a pie".',
+    demoRatingCaption: 'Chequea si tu estación cercana es buena o mala.',
     demoHourlyAlt: 'Demostración del modo por hora: mapa y control de la hora del día.',
     demoRatingAlt: 'Demostración del modo Rating: ficha de estación con clasificación y ocupación media.',
+    landingSource:
+      'Los datos históricos de 2026 se recopilan a partir de la disponibilidad en tiempo real del portal de datos abiertos de Madrid.',
+    landingSourceLink: 'Más detalles en el repositorio.',
     installAsk: '¿Instalar BusyMAD como app?',
     installAction: 'Instalar',
     installLater: 'Ahora no',
@@ -189,13 +195,16 @@ export const copy: Record<Locale, Copy> = {
     skipContent: 'Skip to content',
     openApp: 'Open the app',
     landingLede:
-      'Interactive map of BiciMAD station occupancy through the day — summer 2022, weekday or weekend.',
+      'Interactive map of BiciMAD station occupancy.\nDon\'t get left "on foot".',
     landingHint: 'You can also install it as an app on your phone.',
     demoLabel: 'Two modes',
-    demoHourlyCaption: 'Drag the time slider to see how many bikes each station has.',
-    demoRatingCaption: 'Rating summarizes the day: hover a station to see if it runs well or poorly.',
+    demoHourlyCaption: 'Slide the hour and see the availability of each station.',
+    demoRatingCaption: 'Check whether your nearby station is good or bad.',
     demoHourlyAlt: 'Demo of hourly mode: map and time-of-day control.',
     demoRatingAlt: 'Demo of Rating mode: station card with classification and average occupancy.',
+    landingSource:
+      'The 2026 historical data is being compiled from real-time availability on the Madrid open data portal.',
+    landingSourceLink: 'More details in the repository.',
     installAsk: 'Install BusyMAD as an app?',
     installAction: 'Install',
     installLater: 'Not now',

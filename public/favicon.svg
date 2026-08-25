@@ -1,7 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <rect width="32" height="32" rx="8" fill="#1a7f5a"/>
-  <circle cx="9" cy="22" r="3.5" stroke="#f6f3ec" stroke-width="1.8"/>
-  <circle cx="23" cy="22" r="3.5" stroke="#f6f3ec" stroke-width="1.8"/>
-  <path d="M12 22h8M9 18l3-8h8l3 8" stroke="#f6f3ec" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M16 10V7" stroke="#f6f3ec" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- rear wheel -->
+  <circle cx="8.5" cy="21" r="4" stroke="#f6f3ec" stroke-width="1.7"/>
+  <!-- front wheel -->
+  <circle cx="23.5" cy="21" r="4" stroke="#f6f3ec" stroke-width="1.7"/>
+  <!-- crank -->
+  <circle cx="14.2" cy="21" r="1.35" stroke="#f6f3ec" stroke-width="1.5"/>
+  <!-- chainstay -->
+  <path d="M8.5 21h5.7" stroke="#f6f3ec" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- seat tube -->
+  <path d="M14.2 21 11.2 11.2" stroke="#f6f3ec" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- seat -->
+  <path d="M9.2 11.2h4.3" stroke="#f6f3ec" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- top tube -->
+  <path d="M13.5 11.2 19.8 15.2" stroke="#f6f3ec" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- down tube + fork -->
+  <path d="M14.2 21 19.8 15.2 23.5 21" stroke="#f6f3ec" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- handlebar -->
+  <path d="M19.8 15.2h4.3M24.1 15.2V12.6" stroke="#f6f3ec" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
