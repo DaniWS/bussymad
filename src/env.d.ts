@@ -6,6 +6,7 @@
 interface ImportMetaEnv {
   readonly PUBLIC_UMAMI_WEBSITE_ID?: string;
   readonly PUBLIC_UMAMI_DOMAINS?: string;
+  readonly PUBLIC_GOOGLE_SITE_VERIFICATION?: string;
 }
 
 interface ImportMeta {

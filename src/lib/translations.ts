@@ -25,6 +25,7 @@ export type Copy = {
   openApp: string;
   landingLede: string;
   landingHint: string;
+  landingFaqLink: string;
   demoLabel: string;
   demoHourlyCaption: string;
   demoRatingCaption: string;
@@ -172,6 +173,7 @@ export const copy: Record<Locale, Copy> = {
     landingLede:
       'Mapa interactivo de ocupación de estaciones BiciMAD.\nNo te quedes "a pie".',
     landingHint: 'También puedes instalarla como app en el móvil.',
+    landingFaqLink: 'Más sobre los datos abiertos',
     demoLabel: 'Dos modos',
     demoHourlyCaption: 'Desliza la hora y ve la disponibilidad de cada estación.',
     demoRatingCaption: 'Chequea si tu estación cercana es buena o mala.',
@@ -314,6 +316,7 @@ export const copy: Record<Locale, Copy> = {
     landingLede:
       'Interactive map of BiciMAD station occupancy.\nDon\'t get left "on foot".',
     landingHint: 'You can also install it as an app on your phone.',
+    landingFaqLink: 'More about the open data',
     demoLabel: 'Two modes',
     demoHourlyCaption: 'Slide the hour and see the availability of each station.',
     demoRatingCaption: 'Check whether your nearby station is good or bad.',

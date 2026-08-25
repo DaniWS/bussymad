@@ -22,7 +22,26 @@ export default defineConfig({
     },
   },
   integrations: [
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'es',
+        locales: {
+          es: 'es-ES',
+          en: 'en-GB',
+        },
+      },
+      serialize(item) {
+        const path = new URL(item.url).pathname;
+        if (path === '/faq/' || path === '/en/faq/') {
+          item.priority = 0.85;
+          item.changefreq = 'monthly';
+        } else if (path === '/' || path === '/en/') {
+          item.priority = 0.9;
+          item.changefreq = 'weekly';
+        }
+        return item;
+      },
+    }),
     AstroPWA({
       registerType: 'autoUpdate',
       includeAssets: [
