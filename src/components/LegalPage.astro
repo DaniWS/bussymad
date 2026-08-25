@@ -2,7 +2,7 @@
 import Header from './Header.astro';
 import type { Locale } from '../lib/i18n';
 import { appPath } from '../lib/i18n';
-import { t, LICENSE_URL, EMT_URL, EMT_TERMS_URL } from '../lib/translations';
+import { t, LICENSE_URL, EMT_URL, EMT_TERMS_URL, CONTACT_EMAIL } from '../lib/translations';
 
 interface Props {
   locale: Locale;
@@ -12,6 +12,7 @@ interface Props {
 const { locale, currentPath } = Astro.props;
 const strings = t(locale);
 const mapHref = appPath(locale);
+const mailto = `mailto:${CONTACT_EMAIL}`;
 ---
 
 <div class="legal">
@@ -49,6 +50,19 @@ const mapHref = appPath(locale);
     <p class="legal__full">
       <a href={LICENSE_URL} rel="license" target="_blank">{strings.licenseFull} ({strings.licenseShort})</a>
     </p>
+
+    <section class="legal__block">
+      <h2>{strings.licenseDisclaimerTitle}</h2>
+      <p>{strings.licenseDisclaimer}</p>
+    </section>
+
+    <section class="legal__block">
+      <h2>{strings.licensePrivacyTitle}</h2>
+      <p>
+        {strings.licensePrivacy}{' '}
+        <a href={mailto}>{CONTACT_EMAIL}</a>{strings.licensePrivacyAfter}
+      </p>
+    </section>
 
     <p class="legal__copy">{strings.copyrightLine}</p>
   </main>
@@ -93,6 +107,7 @@ const mapHref = appPath(locale);
 
   .legal__lede,
   .legal__data,
+  .legal__block p,
   li {
     line-height: 1.55;
     color: var(--ink);
@@ -124,10 +139,21 @@ const mapHref = appPath(locale);
   }
 
   .legal__powered a,
-  .legal__full a {
+  .legal__full a,
+  .legal__block a {
     color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 0.18em;
+  }
+
+  .legal__block {
+    margin-top: 0.25rem;
+  }
+
+  .legal__block p {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
   }
 
   .legal__copy {

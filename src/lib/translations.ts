@@ -84,6 +84,11 @@ export type Copy = {
   licenseForbidPlagiarism: string;
   licenseData: string;
   licenseFull: string;
+  licenseDisclaimerTitle: string;
+  licenseDisclaimer: string;
+  licensePrivacyTitle: string;
+  licensePrivacy: string;
+  licensePrivacyAfter: string;
 };
 
 export const AUTHOR = 'Daniel Vilela García';
@@ -97,6 +102,7 @@ export const GITHUB_REPO_URL = 'https://github.com/DaniWS/busymad';
 export const EMT_URL = 'https://www.emtmadrid.es';
 export const EMT_TERMS_URL = 'https://mobilitylabs.emtmadrid.es/sip/terms-of-use';
 export const EMT_GBFS_URL = 'https://madrid.publicbikesystem.net/customer/gbfs/v2/gbfs.json';
+export const CONTACT_EMAIL = 'daniruso@duck.com';
 
 export const copy: Record<Locale, Copy> = {
   es: {
@@ -179,7 +185,7 @@ export const copy: Record<Locale, Copy> = {
     licenseNav: 'Licencia',
     copyrightLine: '© 2026 Daniel Vilela García',
     licenseShort: 'CC BY-NC-ND 4.0',
-    licensePageTitle: 'Licencia y copyright',
+    licensePageTitle: 'Licencia y avisos',
     licenseBack: 'Volver al mapa',
     licenseIntro:
       'BusyMAD (código, interfaz, diseño, documentación y visualizaciones originales) es obra de Daniel Vilela García y está protegida por copyright. Se publica bajo Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional.',
@@ -193,6 +199,13 @@ export const copy: Record<Locale, Copy> = {
     licenseData:
       'Los datos de BiciMAD / EMT (histórico abierto y feed GBFS en vivo), el Ayuntamiento de Madrid y OpenStreetMap siguen perteneciendo a sus editores. BusyMAD no reclama copyright sobre esos datos. Esta licencia del proyecto no los cubre. Atribución de datos: Powered by EMT de Madrid.',
     licenseFull: 'Texto completo de la licencia',
+    licenseDisclaimerTitle: 'Aviso',
+    licenseDisclaimer:
+      'BusyMAD es un proyecto personal e independiente. No está afiliado, respaldado ni operado por EMT de Madrid, BiciMAD ni el Ayuntamiento de Madrid. Los mapas y ratings se basan en datos históricos o agregados y se ofrecen «tal cual», sin garantía de exactitud, actualidad ni idoneidad. No uses BusyMAD como única fuente para desplazarte; el uso es bajo tu responsabilidad.',
+    licensePrivacyTitle: 'Privacidad',
+    licensePrivacy:
+      'BusyMAD no usa analytics ni cookies de seguimiento. Solo guarda en tu navegador (localStorage) preferencias locales como el tema y si ocultaste el aviso de instalación. La geolocalización solo se activa si pulsas «Ir a mi ubicación»; la posición la gestiona el navegador en tu dispositivo y no se envía a un servidor de BusyMAD. Si escribes a',
+    licensePrivacyAfter: ', trataré tu mensaje solo para responderte.',
   },
   en: {
     siteName: 'BusyMAD',
@@ -274,7 +287,7 @@ export const copy: Record<Locale, Copy> = {
     licenseNav: 'License',
     copyrightLine: '© 2026 Daniel Vilela García',
     licenseShort: 'CC BY-NC-ND 4.0',
-    licensePageTitle: 'License and copyright',
+    licensePageTitle: 'Licence and notices',
     licenseBack: 'Back to map',
     licenseIntro:
       'BusyMAD (source code, interface, design, documentation, and original visualizations) is the copyrighted work of Daniel Vilela García. It is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.',
@@ -288,6 +301,13 @@ export const copy: Record<Locale, Copy> = {
     licenseData:
       'BiciMAD / EMT data (open historical dumps and the live GBFS feed), City of Madrid data, and OpenStreetMap remain the property of their publishers. BusyMAD claims no copyright over that raw data. This project licence does not cover those datasets. Data attribution: Powered by EMT de Madrid.',
     licenseFull: 'Full licence text',
+    licenseDisclaimerTitle: 'Notice',
+    licenseDisclaimer:
+      'BusyMAD is an independent personal project. It is not affiliated with, endorsed by, or operated by EMT de Madrid, BiciMAD, or the City of Madrid. Maps and ratings are based on historical or aggregated data and are provided “as is”, with no warranty of accuracy, currency, or fitness for purpose. Do not rely on BusyMAD as your only source when travelling; use is at your own risk.',
+    licensePrivacyTitle: 'Privacy',
+    licensePrivacy:
+      'BusyMAD does not use analytics or tracking cookies. It only stores local preferences in your browser (localStorage), such as theme and whether you dismissed the install prompt. Geolocation runs only if you tap “Go to my location”; your position is handled by the browser on your device and is not sent to a BusyMAD server. If you email',
+    licensePrivacyAfter: ', I will use your message only to reply.',
   },
 };
 
