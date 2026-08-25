@@ -24,6 +24,10 @@ export function licensePath(locale: Locale): string {
   return locale === 'en' ? '/en/license/' : '/licencia/';
 }
 
+export function faqPath(locale: Locale): string {
+  return locale === 'en' ? '/en/faq/' : '/faq/';
+}
+
 export function getAlternatePath(currentPath: string, targetLocale: Locale): string {
   const locale = getCurrentLocale(currentPath);
   if (locale === targetLocale) return currentPath;
@@ -32,6 +36,10 @@ export function getAlternatePath(currentPath: string, targetLocale: Locale): str
 
   if (normalized === '/licencia/' || normalized === '/en/license/') {
     return licensePath(targetLocale);
+  }
+
+  if (normalized === '/faq/' || normalized === '/en/faq/') {
+    return faqPath(targetLocale);
   }
 
   if (normalized === '/app/' || normalized === '/en/app/') {

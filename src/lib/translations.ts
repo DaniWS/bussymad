@@ -1,11 +1,25 @@
 import type { Locale } from './i18n';
 
+export type FaqItem = { q: string; a: string };
+
 export type Copy = {
   siteName: string;
   tagline: string;
   pageTitle: string;
+  appPageTitle: string;
+  faqPageTitle: string;
+  faqMetaDescription: string;
+  faqNav: string;
+  faqBack: string;
+  faqIntro: string;
   landingH1: string;
   metaDescription: string;
+  appMetaDescription: string;
+  seoKeywords: string[];
+  seoFaqTitle: string;
+  seoFaq: FaqItem[];
+  seoDatasetName: string;
+  seoDatasetDescription: string;
   skipLink: string;
   skipContent: string;
   openApp: string;
@@ -90,6 +104,8 @@ export type Copy = {
   licensePrivacyAfter: string;
 };
 
+export const SITE_ORIGIN = 'https://busymad.pages.dev';
+
 export const AUTHOR = 'Daniel Vilela García';
 export const COPYRIGHT_YEAR = 2026;
 export const LICENSE_SPDX = 'CC-BY-NC-ND-4.0';
@@ -105,10 +121,51 @@ export const copy: Record<Locale, Copy> = {
   es: {
     siteName: 'BusyMAD',
     tagline: 'Disponibilidad BiciMAD por hora',
-    pageTitle: 'Disponibilidad BiciMAD Madrid por hora | BusyMAD',
+    pageTitle: 'BusyMAD — Mapa y estadísticas BiciMAD Madrid | datos abiertos',
+    appPageTitle: 'Mapa BiciMAD Madrid por hora | BusyMAD',
+    faqPageTitle: 'Preguntas frecuentes | BusyMAD',
+    faqMetaDescription:
+      'Datos abiertos BiciMAD Madrid: estadísticas históricas, opendata EMT y agregados recopilados desde 2026.',
+    faqNav: 'FAQ',
+    faqBack: 'Volver al inicio',
+    faqIntro:
+      'BusyMAD es un mapa de estadísticas de BiciMAD en Madrid basado en datos abiertos. Proyecto independiente; no está afiliado a EMT ni al Ayuntamiento.',
     landingH1: 'Disponibilidad de estaciones BiciMAD en Madrid',
     metaDescription:
-      'Mapa interactivo de ocupación de estaciones BiciMAD en Madrid: 259 estaciones, hora a hora, laborable o fin de semana. Proyecto independiente con datos EMT.',
+      'Mapa interactivo con estadísticas históricas de ocupación de 259 estaciones BiciMAD en Madrid. Datos abiertos EMT y GBFS, hora a hora, laborable o fin de semana.',
+    appMetaDescription:
+      'Consulta la ocupación hora a hora de cada estación BiciMAD en Madrid. Estadísticas históricas, rating por estación y datos abiertos de la EMT.',
+    seoKeywords: [
+      'BiciMAD',
+      'bici Madrid',
+      'bicicleta Madrid',
+      'datos abiertos',
+      'opendata',
+      'datos históricos',
+      'estadísticas BiciMAD',
+      'ocupación estaciones',
+      'GBFS Madrid',
+      'EMT Madrid',
+      'bike sharing Madrid',
+    ],
+    seoFaqTitle: 'Preguntas frecuentes',
+    seoFaq: [
+      {
+        q: '¿De dónde salen los datos?',
+        a: 'De datos agregados a partir del opendata de la EMT (y del Ayuntamiento de Madrid). Desde 2026 recopilamos y agregamos ese material para construir estadísticas históricas. BusyMAD no opera BiciMAD.',
+      },
+      {
+        q: '¿Qué muestra el mapa?',
+        a: 'Ocupación por estación y hora, medias diurnas y un rating relativo frente al resto de la red.',
+      },
+      {
+        q: '¿Es la app oficial de BiciMAD?',
+        a: 'No. Es un proyecto personal que explora datos abiertos e históricos; la app oficial sirve para desplazarte en tiempo real.',
+      },
+    ],
+    seoDatasetName: 'Estadísticas de ocupación de estaciones BiciMAD (Madrid, verano 2022)',
+    seoDatasetDescription:
+      'Agregados horarios de ocupación por estación BiciMAD en Madrid derivados de datos abiertos EMT/Ayuntamiento (Jun–Ago 2022), con medias diurnas y ratings por quintil.',
     skipLink: 'Ir al mapa',
     skipContent: 'Ir al contenido',
     openApp: 'Abrir la app',
@@ -206,10 +263,51 @@ export const copy: Record<Locale, Copy> = {
   en: {
     siteName: 'BusyMAD',
     tagline: 'BiciMAD availability by hour',
-    pageTitle: 'BiciMAD Madrid station availability by hour | BusyMAD',
+    pageTitle: 'BusyMAD — BiciMAD Madrid map & stats | open data',
+    appPageTitle: 'BiciMAD Madrid hourly map | BusyMAD',
+    faqPageTitle: 'FAQ | BusyMAD',
+    faqMetaDescription:
+      'BiciMAD Madrid open data: historical statistics, EMT opendata, and aggregates collected since 2026.',
+    faqNav: 'FAQ',
+    faqBack: 'Back to home',
+    faqIntro:
+      'BusyMAD is a BiciMAD statistics map for Madrid built on open data. An independent project — not affiliated with EMT or the City Council.',
     landingH1: 'BiciMAD station availability in Madrid',
     metaDescription:
-      'Interactive map of BiciMAD station occupancy in Madrid: 259 stations, hour by hour, weekday or weekend. Independent project using EMT data.',
+      'Interactive map with historical occupancy stats for 259 BiciMAD stations in Madrid. EMT open data and GBFS, hour by hour, weekday or weekend.',
+    appMetaDescription:
+      'Hourly occupancy for every BiciMAD station in Madrid. Historical statistics, per-station ratings, and EMT open data on an interactive map.',
+    seoKeywords: [
+      'BiciMAD',
+      'Madrid bike share',
+      'Madrid cycling',
+      'open data',
+      'opendata',
+      'historical data',
+      'BiciMAD statistics',
+      'station occupancy',
+      'GBFS Madrid',
+      'EMT Madrid',
+      'bike sharing Madrid',
+    ],
+    seoFaqTitle: 'FAQ',
+    seoFaq: [
+      {
+        q: 'Where does the data come from?',
+        a: 'From aggregated EMT open data (and Madrid City Council open data). Since 2026 we collect and aggregate that material to build historical statistics. BusyMAD does not operate BiciMAD.',
+      },
+      {
+        q: 'What does the map show?',
+        a: 'Occupancy per station and hour, daytime averages, and a relative rating vs the rest of the network.',
+      },
+      {
+        q: 'Is this the official BiciMAD app?',
+        a: 'No. It is a personal project exploring open and historical data; the official app is for real-time travel.',
+      },
+    ],
+    seoDatasetName: 'BiciMAD station occupancy statistics (Madrid, summer 2022)',
+    seoDatasetDescription:
+      'Hourly per-station BiciMAD occupancy aggregates for Madrid derived from EMT/City open data (Jun–Aug 2022), with daytime means and quintile ratings.',
     skipLink: 'Skip to map',
     skipContent: 'Skip to content',
     openApp: 'Open the app',

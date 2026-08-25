@@ -38,7 +38,7 @@ export default defineConfig({
         id: '/',
         name: 'BusyMAD',
         short_name: 'BusyMAD',
-        description: 'BiciMAD station occupancy by hour',
+        description: 'BiciMAD Madrid open data: hourly station occupancy stats and map',
         start_url: '/app/',
         scope: '/',
         display: 'standalone',

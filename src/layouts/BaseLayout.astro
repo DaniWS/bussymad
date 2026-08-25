@@ -13,6 +13,7 @@ interface Props {
   alternateEs?: string;
   alternateEn?: string;
   ogImage?: string;
+  jsonLd?: unknown | unknown[];
 }
 
 const locale = Astro.props.locale ?? 'es';
@@ -20,6 +21,7 @@ const layout = Astro.props.layout ?? 'map';
 const strings = t(locale);
 const pageTitle = Astro.props.title ?? strings.pageTitle;
 const metaDescription = Astro.props.description ?? strings.metaDescription;
+const metaKeywords = strings.seoKeywords.join(', ');
 const siteOrigin = Astro.site?.origin ?? 'https://busymad.pages.dev';
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
 const esPath = Astro.props.alternateEs ?? '/';
@@ -42,6 +44,16 @@ const umamiDomains = import.meta.env.PROD
   ? [...new Set([siteHostname, ...umamiExtraDomains])].join(',')
   : undefined;
 
+const jsonLdPayload = Astro.props.jsonLd;
+const jsonLdScript =
+  jsonLdPayload !== undefined
+    ? JSON.stringify(
+        Array.isArray(jsonLdPayload)
+          ? { '@context': 'https://schema.org', '@graph': jsonLdPayload }
+          : jsonLdPayload,
+      )
+    : null;
+
 if (layout === 'site') {
   await import('@fontsource/dm-sans/latin-400.css');
   await import('@fontsource/dm-sans/latin-600.css');
@@ -61,6 +73,7 @@ if (layout === 'site') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={metaDescription} />
+    <meta name="keywords" content={metaKeywords} />
     <meta name="author" content="Daniel Vilela García" />
     <meta name="copyright" content="© 2026 Daniel Vilela García" />
     <meta name="theme-color" content="#1a7f5a" />
@@ -75,6 +88,7 @@ if (layout === 'site') {
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_GB'} />
+    <meta property="og:locale:alternate" content={locale === 'es' ? 'en_GB' : 'es_ES'} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={metaDescription} />
@@ -90,6 +104,9 @@ if (layout === 'site') {
       <link rel="preload" href="/logo.png?v=2" as="image" type="image/png" fetchpriority="high" />
     )}
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+    {jsonLdScript && (
+      <script type="application/ld+json" set:html={jsonLdScript} />
+    )}
     <title>{pageTitle}</title>
     {umamiWebsiteId && (
       <script
