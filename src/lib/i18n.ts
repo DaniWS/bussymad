@@ -12,16 +12,31 @@ export function getCurrentLocale(pathname: string): Locale {
   return pathname.startsWith('/en/') || pathname === '/en' ? 'en' : 'es';
 }
 
+export function homePath(locale: Locale): string {
+  return locale === 'en' ? '/en/' : '/';
+}
+
+export function appPath(locale: Locale): string {
+  return locale === 'en' ? '/en/app/' : '/app/';
+}
+
+export function licensePath(locale: Locale): string {
+  return locale === 'en' ? '/en/license/' : '/licencia/';
+}
+
 export function getAlternatePath(currentPath: string, targetLocale: Locale): string {
   const locale = getCurrentLocale(currentPath);
   if (locale === targetLocale) return currentPath;
 
-  const licenseEs = currentPath === '/licencia' || currentPath === '/licencia/';
-  const licenseEn = currentPath === '/en/license' || currentPath === '/en/license/';
-  if (licenseEs || licenseEn) {
-    return targetLocale === 'en' ? '/en/license/' : '/licencia/';
+  const normalized = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
+
+  if (normalized === '/licencia/' || normalized === '/en/license/') {
+    return licensePath(targetLocale);
   }
 
-  if (targetLocale === 'en') return '/en/';
-  return '/';
+  if (normalized === '/app/' || normalized === '/en/app/') {
+    return appPath(targetLocale);
+  }
+
+  return homePath(targetLocale);
 }

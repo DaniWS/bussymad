@@ -1,0 +1,214 @@
+---
+import type { Locale } from '../lib/i18n';
+import { t } from '../lib/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+---
+
+<div
+  class="install-banner"
+  data-install-banner
+  hidden
+  role="region"
+  aria-label={strings.installAsk}
+  data-ask={strings.installAsk}
+  data-ios={strings.installIosHint}
+  data-browser={strings.installBrowserHint}
+>
+  <p class="install-banner__copy" data-install-copy>{strings.installAsk}</p>
+  <div class="install-banner__actions">
+    <button type="button" class="install-banner__yes" data-install-accept>
+      {strings.installAction}
+    </button>
+    <button type="button" class="install-banner__no" data-install-dismiss>
+      {strings.installLater}
+    </button>
+  </div>
+</div>
+
+<style>
+  .install-banner {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    flex-shrink: 0;
+    padding: 0.7rem 1rem;
+    padding-top: max(0.7rem, env(safe-area-inset-top));
+    background: var(--paper-elevated);
+    border-bottom: 1px solid var(--hairline);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .install-banner[hidden] {
+    display: none !important;
+  }
+
+  :global(html.is-mobile) .install-banner:not([hidden]) {
+    display: flex;
+  }
+
+  .install-banner__copy {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .install-banner__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .install-banner__yes,
+  .install-banner__no {
+    margin: 0;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .install-banner__yes {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  :global(html[data-theme='dark']) .install-banner__yes {
+    color: #0f1210;
+  }
+
+  .install-banner__no {
+    background: transparent;
+    border-color: var(--hairline);
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 420px) {
+    .install-banner {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = 'bussymad.install-banner';
+
+  type BeforeInstallPromptEvent = Event & {
+    prompt: () => Promise<void>;
+    userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+  };
+
+  const banner = document.querySelector<HTMLElement>('[data-install-banner]');
+  const copyEl = banner?.querySelector<HTMLElement>('[data-install-copy]');
+  const acceptBtn = banner?.querySelector<HTMLButtonElement>('[data-install-accept]');
+  const dismissBtn = banner?.querySelector<HTMLButtonElement>('[data-install-dismiss]');
+
+  let deferredPrompt: BeforeInstallPromptEvent | null = null;
+
+  function isStandalone() {
+    return (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      ('standalone' in navigator && Boolean((navigator as Navigator & { standalone?: boolean }).standalone))
+    );
+  }
+
+  function isMobile() {
+    const ua = navigator.userAgent;
+    return (
+      /Android|iPhone|iPad|iPod/i.test(ua) ||
+      (window.matchMedia('(pointer: coarse)').matches && window.matchMedia('(max-width: 900px)').matches)
+    );
+  }
+
+  function isIos() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  function dismissed() {
+    try {
+      return localStorage.getItem(STORAGE_KEY) === 'dismissed';
+    } catch {
+      return false;
+    }
+  }
+
+  function hide() {
+    banner?.setAttribute('hidden', '');
+    document.documentElement.classList.remove('has-install-banner');
+  }
+
+  function show() {
+    if (!banner) return;
+    banner.removeAttribute('hidden');
+    document.documentElement.classList.add('has-install-banner');
+  }
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredPrompt = event as BeforeInstallPromptEvent;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, 'dismissed');
+    } catch {
+      /* ignore */
+    }
+    hide();
+  });
+
+  if (isMobile()) {
+    document.documentElement.classList.add('is-mobile');
+  }
+
+  if (banner && isMobile() && !isStandalone() && !dismissed()) {
+    show();
+  }
+
+  dismissBtn?.addEventListener('click', () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, 'dismissed');
+    } catch {
+      /* ignore */
+    }
+    hide();
+  });
+
+  acceptBtn?.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (choice.outcome === 'accepted') {
+        try {
+          localStorage.setItem(STORAGE_KEY, 'dismissed');
+        } catch {
+          /* ignore */
+        }
+        hide();
+      }
+      return;
+    }
+
+    if (copyEl && banner) {
+      copyEl.textContent = isIos()
+        ? (banner.dataset.ios ?? copyEl.textContent)
+        : (banner.dataset.browser ?? copyEl.textContent);
+    }
+  });
+</script>

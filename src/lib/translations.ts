@@ -6,6 +6,14 @@ export type Copy = {
   metaDescription: string;
   skipLink: string;
   skipContent: string;
+  openApp: string;
+  landingLede: string;
+  landingHint: string;
+  installAsk: string;
+  installAction: string;
+  installLater: string;
+  installIosHint: string;
+  installBrowserHint: string;
   dataBadge: string;
   dataNote: string;
   timeLabel: string;
@@ -64,6 +72,15 @@ export const copy: Record<Locale, Copy> = {
       'Mapa interactivo de ocupación de estaciones BiciMAD en Madrid — verano 2022, día laborable o fin de semana.',
     skipLink: 'Ir al mapa',
     skipContent: 'Ir al contenido',
+    openApp: 'Abrir la app',
+    landingLede:
+      'Mapa interactivo de ocupación de estaciones BiciMAD a lo largo del día — verano 2022, laborable o fin de semana.',
+    landingHint: 'En el teléfono puedes instalarla como una app.',
+    installAsk: '¿Quieres descargar BussyMAD?',
+    installAction: 'Descargar',
+    installLater: 'Ahora no',
+    installIosHint: 'En Safari, pulsa Compartir y elige «Añadir a pantalla de inicio».',
+    installBrowserHint: 'Abre el menú del navegador y elige «Instalar aplicación».',
     dataBadge: 'Verano 2022',
     dataNote: 'Red histórica (~259 estaciones). Los datos en vivo llegarán pronto.',
     timeLabel: 'Hora del día',
@@ -114,6 +131,15 @@ export const copy: Record<Locale, Copy> = {
       'Interactive map of BiciMAD station occupancy in Madrid — summer 2022, weekday or weekend.',
     skipLink: 'Skip to map',
     skipContent: 'Skip to content',
+    openApp: 'Open the app',
+    landingLede:
+      'Interactive map of BiciMAD station occupancy through the day — summer 2022, weekday or weekend.',
+    landingHint: 'On a phone you can install it as an app.',
+    installAsk: 'Want to download BussyMAD?',
+    installAction: 'Download',
+    installLater: 'Not now',
+    installIosHint: 'In Safari, tap Share and choose “Add to Home Screen”.',
+    installBrowserHint: 'Open the browser menu and choose “Install app”.',
     dataBadge: 'Summer 2022',
     dataNote: 'Historical network (~259 stations). Live data coming soon.',
     timeLabel: 'Time of day',

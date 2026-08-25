@@ -2,21 +2,24 @@
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import type { Locale } from '../lib/i18n';
+import { appPath, homePath } from '../lib/i18n';
 import { t, LINKEDIN_URL, PERSONAL_SITE_URL } from '../lib/translations';
 
 interface Props {
   locale: Locale;
   currentPath: string;
   stationCount?: number;
+  surface?: 'site' | 'app' | 'doc';
 }
 
-const { locale, currentPath, stationCount = 0 } = Astro.props;
+const { locale, currentPath, stationCount = 0, surface = 'site' } = Astro.props;
 const strings = t(locale);
+const logoHref = surface === 'app' ? appPath(locale) : homePath(locale);
 ---
 
 <header class="header">
   <div class="header__brand">
-    <a href={locale === 'en' ? '/en/' : '/'} class="header__logo">
+    <a href={logoHref} class="header__logo">
       <span class="header__mark" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="6" cy="17" r="3.2"></circle>
@@ -36,6 +39,11 @@ const strings = t(locale);
   <div class="header__meta">
     {stationCount > 0 && (
       <span class="header__count mono">{stationCount} {strings.stations}</span>
+    )}
+    {surface === 'site' && (
+      <a class="header__app" href={appPath(locale)}>
+        {strings.openApp}
+      </a>
     )}
     <a
       class="header__license"
@@ -181,6 +189,26 @@ const strings = t(locale);
     flex-shrink: 0;
   }
 
+  .header__app {
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--paper);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  :global(html[data-theme='dark']) .header__app {
+    color: #0f1210;
+  }
+
+  .header__app:hover,
+  .header__app:focus-visible {
+    filter: brightness(1.06);
+  }
+
   .header__license {
     padding: 0.4rem 0.55rem;
     font-size: 0.8125rem;
@@ -259,6 +287,12 @@ const strings = t(locale);
 
     .header__count {
       display: inline;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .header__license {
+      display: none;
     }
   }
 

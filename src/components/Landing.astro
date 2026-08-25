@@ -1,0 +1,117 @@
+---
+import Header from './Header.astro';
+import type { Locale } from '../lib/i18n';
+import { appPath } from '../lib/i18n';
+import { t } from '../lib/translations';
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const strings = t(locale);
+const href = appPath(locale);
+---
+
+<div class="site">
+  <Header locale={locale} currentPath={currentPath} surface="site" />
+
+  <main class="hero" id="main-content">
+    <span class="hero__mark" aria-hidden="true">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6" cy="17" r="3.2"></circle>
+        <circle cx="18" cy="17" r="3.2"></circle>
+        <path d="M9 17h6M6 14l3-7h6l3 7"></path>
+        <path d="M12 7V4"></path>
+      </svg>
+    </span>
+    <p class="hero__kicker">{strings.dataBadge}</p>
+    <h1>{strings.siteName}</h1>
+    <p class="hero__lede">{strings.landingLede}</p>
+    <a class="hero__cta" href={href}>{strings.openApp}</a>
+    <p class="hero__hint">{strings.landingHint}</p>
+  </main>
+</div>
+
+<style>
+  .site {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1;
+    width: min(36rem, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2.5rem 0 4rem;
+  }
+
+  .hero__mark {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin-bottom: 1.25rem;
+    border-radius: 0.85rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .hero__kicker {
+    margin: 0 0 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    margin: 0 0 0.85rem;
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .hero__lede {
+    margin: 0 0 1.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+
+  .hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.35rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--paper);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  :global(html[data-theme='dark']) .hero__cta {
+    color: #0f1210;
+  }
+
+  .hero__cta:hover,
+  .hero__cta:focus-visible {
+    filter: brightness(1.06);
+  }
+
+  .hero__hint {
+    margin: 0.85rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--ink-muted);
+  }
+</style>

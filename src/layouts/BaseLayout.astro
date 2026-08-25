@@ -5,13 +5,14 @@ import '@fontsource/dm-sans/latin-600.css';
 import '@fontsource/dm-sans/latin-700.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
 import '../styles/global.css';
+import InstallBanner from '../components/InstallBanner.astro';
 import type { Locale } from '../lib/i18n';
 import { t } from '../lib/translations';
 
 interface Props {
   locale?: Locale;
   title?: string;
-  layout?: 'map' | 'doc';
+  layout?: 'map' | 'doc' | 'site';
   alternateEs?: string;
   alternateEn?: string;
 }
@@ -26,8 +27,8 @@ const esPath = Astro.props.alternateEs ?? '/';
 const enPath = Astro.props.alternateEn ?? '/en/';
 const esUrl = new URL(esPath, siteOrigin).href;
 const enUrl = new URL(enPath, siteOrigin).href;
-const skipHref = layout === 'doc' ? '#main-content' : '#map-root';
-const skipLabel = layout === 'doc' ? strings.skipContent : strings.skipLink;
+const skipHref = layout === 'map' ? '#map-root' : '#main-content';
+const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
 ---
 
 <!doctype html>
@@ -40,12 +41,18 @@ const skipLabel = layout === 'doc' ? strings.skipContent : strings.skipLink;
     <meta name="copyright" content="© 2026 Daniel Vilela García" />
     <meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#141816" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content={strings.siteName} />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="es" href={esUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
     <link rel="alternate" hreflang="x-default" href={esUrl} />
     <link rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <title>{pageTitle}</title>
     <script is:inline>
       (function () {
@@ -66,6 +73,8 @@ const skipLabel = layout === 'doc' ? strings.skipContent : strings.skipLink;
   </head>
   <body>
     <a class="skip-link" href={skipHref}>{skipLabel}</a>
+    <InstallBanner locale={locale} />
     <slot />
+    <script src="../pwa.ts"></script>
   </body>
 </html>

@@ -17,6 +17,15 @@ export function initControls() {
   const moonMark = root.querySelector('.time-control__mark--moon');
   const dayButtons = root.querySelectorAll('[data-day-type]');
 
+  function nearness(hour: number, center: number, radius: number) {
+    return Math.max(0, 1 - Math.abs(hour - center) / radius);
+  }
+
+  function setNear(mark: Element | null, value: number) {
+    if (!(mark instanceof HTMLElement)) return;
+    mark.style.setProperty('--near', value.toFixed(3));
+  }
+
   function updateHour(hour: number) {
     if (!(slider instanceof HTMLInputElement)) return;
     slider.value = String(hour);
@@ -24,8 +33,8 @@ export function initControls() {
     if (display) display.textContent = hoursLabels[hour] ?? `${String(hour).padStart(2, '0')}:00`;
     setMapState({ hour });
 
-    sunMark?.classList.toggle('is-near', hour >= 9 && hour <= 15);
-    moonMark?.classList.toggle('is-near', hour >= 21);
+    setNear(sunMark, nearness(hour, 12, 4));
+    setNear(moonMark, nearness(hour, 23, 3));
   }
 
   slider?.addEventListener('input', () => {

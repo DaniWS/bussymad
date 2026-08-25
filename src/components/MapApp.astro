@@ -14,7 +14,7 @@ const strings = t(locale);
 ---
 
 <div class="app">
-  <Header locale={locale} currentPath={currentPath} stationCount={259} />
+  <Header locale={locale} currentPath={currentPath} stationCount={259} surface="app" />
 
   <main class="app__main" id="map-root">
     <div
@@ -40,7 +40,8 @@ const strings = t(locale);
   .app {
     display: flex;
     flex-direction: column;
-    height: 100dvh;
+    flex: 1;
+    min-height: 0;
     overflow: hidden;
   }
 

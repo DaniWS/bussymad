@@ -37,7 +37,7 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
                 <path class="sun-ray" style="--dx: -0.707; --dy: 0.707" d="M4.93 19.07l1.41-1.41"></path>
                 <path class="sun-ray" style="--dx: 0.707; --dy: -0.707" d="M17.66 6.34l1.41-1.41"></path>
               </g>
-              <circle cx="12" cy="12" r="5"></circle>
+              <circle class="sun-core" cx="12" cy="12" r="5"></circle>
             </svg>
           </span>
           <span class="time-control__mark time-control__mark--moon">
@@ -208,6 +208,7 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
   }
 
   .time-control__mark {
+    --near: 0;
     position: absolute;
     top: 50%;
     width: 1.4375rem;
@@ -217,24 +218,28 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
     transform: translate(-50%, -50%);
   }
 
+  .sun-core,
+  .moon-body path {
+    fill: var(--ink);
+    fill-opacity: var(--near);
+    transition: fill-opacity 0.4s var(--ease);
+  }
+
   .sun-ray {
     transform-box: fill-box;
     transform-origin: center;
     transition: transform 0.4s var(--ease);
-  }
-
-  .time-control__mark--sun.is-near .sun-ray {
-    transform: translate(calc(var(--dx) * 3.6px), calc(var(--dy) * 3.6px));
+    transform: translate(
+      calc(var(--dx) * 3.6px * var(--near)),
+      calc(var(--dy) * 3.6px * var(--near))
+    );
   }
 
   .moon-body {
     transform-box: view-box;
     transform-origin: 50% 50%;
     transition: transform 0.45s var(--ease);
-  }
-
-  .time-control__mark--moon.is-near .moon-body {
-    transform: rotate(28deg);
+    transform: rotate(calc(28deg * var(--near)));
   }
 
   .time-control__mark svg {
@@ -346,9 +351,13 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
       color var(--dur) var(--ease);
   }
 
-  .chip:hover:not(:disabled) {
+  .chip:hover:not(:disabled):not(.is-active) {
     border-color: var(--accent);
     color: var(--accent);
+  }
+
+  .chip.is-active:hover:not(:disabled) {
+    filter: brightness(0.92);
   }
 
   .chip.is-active {

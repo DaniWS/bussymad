@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import MapApp from '../../components/MapApp.astro';
+import Landing from '../../components/Landing.astro';
 ---
 
-<BaseLayout locale="en">
-  <MapApp locale="en" currentPath="/en/" />
+<BaseLayout locale="en" layout="site" alternateEs="/" alternateEn="/en/">
+  <Landing locale="en" currentPath="/en/" />
 </BaseLayout>
