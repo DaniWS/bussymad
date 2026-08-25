@@ -16,25 +16,6 @@ export function initControls() {
   const sunMark = root.querySelector('.time-control__mark--sun');
   const moonMark = root.querySelector('.time-control__mark--moon');
   const dayButtons = root.querySelectorAll('[data-day-type]');
-  let nearSun = false;
-  let nearMoon = false;
-
-  function replayMark(mark: Element | null) {
-    if (!(mark instanceof HTMLElement)) return;
-    mark.classList.remove('is-animating');
-    void mark.offsetWidth;
-    mark.classList.add('is-animating');
-  }
-
-  function onMarkAnimationEnd(mark: Element | null, innerSelector: string) {
-    if (!mark) return;
-    mark.querySelector(innerSelector)?.addEventListener('animationend', () => {
-      mark.classList.remove('is-animating');
-    });
-  }
-
-  onMarkAnimationEnd(sunMark, '.sun-rays');
-  onMarkAnimationEnd(moonMark, '.moon-body');
 
   function updateHour(hour: number) {
     if (!(slider instanceof HTMLInputElement)) return;
@@ -43,12 +24,8 @@ export function initControls() {
     if (display) display.textContent = hoursLabels[hour] ?? `${String(hour).padStart(2, '0')}:00`;
     setMapState({ hour });
 
-    const sun = hour >= 11 && hour <= 13;
-    const moon = hour >= 22;
-    if (sun && !nearSun) replayMark(sunMark);
-    if (moon && !nearMoon) replayMark(moonMark);
-    nearSun = sun;
-    nearMoon = moon;
+    sunMark?.classList.toggle('is-near', hour >= 11 && hour <= 13);
+    moonMark?.classList.toggle('is-near', hour >= 22);
   }
 
   slider?.addEventListener('input', () => {

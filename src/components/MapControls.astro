@@ -28,16 +28,16 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
           <span class="time-control__mark time-control__mark--sun">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
               <g class="sun-rays">
-                <path d="M12 2v2"></path>
-                <path d="M12 20v2"></path>
-                <path d="M4.93 4.93l1.41 1.41"></path>
-                <path d="M17.66 17.66l1.41 1.41"></path>
-                <path d="M2 12h2"></path>
-                <path d="M20 12h2"></path>
-                <path d="M4.93 19.07l1.41-1.41"></path>
-                <path d="M17.66 6.34l1.41-1.41"></path>
+                <path class="sun-ray" style="--dx: 0; --dy: -1" d="M12 2v2"></path>
+                <path class="sun-ray" style="--dx: 0; --dy: 1" d="M12 20v2"></path>
+                <path class="sun-ray" style="--dx: -0.707; --dy: -0.707" d="M4.93 4.93l1.41 1.41"></path>
+                <path class="sun-ray" style="--dx: 0.707; --dy: 0.707" d="M17.66 17.66l1.41 1.41"></path>
+                <path class="sun-ray" style="--dx: -1; --dy: 0" d="M2 12h2"></path>
+                <path class="sun-ray" style="--dx: 1; --dy: 0" d="M20 12h2"></path>
+                <path class="sun-ray" style="--dx: -0.707; --dy: 0.707" d="M4.93 19.07l1.41-1.41"></path>
+                <path class="sun-ray" style="--dx: 0.707; --dy: -0.707" d="M17.66 6.34l1.41-1.41"></path>
               </g>
-              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="12" cy="12" r="5"></circle>
             </svg>
           </span>
           <span class="time-control__mark time-control__mark--moon">
@@ -203,52 +203,26 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
     color: var(--ink-muted);
     overflow: visible;
     transform: translate(-50%, -50%);
-    transition: color 0.35s var(--ease);
   }
 
-  .sun-rays,
+  .sun-ray {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .time-control__mark--sun.is-near .sun-ray {
+    transform: translate(calc(var(--dx) * 2px), calc(var(--dy) * 2px));
+  }
+
   .moon-body {
     transform-box: view-box;
     transform-origin: 50% 50%;
+    transition: transform 0.45s var(--ease);
   }
 
-  .time-control__mark--sun.is-animating {
-    color: var(--hour-day);
-  }
-
-  .time-control__mark--sun.is-animating .sun-rays {
-    animation: sun-rays-spread 0.72s var(--ease);
-  }
-
-  .time-control__mark--moon.is-animating {
-    color: var(--hour-night);
-  }
-
-  .time-control__mark--moon.is-animating .moon-body {
-    animation: moon-tilt 0.8s var(--ease);
-  }
-
-  @keyframes sun-rays-spread {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    42% {
-      transform: scale(1.42);
-    }
-  }
-
-  @keyframes moon-tilt {
-    0%,
-    100% {
-      transform: rotate(0deg);
-    }
-    38% {
-      transform: rotate(18deg);
-    }
-    62% {
-      transform: rotate(-4deg);
-    }
+  .time-control__mark--moon.is-near .moon-body {
+    transform: rotate(16deg);
   }
 
   .time-control__mark svg {
