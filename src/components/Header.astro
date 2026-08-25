@@ -29,7 +29,6 @@ const logoHref = homePath(locale);
           <span>{strings.tagline}</span>
         </span>
       </a>
-      <span class="header__badge">{strings.dataBadge}</span>
       {stationCount > 0 && (
         <span class="header__count mono">{stationCount} {strings.stations}</span>
       )}
@@ -263,20 +262,6 @@ const logoHref = homePath(locale);
     text-overflow: ellipsis;
   }
 
-  .header__badge {
-    display: none;
-    padding: 0.2rem 0.5rem;
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
   .header__count {
     display: none;
     font-size: 0.6875rem;
@@ -463,10 +448,6 @@ const logoHref = homePath(locale);
       padding: 0 1.25rem;
     }
 
-    .header__badge {
-      display: inline-flex;
-    }
-
     .header__count {
       display: inline;
     }
@@ -542,8 +523,6 @@ const logoHref = homePath(locale);
       justify-content: flex-end;
       gap: 0.25rem;
       width: 100%;
-      padding-bottom: 0.35rem;
-      border-bottom: 1px solid var(--hairline);
     }
   }
 

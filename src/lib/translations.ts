@@ -33,7 +33,6 @@ export type Copy = {
   locateDenied: string;
   locateOutside: string;
   locateInsecure: string;
-  dataBadge: string;
   dataNote: string;
   viewModeLabel: string;
   viewHourly: string;
@@ -109,7 +108,7 @@ export const copy: Record<Locale, Copy> = {
     siteName: 'BusyMAD',
     tagline: 'Disponibilidad BiciMAD por hora',
     metaDescription:
-      'Mapa interactivo de ocupación de estaciones BiciMAD en Madrid — verano 2022, día laborable o fin de semana.',
+      'Mapa interactivo de ocupación de estaciones BiciMAD en Madrid, día laborable o fin de semana.',
     skipLink: 'Ir al mapa',
     skipContent: 'Ir al contenido',
     openApp: 'Abrir la app',
@@ -144,7 +143,6 @@ export const copy: Record<Locale, Copy> = {
     locateDenied: 'No se pudo obtener la ubicación. Revisa el permiso de GPS.',
     locateOutside: 'Tu ubicación está fuera del área del mapa de Madrid.',
     locateInsecure: 'La ubicación GPS solo funciona en HTTPS (o localhost). Abre el sitio por https://.',
-    dataBadge: 'Verano 2022',
     dataNote: 'Red histórica (~259 estaciones). Los datos en vivo llegarán pronto.',
     viewModeLabel: 'Vista',
     viewHourly: 'Por hora',
@@ -211,7 +209,7 @@ export const copy: Record<Locale, Copy> = {
     siteName: 'BusyMAD',
     tagline: 'BiciMAD availability by hour',
     metaDescription:
-      'Interactive map of BiciMAD station occupancy in Madrid — summer 2022, weekday or weekend.',
+      'Interactive map of BiciMAD station occupancy in Madrid, weekday or weekend.',
     skipLink: 'Skip to map',
     skipContent: 'Skip to content',
     openApp: 'Open the app',
@@ -246,7 +244,6 @@ export const copy: Record<Locale, Copy> = {
     locateDenied: 'Could not get your location. Check GPS permission.',
     locateOutside: 'Your location is outside the Madrid map area.',
     locateInsecure: 'GPS only works over HTTPS (or localhost). Open the site via https://.',
-    dataBadge: 'Summer 2022',
     dataNote: 'Historical network (~259 stations). Live data coming soon.',
     viewModeLabel: 'View',
     viewHourly: 'By hour',

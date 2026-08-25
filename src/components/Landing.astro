@@ -22,7 +22,6 @@ const href = appPath(locale);
       <span class="hero__mark" aria-hidden="true">
         <img src="/logo.png?v=2" alt="" width="179" height="179" />
       </span>
-      <p class="hero__kicker">{strings.dataBadge}</p>
       <h1>{strings.siteName}</h1>
       <p class="hero__lede">{strings.landingLede}</p>
       <a class="hero__cta" href={href}>{strings.openApp}</a>
@@ -110,16 +109,6 @@ const href = appPath(locale);
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-
-  .hero__kicker {
-    margin: 0 0 0.45rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent);
   }
 
   h1 {
