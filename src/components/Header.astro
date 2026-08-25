@@ -14,7 +14,7 @@ interface Props {
 
 const { locale, currentPath, stationCount = 0, surface = 'site' } = Astro.props;
 const strings = t(locale);
-const logoHref = surface === 'app' ? appPath(locale) : homePath(locale);
+const logoHref = homePath(locale);
 ---
 
 <header class="header" data-header>

@@ -9,6 +9,11 @@ export type Copy = {
   openApp: string;
   landingLede: string;
   landingHint: string;
+  demoLabel: string;
+  demoHourlyCaption: string;
+  demoRatingCaption: string;
+  demoHourlyAlt: string;
+  demoRatingAlt: string;
   installAsk: string;
   installAction: string;
   installLater: string;
@@ -97,6 +102,11 @@ export const copy: Record<Locale, Copy> = {
     landingLede:
       'Mapa interactivo de ocupación de estaciones BiciMAD a lo largo del día — verano 2022, laborable o fin de semana.',
     landingHint: 'También puedes instalarla como app en el móvil.',
+    demoLabel: 'Dos modos',
+    demoHourlyCaption: 'Desliza la hora y ve la disponibilidad de cada estación.',
+    demoRatingCaption: 'Chequea si tu estación cercana es buena o mala.',
+    demoHourlyAlt: 'Demostración del modo por hora: mapa y control de la hora del día.',
+    demoRatingAlt: 'Demostración del modo Rating: ficha de estación con clasificación y ocupación media.',
     installAsk: '¿Instalar BusyMAD como app?',
     installAction: 'Instalar',
     installLater: 'Ahora no',
@@ -181,6 +191,11 @@ export const copy: Record<Locale, Copy> = {
     landingLede:
       'Interactive map of BiciMAD station occupancy through the day — summer 2022, weekday or weekend.',
     landingHint: 'You can also install it as an app on your phone.',
+    demoLabel: 'Two modes',
+    demoHourlyCaption: 'Drag the time slider to see how many bikes each station has.',
+    demoRatingCaption: 'Rating summarizes the day: hover a station to see if it runs well or poorly.',
+    demoHourlyAlt: 'Demo of hourly mode: map and time-of-day control.',
+    demoRatingAlt: 'Demo of Rating mode: station card with classification and average occupancy.',
     installAsk: 'Install BusyMAD as an app?',
     installAction: 'Install',
     installLater: 'Not now',

@@ -17,20 +17,56 @@ const href = appPath(locale);
 <div class="site">
   <Header locale={locale} currentPath={currentPath} surface="site" />
 
-  <main class="hero" id="main-content">
-    <span class="hero__mark" aria-hidden="true">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="6" cy="17" r="3.2"></circle>
-        <circle cx="18" cy="17" r="3.2"></circle>
-        <path d="M9 17h6M6 14l3-7h6l3 7"></path>
-        <path d="M12 7V4"></path>
-      </svg>
-    </span>
-    <p class="hero__kicker">{strings.dataBadge}</p>
-    <h1>{strings.siteName}</h1>
-    <p class="hero__lede">{strings.landingLede}</p>
-    <a class="hero__cta" href={href}>{strings.openApp}</a>
-    <p class="hero__hint">{strings.landingHint}</p>
+  <main class="page" id="main-content">
+    <div class="hero">
+      <span class="hero__mark" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="17" r="3.2"></circle>
+          <circle cx="18" cy="17" r="3.2"></circle>
+          <path d="M9 17h6M6 14l3-7h6l3 7"></path>
+          <path d="M12 7V4"></path>
+        </svg>
+      </span>
+      <p class="hero__kicker">{strings.dataBadge}</p>
+      <h1>{strings.siteName}</h1>
+      <p class="hero__lede">{strings.landingLede}</p>
+      <a class="hero__cta" href={href}>{strings.openApp}</a>
+      <p class="hero__hint">{strings.landingHint}</p>
+    </div>
+
+    <section class="demo" aria-label={strings.demoLabel}>
+      <figure class="demo__item">
+        <img
+          class="demo__media"
+          src="/demo/hourly.gif"
+          width="560"
+          height="490"
+          alt={strings.demoHourlyAlt}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="demo__caption">
+          <strong>{strings.viewHourly}</strong>
+          <span>{strings.demoHourlyCaption}</span>
+        </figcaption>
+      </figure>
+
+      <figure class="demo__item">
+        <img
+          class="demo__media"
+          src="/demo/rating.png"
+          width="345"
+          height="269"
+          alt={strings.demoRatingAlt}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="demo__caption">
+          <strong>{strings.viewDayPulse}</strong>
+          <span>{strings.demoRatingCaption}</span>
+        </figcaption>
+      </figure>
+    </section>
   </main>
 </div>
 
@@ -41,15 +77,20 @@ const href = appPath(locale);
     min-height: 100dvh;
   }
 
+  .page {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: min(54rem, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2.5rem 0 3.5rem;
+  }
+
   .hero {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
-    flex: 1;
-    width: min(36rem, calc(100% - 2rem));
-    margin: 0 auto;
-    padding: 2.5rem 0 4rem;
+    width: min(36rem, 100%);
   }
 
   .hero__mark {
@@ -98,6 +139,7 @@ const href = appPath(locale);
     color: var(--paper);
     font-size: 1rem;
     font-weight: 600;
+    text-decoration: none;
   }
 
   :global(html[data-theme='dark']) .hero__cta {
@@ -113,5 +155,55 @@ const href = appPath(locale);
     margin: 0.85rem 0 0;
     font-size: 0.8125rem;
     color: var(--ink-muted);
+  }
+
+  .demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.25rem;
+    margin: 2.25rem 0 0;
+    padding: 0;
+  }
+
+  .demo__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .demo__media {
+    display: block;
+    width: 100%;
+    aspect-ratio: 560 / 490;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0.75rem;
+    border: 1px solid var(--hairline);
+    background: #0f1418;
+  }
+
+  .demo__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--ink-muted);
+  }
+
+  .demo__caption strong {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  @media (max-width: 560px) {
+    .demo {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

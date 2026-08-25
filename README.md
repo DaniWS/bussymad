@@ -19,6 +19,13 @@ npm run dev
 # → http://127.0.0.1:4322/en/  (English)
 ```
 
+Landing demos (`public/demo/`) come from local captures in `media/` (gitignored). Re-encode after new recordings:
+
+```bash
+./scripts/encode-demo-media.sh
+# → public/demo/hourly.gif + rating.png
+```
+
 Regenerate station aggregates from raw JSONL (includes Rating quintiles / cutoffs):
 
 ```bash
