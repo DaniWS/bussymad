@@ -200,8 +200,8 @@ export const copy: Record<Locale, Copy> = {
       'BusyMAD es un proyecto personal e independiente. No está afiliado, respaldado ni operado por EMT de Madrid, BiciMAD ni el Ayuntamiento de Madrid. Los mapas y ratings se basan en datos históricos o agregados y se ofrecen «tal cual», sin garantía de exactitud, actualidad ni idoneidad. No uses BusyMAD como única fuente para desplazarte; el uso es bajo tu responsabilidad.',
     licensePrivacyTitle: 'Privacidad',
     licensePrivacy:
-      'BusyMAD usa Umami Cloud (plan gratuito) para estadísticas anónimas de visitas: sin cookies de seguimiento ni identificación personal entre sitios. Solo guarda en tu navegador (localStorage) preferencias locales como el tema y si ocultaste el aviso de instalación. La geolocalización solo se activa si pulsas «Ir a mi ubicación»; la posición la gestiona el navegador en tu dispositivo y no se envía a un servidor de BusyMAD. Si escribes a',
-    licensePrivacyAfter: ', trataré tu mensaje solo para responderte.',
+      'Con base en el interés legítimo de entender el uso anónimo del sitio, BusyMAD usa Umami Cloud (plan gratuito de Umami Software, umami.is) como encargado del tratamiento de estadísticas de visitas. No usa cookies de seguimiento ni identifica personas entre sitios; suele registrar datos técnicos agregados (p. ej. página vista, referrer, tipo de navegador y país aproximado). Solo guarda en tu navegador (localStorage) preferencias locales como el tema y si ocultaste el aviso de instalación. La geolocalización solo se activa si pulsas «Ir a mi ubicación»; la posición la gestiona el navegador en tu dispositivo y no se envía a un servidor de BusyMAD. Para ejercer derechos de privacidad o preguntar, escribe a',
+    licensePrivacyAfter: '; trataré tu mensaje solo para responderte.',
   },
   en: {
     siteName: 'BusyMAD',
@@ -301,8 +301,8 @@ export const copy: Record<Locale, Copy> = {
       'BusyMAD is an independent personal project. It is not affiliated with, endorsed by, or operated by EMT de Madrid, BiciMAD, or the City of Madrid. Maps and ratings are based on historical or aggregated data and are provided “as is”, with no warranty of accuracy, currency, or fitness for purpose. Do not rely on BusyMAD as your only source when travelling; use is at your own risk.',
     licensePrivacyTitle: 'Privacy',
     licensePrivacy:
-      'BusyMAD uses Umami Cloud (free tier) for anonymous visit statistics: no tracking cookies and no cross-site personal identification. It only stores local preferences in your browser (localStorage), such as theme and whether you dismissed the install prompt. Geolocation runs only if you tap “Go to my location”; your position is handled by the browser on your device and is not sent to a BusyMAD server. If you email',
-    licensePrivacyAfter: ', I will use your message only to reply.',
+      'On the basis of legitimate interest in understanding anonymous site usage, BusyMAD uses Umami Cloud (Umami Software’s free tier, umami.is) as a processor for visit statistics. It does not use tracking cookies or identify people across sites; it typically records aggregated technical data (e.g. page viewed, referrer, browser type, and approximate country). BusyMAD only stores local preferences in your browser (localStorage), such as theme and whether you dismissed the install prompt. Geolocation runs only if you tap “Go to my location”; your position is handled by the browser on your device and is not sent to a BusyMAD server. To exercise privacy rights or ask a question, email',
+    licensePrivacyAfter: '; I will use your message only to reply.',
   },
 };
 

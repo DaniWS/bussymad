@@ -45,7 +45,7 @@ npm run preview
 
 Privacy-friendly pageviews via [Umami Cloud](https://cloud.umami.is) (Hobby / free tier). No tracking cookies.
 
-The tracker is in `BaseLayout.astro` (`data-website-id` for this project). It only fires on `busymad.dev` and `busymad.pages.dev` (`data-domains`), so localhost stays quiet. Override with `PUBLIC_UMAMI_WEBSITE_ID` if needed.
+The tracker is in `BaseLayout.astro` (`data-website-id` for this project). It only fires on `busymad.pages.dev` (`data-domains`), so localhost stays quiet. Override with `PUBLIC_UMAMI_WEBSITE_ID` if needed.
 
 ## Install as app (Android WebAPK)
 
