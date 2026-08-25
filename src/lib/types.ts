@@ -17,6 +17,8 @@ export type StationDataset = {
     metric: string;
     dayTypes: string[];
     hours: number[];
+    /** Hours included in Rating mean (overnight excluded). */
+    ratingHours?: number[];
     n_snapshots: number;
     n_stations: number;
     ratingTiers?: RatingTier[];
@@ -31,7 +33,7 @@ export type StationDataset = {
     weekday: (number | null)[][];
     weekend: (number | null)[][];
   };
-  /** 24h mean occupancy per station, parallel to `stations`. */
+  /** Mean occupancy over ratingHours (06–23) per station, parallel to `stations`. */
   meanOccupancy: {
     weekday: (number | null)[];
     weekend: (number | null)[];

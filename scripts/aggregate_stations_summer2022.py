@@ -4,7 +4,7 @@
 Reads monthly JSONL dumps and writes a compact JSON file for the map frontend.
 
 Also computes Rating-mode fields at build time from the dataset:
-  - 24h mean occupancy per station / day type
+  - mean occupancy per station / day type over waking hours (06–23), excluding overnight
   - empirical percentile among stations
   - quintile category (veryBad … veryGood) from those percentiles
   - occupancy cutoffs at P20/P40/P60/P80 for each day type
@@ -25,6 +25,9 @@ MONTH_FILES = [
     "202207.json",
     "202208.json",
 ]
+
+# Rating averages exclude overnight (00–05); hourly profiles still keep all 24h.
+RATING_HOURS = tuple(range(6, 24))
 
 # Quintile edges for Rating labels (fraction of stations with lower mean occupancy).
 RATING_PERCENTILE_EDGES = (0.2, 0.4, 0.6, 0.8)
@@ -49,8 +52,9 @@ def day_type(dt: datetime) -> str:
     return "weekend" if dt.weekday() >= 5 else "weekday"
 
 
-def mean_occupancy(hourly: list[float | None]) -> float | None:
-    vals = [v for v in hourly if v is not None]
+def mean_occupancy(hourly: list[float | None], hours: tuple[int, ...] = RATING_HOURS) -> float | None:
+    """Mean occupancy over selected hours (default: 06–23, no overnight)."""
+    vals = [hourly[h] for h in hours if h < len(hourly) and hourly[h] is not None]
     if not vals:
         return None
     return round(statistics.mean(vals), 4)
@@ -249,6 +253,7 @@ def main() -> None:
             "metric": "occupancy = dock_bikes / total_bases (open stations only)",
             "dayTypes": ["weekday", "weekend"],
             "hours": list(range(24)),
+            "ratingHours": list(RATING_HOURS),
             "n_snapshots": result["n_snapshots"],
             "n_stations": result["n_stations"],
             "ratingTiers": ratings["tiers"],

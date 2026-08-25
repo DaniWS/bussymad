@@ -31,7 +31,7 @@ Regenerate station aggregates from raw JSONL (includes Rating quintiles / cutoff
 ```bash
 npm run data
 # → public/data/stations_summer2022.json
-#   meanOccupancy, percentile, rating per station; meta.ratingCutoffs at P20/P40/P60/P80
+#   meanOccupancy (06–23), percentile, rating per station; meta.ratingCutoffs at P20/P40/P60/P80
 ```
 
 Build for production:
