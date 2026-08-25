@@ -96,8 +96,7 @@ export const copy: Record<Locale, Copy> = {
     openApp: 'Abrir la app',
     landingLede:
       'Mapa interactivo de ocupación de estaciones BiciMAD a lo largo del día — verano 2022, laborable o fin de semana.',
-    landingHint:
-      'En Chrome (Android) instálala por HTTPS para abrirla a pantalla completa, como una app, sin barra del navegador.',
+    landingHint: 'También puedes instalarla como app en el móvil.',
     installAsk: '¿Instalar BusyMAD como app?',
     installAction: 'Instalar',
     installLater: 'Ahora no',
@@ -181,8 +180,7 @@ export const copy: Record<Locale, Copy> = {
     openApp: 'Open the app',
     landingLede:
       'Interactive map of BiciMAD station occupancy through the day — summer 2022, weekday or weekend.',
-    landingHint:
-      'On Chrome (Android), install over HTTPS to open fullscreen like an app, without the browser bar.',
+    landingHint: 'You can also install it as an app on your phone.',
     installAsk: 'Install BusyMAD as an app?',
     installAction: 'Install',
     installLater: 'Not now',
