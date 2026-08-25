@@ -23,7 +23,7 @@ v0 focus is **data feasibility + hourly pattern check**, not the map yet.
 | 900034 históricos viajes+estaciones | [datos.madrid.es](https://datos.madrid.es/dataset/900034-0-bicimad-viajes-estaciones) | Anonymized trips **and** station operational status, Apr 2017 – Feb 2023 | **Primary historical source**. Yearly ZIPs. Last complete summer: **2022**. |
 | EMT históricos 2017–2023 | [datos.emtmadrid.es](https://datos.emtmadrid.es/dataset/historicos-de-bicimad-2017_2023) | Same as 900034 | Mirror; `202206/07/08-json.zip` = station snapshots. |
 | 300242 estaciones día/hora | [datos.madrid.es](https://datos.madrid.es/dataset/300242-0-bicimad-estaciones) | Monthly hourly station status since Jul 2018 | **Locked** (CKAN 403 / auth denied). |
-| GBFS live | [station_status](https://madrid.publicbikesystem.net/customer/gbfs/v2/es/station_status) | Real-time bikes/docks per station | Live only. We self-collect hourly via `scripts/collect_gbfs.py`. |
+| GBFS live | [station_status](https://madrid.publicbikesystem.net/customer/gbfs/v2/es/station_status) | Real-time bikes/docks per station | Live only. We self-collect every 30 min via `scripts/collect_gbfs.py`. |
 
 ### Verification notes (2026-08-24)
 
@@ -49,7 +49,7 @@ v0 focus is **data feasibility + hourly pattern check**, not the map yet.
 
 See [README.md](README.md). Recommendation:
 
-1. **Best for reliable hourly**: GitHub Actions cron (`.github/workflows/collect-gbfs.yml`) — runs while Mac sleeps. Writes `data/collected/gbfs_station_status_YYYY-MM-DD.jsonl` (one file per UTC day, all stations per snapshot). Repo should be public so the schedule fires.
+1. **Best for reliable collection**: GitHub Actions cron every 30 min (`.github/workflows/collect-gbfs.yml`) — runs while Mac sleeps. Writes `data/collected/gbfs_station_status_YYYY-MM-DD.jsonl` (one file per UTC day, all stations per snapshot). Repo should be public so the schedule fires.
 2. **Best local-on-Mac**: `launchd` LaunchAgent (`scripts/com.busymad.gbfs.plist`) — native, but **skips hours while asleep**.
 
 ## Out of scope for v0

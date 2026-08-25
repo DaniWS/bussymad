@@ -8,7 +8,7 @@ Living spec: [SPEC.md](SPEC.md)
 
 - **Interactive map** — Astro + MapLibre, 259 stations, hourly occupancy (Jun–Aug 2022)
 - **Summer 2022 comparison chart** — [viz/summer2022.html](viz/summer2022.html)
-- **GBFS collector** — builds our own hourly history from the live feed (for future all-year / live modes)
+- **GBFS collector** — builds our own history from the live feed (every 30 min; for future all-year / live modes)
 
 ## Local development
 
@@ -62,20 +62,20 @@ Local `npm run preview` over HTTP on a LAN IP will not behave like Cursor’s in
 
 PWA tooling uses `@vite-pwa/astro` (Astro 7 needs `npm install --legacy-peer-deps` until the integration declares a peer for Astro 7).
 
-## Hourly collection from this Mac
+## GBFS collection from this Mac
 
-**Problem:** a laptop sleeps. `cron` / `launchd` jobs do **not** run while macOS is asleep, so you will miss hours overnight or when the lid is closed.
+**Problem:** a laptop sleeps. `cron` / `launchd` jobs do **not** run while macOS is asleep, so you will miss snapshots overnight or when the lid is closed.
 
 ### Recommended: GitHub Actions (reliable 24/7)
 
 Already in the repo: [`.github/workflows/collect-gbfs.yml`](.github/workflows/collect-gbfs.yml)
 
-- Runs every hour at `:05` UTC on GitHub’s runners
+- Runs every 30 minutes (`:05` and `:35` UTC) on GitHub’s runners
 - Appends one line to `data/collected/gbfs_station_status_YYYY-MM-DD.jsonl` (UTC) and commits it
-- Daily files stay ~4 MB, under GitHub’s 100 MB file cap
-- Works even when this Mac is off. The repo should stay **public** so the hourly cron actually fires (and Actions minutes stay free).
+- Daily files stay well under GitHub’s 100 MB file cap (~2× hourly size)
+- Works even when this Mac is off. The repo should stay **public** so the scheduled cron actually fires (and Actions minutes stay free).
 
-Enable Actions on the GitHub repo, then either wait for the schedule or run **Actions → Collect GBFS hourly → Run workflow**.
+Enable Actions on the GitHub repo, then either wait for the schedule or run **Actions → Collect GBFS → Run workflow**.
 
 ### Optional: local `launchd` (when Mac is awake)
 

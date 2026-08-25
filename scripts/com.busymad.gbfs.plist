@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-  Hourly GBFS collector for macOS (launchd).
+  GBFS collector for macOS (launchd), every 30 minutes.
 
   Install:
     1. Edit WorkingDirectory / ProgramArguments paths if your clone is not at ~/busymad
@@ -12,8 +12,8 @@
   Unload:
     launchctl unload ~/Library/LaunchAgents/com.busymad.gbfs.plist
 
-  Caveat: LaunchAgents do NOT run while the Mac is asleep. Missed hours catch up
-  on wake only if you use StartCalendarInterval (one fire per hour after wake,
+  Caveat: LaunchAgents do NOT run while the Mac is asleep. Missed intervals catch up
+  on wake only if you use StartCalendarInterval (one fire per slot after wake,
   not backfill). For reliable 24/7 collection, prefer GitHub Actions.
 -->
 <plist version="1.0">
@@ -30,12 +30,18 @@
     <string>/Users/danielg/busymad/scripts/collect_gbfs.py</string>
   </array>
 
-  <!-- Fire at minute 5 of every hour -->
+  <!-- Fire at :05 and :35 every hour -->
   <key>StartCalendarInterval</key>
-  <dict>
-    <key>Minute</key>
-    <integer>5</integer>
-  </dict>
+  <array>
+    <dict>
+      <key>Minute</key>
+      <integer>5</integer>
+    </dict>
+    <dict>
+      <key>Minute</key>
+      <integer>35</integer>
+    </dict>
+  </array>
 
   <key>StandardOutPath</key>
   <string>/Users/danielg/busymad/data/collected/launchd.out.log</string>
