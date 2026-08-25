@@ -1,0 +1,190 @@
+---
+import type { Locale } from '../lib/i18n';
+import { t } from '../lib/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+---
+
+<button
+  id="theme-toggle"
+  class="theme-switch"
+  type="button"
+  role="switch"
+  aria-checked="false"
+  aria-label={strings.themeToDark}
+  data-label-dark={strings.themeToDark}
+  data-label-light={strings.themeToLight}
+>
+  <span class="theme-switch__icon theme-switch__icon--sun" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2.2M12 19.8V22M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M2 12h2.2M19.8 12H22M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"></path>
+    </svg>
+  </span>
+  <span class="theme-switch__track" aria-hidden="true">
+    <span class="theme-switch__thumb"></span>
+  </span>
+  <span class="theme-switch__icon theme-switch__icon--moon" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.5 14.5A8.2 8.2 0 0 1 9.5 3.5 8.5 8.5 0 1 0 20.5 14.5z"></path>
+    </svg>
+  </span>
+</button>
+
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    function current() {
+      return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    function sync() {
+      var dark = current() === 'dark';
+      btn.setAttribute('aria-checked', dark ? 'true' : 'false');
+      btn.setAttribute('aria-label', dark ? btn.dataset.labelLight : btn.dataset.labelDark);
+      btn.classList.toggle('is-dark', dark);
+    }
+
+    function setTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (e) {}
+      sync();
+    }
+
+    btn.addEventListener('click', function () {
+      btn.classList.add('is-ready');
+      setTheme(current() === 'dark' ? 'light' : 'dark');
+    });
+
+    sync();
+  })();
+</script>
+
+<style>
+  .theme-switch {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-muted);
+    cursor: pointer;
+  }
+
+  .theme-switch:hover,
+  .theme-switch:focus-visible {
+    color: var(--ink);
+  }
+
+  .theme-switch:hover .theme-switch__track,
+  .theme-switch:focus-visible .theme-switch__track {
+    border-color: var(--accent);
+  }
+
+  .theme-switch__icon {
+    display: grid;
+    place-items: center;
+    color: var(--ink-muted);
+    opacity: 0.45;
+    transform: scale(0.92) rotate(0deg);
+  }
+
+  .theme-switch.is-ready .theme-switch__icon {
+    transition:
+      color 0.28s ease,
+      opacity 0.28s ease,
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme-switch__icon svg {
+    display: block;
+  }
+
+  .theme-switch:not(.is-dark) .theme-switch__icon--sun,
+  .theme-switch.is-dark .theme-switch__icon--moon {
+    color: var(--accent);
+    opacity: 1;
+    transform: scale(1.18) rotate(0deg);
+  }
+
+  .theme-switch.is-ready:not(.is-dark) .theme-switch__icon--sun {
+    animation: theme-sun-select 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme-switch.is-ready.is-dark .theme-switch__icon--moon {
+    animation: theme-moon-select 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes theme-sun-select {
+    from {
+      transform: scale(0.92) rotate(0deg);
+    }
+
+    45% {
+      transform: scale(1.28) rotate(36deg);
+    }
+
+    to {
+      transform: scale(1.18) rotate(0deg);
+    }
+  }
+
+  @keyframes theme-moon-select {
+    from {
+      transform: scale(0.92) rotate(0deg);
+    }
+
+    45% {
+      transform: scale(1.28) rotate(-30deg);
+    }
+
+    to {
+      transform: scale(1.18) rotate(0deg);
+    }
+  }
+
+  .theme-switch__track {
+    position: relative;
+    width: 2.15rem;
+    height: 1.2rem;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    background: var(--track-fill);
+    transition: border-color var(--dur) ease;
+  }
+
+  .theme-switch__thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--ink);
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .theme-switch.is-dark .theme-switch__thumb {
+    transform: translateX(14px);
+    background: var(--accent);
+  }
+
+  @media (max-width: 720px) {
+    .theme-switch {
+      height: 2.5rem;
+    }
+  }
+</style>

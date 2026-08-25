@@ -1,0 +1,21 @@
+Third-party material in BussyMAD is not covered by the project CC BY-NC-ND 4.0
+license. Those works remain under their own terms.
+
+BiciMAD / EMT / Ayuntamiento de Madrid
+  Historical station occupancy (dataset 900034 and related dumps) and the live
+  GBFS feeds are published by the City of Madrid / EMT. Their original licences
+  and terms of use apply. BussyMAD claims no copyright over that raw data.
+
+OpenStreetMap
+  Map tiles and place names © OpenStreetMap contributors.
+  https://www.openstreetmap.org/copyright
+
+OpenFreeMap
+  Basemap styles Liberty and Fiord. https://openfreemap.org/
+
+MapLibre GL JS
+  BSD-3-Clause. https://github.com/maplibre/maplibre-gl-js
+
+Fonts
+  DM Sans and JetBrains Mono via Fontsource, under their respective SIL OFL
+  licences.

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/LegalPage.astro';
+import { t } from '../lib/translations';
+
+const strings = t('es');
+---
+
+<BaseLayout
+  locale="es"
+  title={strings.licensePageTitle}
+  layout="doc"
+  alternateEs="/licencia/"
+  alternateEn="/en/license/"
+>
+  <LegalPage locale="es" currentPath="/licencia/" />
+</BaseLayout>

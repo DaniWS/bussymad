@@ -1,0 +1,78 @@
+---
+import { locales, localeLabels, getAlternatePath, getCurrentLocale } from '../lib/i18n';
+import type { Locale } from '../lib/i18n';
+import { t } from '../lib/translations';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const currentLocale = getCurrentLocale(currentPath);
+const strings = t(currentLocale);
+
+const localeNames: Record<Locale, string> = {
+  es: 'Español',
+  en: 'English',
+};
+---
+
+<nav class="lang" aria-label={strings.langGroup}>
+  {
+    locales.map((loc) => {
+      const isActive = loc === currentLocale;
+      return (
+        <a
+          class:list={['lang__link', { 'is-active': isActive }]}
+          href={getAlternatePath(currentPath, loc)}
+          hreflang={loc}
+          lang={loc}
+          aria-current={isActive ? 'page' : undefined}
+          title={localeNames[loc]}
+        >
+          {localeLabels[loc]}
+        </a>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .lang {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--control-radius);
+    background: var(--chip-bg);
+  }
+
+  .lang__link {
+    display: grid;
+    place-items: center;
+    min-width: 2.45rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: calc(var(--control-radius) - 2px);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink-muted);
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .lang__link:hover,
+  .lang__link:focus-visible {
+    color: var(--ink);
+  }
+
+  .lang__link.is-active {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  :global(html[data-theme='dark']) .lang__link.is-active {
+    color: #141816;
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import '@fontsource/dm-sans/latin-400.css';
+import '@fontsource/dm-sans/latin-500.css';
+import '@fontsource/dm-sans/latin-600.css';
+import '@fontsource/dm-sans/latin-700.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '../styles/global.css';
+import type { Locale } from '../lib/i18n';
+import { t } from '../lib/translations';
+
+interface Props {
+  locale?: Locale;
+  title?: string;
+  layout?: 'map' | 'doc';
+  alternateEs?: string;
+  alternateEn?: string;
+}
+
+const locale = Astro.props.locale ?? 'es';
+const layout = Astro.props.layout ?? 'map';
+const strings = t(locale);
+const pageTitle = Astro.props.title ?? `${strings.siteName} · ${strings.tagline}`;
+const siteOrigin = Astro.site?.origin ?? 'https://bussymad.dev';
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
+const esPath = Astro.props.alternateEs ?? '/';
+const enPath = Astro.props.alternateEn ?? '/en/';
+const esUrl = new URL(esPath, siteOrigin).href;
+const enUrl = new URL(enPath, siteOrigin).href;
+const skipHref = layout === 'doc' ? '#main-content' : '#map-root';
+const skipLabel = layout === 'doc' ? strings.skipContent : strings.skipLink;
+---
+
+<!doctype html>
+<html lang={locale} data-layout={layout}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={strings.metaDescription} />
+    <meta name="author" content="Daniel Vilela García" />
+    <meta name="copyright" content="© 2026 Daniel Vilela García" />
+    <meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141816" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
+    <link rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme =
+            stored === 'dark' || stored === 'light'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href={skipHref}>{skipLabel}</a>
+    <slot />
+  </body>
+</html>

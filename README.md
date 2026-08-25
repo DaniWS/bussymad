@@ -1,19 +1,36 @@
 # bussymad
 
-BiciMAD station availability over the day — data exploration first, map/PWA later.
+BiciMAD station availability over the day — interactive map with summer 2022 historical data.
 
 Living spec: [SPEC.md](SPEC.md)
 
 ## What’s here
 
-- **Summer 2022 comparison** — citywide hourly occupancy Jun vs Jul vs Aug  
-  Open: [viz/summer2022.html](viz/summer2022.html) (serve the repo root so `fetch` works)
-- **GBFS collector** — builds our own hourly history from the live feed (needed because public occupancy archives stop in Feb 2023)
+- **Interactive map** — Astro + MapLibre, 259 stations, hourly occupancy (Jun–Aug 2022)
+- **Summer 2022 comparison chart** — [viz/summer2022.html](viz/summer2022.html)
+- **GBFS collector** — builds our own hourly history from the live feed (for future all-year / live modes)
+
+## Local development
 
 ```bash
-# View the chart
-python3 -m http.server 8765
-# open http://127.0.0.1:8765/viz/summer2022.html
+npm install
+npm run dev
+# → http://127.0.0.1:4322/  (Spanish)
+# → http://127.0.0.1:4322/en/  (English)
+```
+
+Regenerate station aggregates from raw JSONL:
+
+```bash
+npm run data
+# → public/data/stations_summer2022.json
+```
+
+Build for production:
+
+```bash
+npm run build
+npm run preview
 ```
 
 ## Hourly collection from this Mac
@@ -68,3 +85,11 @@ python3 scripts/aggregate_summer2022.py \
 ```
 
 Raw yearly dumps live under `data/raw/` (gitignored).
+
+## License
+
+Copyright © 2026 Daniel Vilela García.
+
+BussyMAD (code, UI, design, documentation, and original visualizations) is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/): non-commercial use only, no derivatives, attribution required. See [LICENSE](LICENSE), [COPYRIGHT](COPYRIGHT), and [NOTICE](NOTICE).
+
+BiciMAD / EMT / City of Madrid data and OpenStreetMap tiles are not covered by that licence.
