@@ -24,8 +24,11 @@ export type StationDataset = {
   };
 };
 
+export type ViewMode = 'hourly' | 'dayPulse';
+
 export type MapState = {
   hour: number;
   dayType: 'weekday' | 'weekend';
   season: 'summer';
+  viewMode: ViewMode;
 };

@@ -1,4 +1,4 @@
-# bussymad
+# busymad
 
 BiciMAD station availability over the day — interactive map with summer 2022 historical data.
 
@@ -35,9 +35,9 @@ npm run preview
 
 ## Install as app (Android WebAPK)
 
-Chrome on Android can install a real **WebAPK** (clean icon in the app drawer, `standalone` without the browser bar) only over **HTTPS** — e.g. [https://bussymad.dev](https://bussymad.dev) or an HTTPS tunnel. Opening the site via `http://192.168.…` only creates a **shortcut** with a Chrome badge.
+Chrome on Android can install a real **WebAPK** (clean icon in the app drawer, `standalone` without the browser bar) only over **HTTPS** — e.g. [https://busymad.dev](https://busymad.dev) or an HTTPS tunnel. Opening the site via `http://192.168.…` only creates a **shortcut** with a Chrome badge.
 
-1. On the phone, open **https://bussymad.dev** in **Chrome** (not Firefox — Firefox cannot mint WebAPKs).
+1. On the phone, open **https://busymad.dev** in **Chrome** (not Firefox — Firefox cannot mint WebAPKs).
 2. When Chrome offers install (or the banner’s **Instalar** button appears), install it.
 3. Delete any **old** home-screen icon that still has the Chrome logo badge, then open only the new app icon.
 4. Optional checks: `chrome://webapk-list`, or remote DevTools → Application → Manifest + Service Workers.
@@ -66,11 +66,11 @@ Enable Actions on the GitHub repo, then either wait for the schedule or run **Ac
 Native macOS scheduler — better than `cron` on modern Macs, but still sleep-bound.
 
 ```bash
-# Paths in the plist already point at /Users/danielg/bussymad and Homebrew python3
-cp scripts/com.bussymad.gbfs.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.bussymad.gbfs.plist
+# Paths in the plist already point at /Users/danielg/busymad and Homebrew python3
+cp scripts/com.busymad.gbfs.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.busymad.gbfs.plist
 # immediate test:
-launchctl start com.bussymad.gbfs
+launchctl start com.busymad.gbfs
 # or:
 python3 scripts/collect_gbfs.py
 ```
@@ -80,7 +80,7 @@ Logs: `data/collected/launchd.out.log` / `launchd.err.log`
 Unload later:
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.bussymad.gbfs.plist
+launchctl unload ~/Library/LaunchAgents/com.busymad.gbfs.plist
 ```
 
 ### Practical combo
@@ -103,6 +103,6 @@ Raw yearly dumps live under `data/raw/` (gitignored).
 
 Copyright © 2026 Daniel Vilela García.
 
-BussyMAD (code, UI, design, documentation, and original visualizations) is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/): non-commercial use only, no derivatives, attribution required. See [LICENSE](LICENSE), [COPYRIGHT](COPYRIGHT), and [NOTICE](NOTICE).
+BusyMAD (code, UI, design, documentation, and original visualizations) is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/): non-commercial use only, no derivatives, attribution required. See [LICENSE](LICENSE), [COPYRIGHT](COPYRIGHT), and [NOTICE](NOTICE).
 
 BiciMAD / EMT / City of Madrid data and OpenStreetMap tiles are not covered by that licence.

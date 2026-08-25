@@ -1,12 +1,13 @@
-# Bussymad — living spec
+# Busymad — living spec
 
 Iterative product/data spec. Update this file as we learn more.
 
 ## Product intent
 
-Bussymad is a web / responsive mobile app that shows a **map of BiciMAD station availability at a chosen time of day**.
+Busymad is a web / responsive mobile app that shows a **map of BiciMAD station availability at a chosen time of day**.
 
 - Time slider at **1h** intervals (30 min later if data supports it).
+- **Rating** view mode: per-station **mean occupancy across the 24h** (best/worst stations in general).
 - Color gradient: **red (low bikes)** → **green (high bikes)**.
 - Primary metric: **occupancy rate** `dock_bikes / total_bases` (not raw bike counts).
 - **Season toggle:** `summer` (Jun–Aug typical day) vs `all-year` (full-year typical day).
@@ -49,7 +50,7 @@ v0 focus is **data feasibility + hourly pattern check**, not the map yet.
 See [README.md](README.md). Recommendation:
 
 1. **Best for reliable hourly**: GitHub Actions cron (`.github/workflows/collect-gbfs.yml`) — runs while Mac sleeps. Writes `data/collected/gbfs_station_status_YYYY-MM-DD.jsonl` (one file per UTC day, all stations per snapshot). Repo should be public so the schedule fires.
-2. **Best local-on-Mac**: `launchd` LaunchAgent (`scripts/com.bussymad.gbfs.plist`) — native, but **skips hours while asleep**.
+2. **Best local-on-Mac**: `launchd` LaunchAgent (`scripts/com.busymad.gbfs.plist`) — native, but **skips hours while asleep**.
 
 ## Out of scope for v0
 

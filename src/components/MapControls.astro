@@ -14,10 +14,21 @@ const tickHours = [0, 6, 12, 18, 23];
 const hoursLabels = hours.map((h) => formatHour(h, locale));
 ---
 
-<div class="controls" data-controls data-hours-labels={JSON.stringify(hoursLabels)}>
+<div class="controls" data-controls data-hours-labels={JSON.stringify(hoursLabels)} data-day-pulse-value={strings.dayPulseValue} data-view-mode="hourly">
   <p class="controls__note">{strings.dataNote}</p>
 
   <div class="controls__row">
+    <div class="control-group">
+      <span class="control-group__label" id="view-mode-label">{strings.viewModeLabel}</span>
+      <div class="chip-group chip-group--row" role="group" aria-labelledby="view-mode-label">
+        <button type="button" class="chip is-active" data-view-mode="hourly" aria-pressed="true">{strings.viewHourly}</button>
+        <button type="button" class="chip" data-view-mode="dayPulse" aria-pressed="false">{strings.viewDayPulse}</button>
+      </div>
+      <p class="controls__mode-hint" data-mode-hint hidden>{strings.dayPulseHint}</p>
+    </div>
+  </div>
+
+  <div class="controls__row" data-time-block>
     <div class="control-group">
       <label class="control-group__label" for="hour-slider">{strings.timeLabel}</label>
       <div class="time-control">
@@ -120,6 +131,22 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
     font-size: 0.75rem;
     line-height: 1.45;
     color: var(--ink-muted);
+  }
+
+  .controls__mode-hint {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--ink-muted);
+  }
+
+  .controls__mode-hint[hidden] {
+    display: none;
+  }
+
+  .controls[data-view-mode='dayPulse'] [data-time-block] {
+    opacity: 0.4;
+    pointer-events: none;
   }
 
   .controls__row {
@@ -267,6 +294,10 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
     cursor: pointer;
   }
 
+  .time-control__slider:disabled {
+    cursor: not-allowed;
+  }
+
   .time-control__slider::-webkit-slider-runnable-track {
     height: 0.35rem;
     border-radius: 999px;
@@ -325,6 +356,14 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
     align-items: stretch;
     gap: 0.4rem;
     min-width: 0;
+  }
+
+  .chip-group--row {
+    flex-direction: row;
+  }
+
+  .chip-group--row .chip {
+    flex: 1;
   }
 
   .chip {

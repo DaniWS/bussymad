@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import AstroPWA from '@vite-pwa/astro';
 
 export default defineConfig({
-  site: 'https://bussymad.dev',
+  site: 'https://busymad.dev',
   output: 'static',
   i18n: {
     defaultLocale: 'es',
@@ -33,8 +33,8 @@ export default defineConfig({
       ],
       manifest: {
         id: '/',
-        name: 'BussyMAD',
-        short_name: 'BussyMAD',
+        name: 'BusyMAD',
+        short_name: 'BusyMAD',
         description: 'BiciMAD station occupancy by hour',
         start_url: '/app/',
         scope: '/',
@@ -74,12 +74,15 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2,json,webmanifest}'],
+        // Offline shell only for Spanish /app/. Never intercept /en/* or the SW
+        // serves Spanish HTML at English URLs and freezes the language switcher.
         navigateFallback: '/app/',
-        navigateFallbackAllowlist: [/^\/app/, /^\/en\/app/],
+        navigateFallbackAllowlist: [/^\/app\/?$/],
+        navigateFallbackDenylist: [/^\/en(?:\/|$)/],
       },
       devOptions: {
-        enabled: true,
-        navigateFallbackAllowlist: [/^\/app/, /^\/en\/app/],
+        // Dev SW caused ES↔EN to stick after one switch; use network in development.
+        enabled: false,
       },
     }),
   ],

@@ -23,6 +23,7 @@ const strings = t(locale);
       role="application"
       aria-label={strings.tagline}
       data-occupancy={strings.occupancy}
+      data-avg-occupancy={strings.avgOccupancy}
       data-bikes={strings.bikes}
       data-docks={strings.docks}
       data-no-data={strings.noData}
@@ -83,7 +84,7 @@ const strings = t(locale);
     z-index: 3;
   }
 
-  :global(.bussymad-popup .maplibregl-popup-content) {
+  :global(.busymad-popup .maplibregl-popup-content) {
     padding: 0.55rem 0.7rem;
     border-radius: 0.55rem;
     background: var(--paper-elevated);
@@ -167,6 +168,7 @@ const strings = t(locale);
     const locale = mapEl.dataset.locale === 'en' ? 'en' : 'es';
     const localeStrings = {
       occupancy: mapEl.dataset.occupancy ?? 'Occupancy',
+      avgOccupancy: mapEl.dataset.avgOccupancy ?? 'Avg occupancy',
       bikes: mapEl.dataset.bikes ?? 'bikes',
       docks: mapEl.dataset.docks ?? 'docks',
       noData: mapEl.dataset.noData ?? mapEl.getAttribute('data-no-data') ?? 'No data',

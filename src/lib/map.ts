@@ -1,12 +1,13 @@
 import maplibregl from 'maplibre-gl';
 import type { Copy } from './translations';
 import { occupancyColorExpression, MAP_STYLES, MAP_THEME } from './colors';
-import type { MapState, StationDataset } from './types';
+import type { MapState, StationDataset, ViewMode } from './types';
 import type { Locale } from './i18n';
 
 type LocaleStrings = Pick<
   Copy,
   | 'occupancy'
+  | 'avgOccupancy'
   | 'bikes'
   | 'docks'
   | 'noData'
@@ -19,10 +20,11 @@ type LocaleStrings = Pick<
 
 let map: maplibregl.Map | null = null;
 let dataset: StationDataset | null = null;
-let state: MapState = { hour: 8, dayType: 'weekday', season: 'summer' };
+let state: MapState = { hour: 8, dayType: 'weekday', season: 'summer', viewMode: 'hourly' };
 let mapLocale: Locale = 'es';
 let localeStrings: LocaleStrings = {
   occupancy: 'Occupancy',
+  avgOccupancy: 'Avg occupancy',
   bikes: 'bikes',
   docks: 'docks',
   noData: 'No data',
@@ -56,12 +58,30 @@ function localeTag(): string {
   return mapLocale === 'es' ? 'es-ES' : 'en-GB';
 }
 
-function buildGeoJSON(data: StationDataset, hour: number, dayType: 'weekday' | 'weekend') {
+function meanOccupancy(hours: (number | null)[] | undefined): number | null {
+  if (!hours) return null;
+  let sum = 0;
+  let n = 0;
+  for (const v of hours) {
+    if (v === null || v === undefined) continue;
+    sum += v;
+    n += 1;
+  }
+  return n === 0 ? null : sum / n;
+}
+
+function buildGeoJSON(
+  data: StationDataset,
+  hour: number,
+  dayType: 'weekday' | 'weekend',
+  viewMode: ViewMode,
+) {
   const profile = data.profiles[dayType];
   return {
     type: 'FeatureCollection' as const,
     features: data.stations.map((st, i) => {
-      const occ = profile[i]?.[hour] ?? null;
+      const row = profile[i];
+      const occ = viewMode === 'dayPulse' ? meanOccupancy(row) : (row?.[hour] ?? null);
       return {
         type: 'Feature' as const,
         geometry: {
@@ -81,7 +101,7 @@ function buildGeoJSON(data: StationDataset, hour: number, dayType: 'weekday' | '
 
 function updateSource() {
   if (!map || !dataset) return;
-  const geojson = buildGeoJSON(dataset, state.hour, state.dayType);
+  const geojson = buildGeoJSON(dataset, state.hour, state.dayType, state.viewMode);
   const source = map.getSource(SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
   source?.setData(geojson);
 }
@@ -187,6 +207,16 @@ function formatPopup(name: string, occ: number | null, totalBases: number): stri
     occ === null
       ? localeStrings.noData
       : new Intl.NumberFormat(localeTag(), { style: 'percent', maximumFractionDigits: 0 }).format(occ);
+
+  if (state.viewMode === 'dayPulse') {
+    return `
+    <div class="map-popup">
+      <strong>${escapeHtml(name)}</strong>
+      <span>${localeStrings.avgOccupancy}: <em>${pct}</em></span>
+    </div>
+  `;
+  }
+
   const bikes = occ === null ? '—' : String(Math.round(occ * totalBases));
   return `
     <div class="map-popup">
@@ -212,7 +242,7 @@ export async function initMap(container: HTMLElement, locale: Locale, strings: L
     closeButton: false,
     closeOnClick: false,
     offset: 12,
-    className: 'bussymad-popup',
+    className: 'busymad-popup',
   });
 
   const res = await fetch('/data/stations_summer2022.json');

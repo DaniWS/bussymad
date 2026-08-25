@@ -26,6 +26,12 @@ export type Copy = {
   locateInsecure: string;
   dataBadge: string;
   dataNote: string;
+  viewModeLabel: string;
+  viewHourly: string;
+  viewDayPulse: string;
+  dayPulseHint: string;
+  dayPulseValue: string;
+  avgOccupancy: string;
   timeLabel: string;
   dayTypeLabel: string;
   weekday: string;
@@ -76,7 +82,7 @@ export const PERSONAL_SITE_URL = 'https://dani.dev';
 
 export const copy: Record<Locale, Copy> = {
   es: {
-    siteName: 'BussyMAD',
+    siteName: 'BusyMAD',
     tagline: 'Disponibilidad BiciMAD por hora',
     metaDescription:
       'Mapa interactivo de ocupación de estaciones BiciMAD en Madrid — verano 2022, día laborable o fin de semana.',
@@ -87,16 +93,16 @@ export const copy: Record<Locale, Copy> = {
       'Mapa interactivo de ocupación de estaciones BiciMAD a lo largo del día — verano 2022, laborable o fin de semana.',
     landingHint:
       'En Chrome (Android) instálala por HTTPS para abrirla a pantalla completa, como una app, sin barra del navegador.',
-    installAsk: '¿Instalar BussyMAD como app?',
+    installAsk: '¿Instalar BusyMAD como app?',
     installAction: 'Instalar',
     installLater: 'Ahora no',
     installIosHint: 'En Safari: Compartir → «Añadir a pantalla de inicio». Luego ábrela desde el icono.',
     installFirefoxHint:
-      'Firefox no puede instalar BussyMAD como app a pantalla completa. Ábrela en Chrome (Android) por HTTPS e instálala ahí.',
+      'Firefox no puede instalar BusyMAD como app a pantalla completa. Ábrela en Chrome (Android) por HTTPS e instálala ahí.',
     installChromeWaitHint:
       'Usa el botón Instalar cuando Chrome lo ofrezca. Borra antes cualquier icono viejo con el logo de Chrome.',
     installInsecureHint:
-      'Para una app real (icono limpio, pantalla completa) abre https://bussymad.dev en Chrome. Por HTTP solo se crea un acceso con badge de Chrome.',
+      'Para una app real (icono limpio, pantalla completa) abre https://busymad.dev en Chrome. Por HTTP solo se crea un acceso con badge de Chrome.',
     installFullscreenHint: 'Ábrela desde el icono instalado (sin badge de Chrome) para usarla sin la barra del navegador.',
     installRemoveOldHint: 'Si ya tenías un acceso con el icono de Chrome debajo, elimínalo e instala de nuevo desde Chrome.',
     menuOpen: 'Abrir menú',
@@ -107,6 +113,13 @@ export const copy: Record<Locale, Copy> = {
     locateInsecure: 'La ubicación GPS solo funciona en HTTPS (o localhost). Abre el sitio por https://.',
     dataBadge: 'Verano 2022',
     dataNote: 'Red histórica (~259 estaciones). Los datos en vivo llegarán pronto.',
+    viewModeLabel: 'Vista',
+    viewHourly: 'Por hora',
+    viewDayPulse: 'Rating',
+    dayPulseHint:
+      'Promedio de ocupación a lo largo del día. Verde: estaciones que suelen tener más bicis; rojo: las que suelen ir más vacías.',
+    dayPulseValue: '24 h',
+    avgOccupancy: 'Ocupación media',
     timeLabel: 'Hora del día',
     dayTypeLabel: 'Tipo de día',
     weekday: 'Laborable',
@@ -136,7 +149,7 @@ export const copy: Record<Locale, Copy> = {
     licensePageTitle: 'Licencia y copyright',
     licenseBack: 'Volver al mapa',
     licenseIntro:
-      'BussyMAD (código, interfaz, diseño, documentación y visualizaciones originales) es obra de Daniel Vilela García y está protegida por copyright. Se publica bajo Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional.',
+      'BusyMAD (código, interfaz, diseño, documentación y visualizaciones originales) es obra de Daniel Vilela García y está protegida por copyright. Se publica bajo Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional.',
     licenseAllows: 'Permitido',
     licenseForbids: 'No permitido',
     licenseAllowView: 'Ver y usar el original para fines no comerciales.',
@@ -149,7 +162,7 @@ export const copy: Record<Locale, Copy> = {
     licenseFull: 'Texto completo de la licencia',
   },
   en: {
-    siteName: 'BussyMAD',
+    siteName: 'BusyMAD',
     tagline: 'BiciMAD availability by hour',
     metaDescription:
       'Interactive map of BiciMAD station occupancy in Madrid — summer 2022, weekday or weekend.',
@@ -160,16 +173,16 @@ export const copy: Record<Locale, Copy> = {
       'Interactive map of BiciMAD station occupancy through the day — summer 2022, weekday or weekend.',
     landingHint:
       'On Chrome (Android), install over HTTPS to open fullscreen like an app, without the browser bar.',
-    installAsk: 'Install BussyMAD as an app?',
+    installAsk: 'Install BusyMAD as an app?',
     installAction: 'Install',
     installLater: 'Not now',
     installIosHint: 'In Safari: Share → “Add to Home Screen”. Then open it from the icon.',
     installFirefoxHint:
-      'Firefox cannot install BussyMAD as a fullscreen app. Open it in Chrome (Android) over HTTPS and install there.',
+      'Firefox cannot install BusyMAD as a fullscreen app. Open it in Chrome (Android) over HTTPS and install there.',
     installChromeWaitHint:
       'Use the Install button when Chrome offers it. Delete any old home-screen shortcut that shows a Chrome badge first.',
     installInsecureHint:
-      'For a real app (clean icon, fullscreen) open https://bussymad.dev in Chrome. Over HTTP you only get a Chrome-badged shortcut.',
+      'For a real app (clean icon, fullscreen) open https://busymad.dev in Chrome. Over HTTP you only get a Chrome-badged shortcut.',
     installFullscreenHint: 'Open it from the installed icon (no Chrome badge) to use it without the browser bar.',
     installRemoveOldHint: 'If you already have a shortcut with a Chrome badge, remove it and install again from Chrome.',
     menuOpen: 'Open menu',
@@ -180,6 +193,13 @@ export const copy: Record<Locale, Copy> = {
     locateInsecure: 'GPS only works over HTTPS (or localhost). Open the site via https://.',
     dataBadge: 'Summer 2022',
     dataNote: 'Historical network (~259 stations). Live data coming soon.',
+    viewModeLabel: 'View',
+    viewHourly: 'By hour',
+    viewDayPulse: 'Rating',
+    dayPulseHint:
+      'Average occupancy across the day. Green: stations that usually have more bikes; red: ones that usually run emptier.',
+    dayPulseValue: 'All day',
+    avgOccupancy: 'Avg occupancy',
     timeLabel: 'Time of day',
     dayTypeLabel: 'Day type',
     weekday: 'Weekday',
@@ -209,7 +229,7 @@ export const copy: Record<Locale, Copy> = {
     licensePageTitle: 'License and copyright',
     licenseBack: 'Back to map',
     licenseIntro:
-      'BussyMAD (source code, interface, design, documentation, and original visualizations) is the copyrighted work of Daniel Vilela García. It is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.',
+      'BusyMAD (source code, interface, design, documentation, and original visualizations) is the copyrighted work of Daniel Vilela García. It is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.',
     licenseAllows: 'Allowed',
     licenseForbids: 'Not allowed',
     licenseAllowView: 'View and use the original for non-commercial purposes.',

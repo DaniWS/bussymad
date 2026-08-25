@@ -4,13 +4,13 @@
   Hourly GBFS collector for macOS (launchd).
 
   Install:
-    1. Edit WorkingDirectory / ProgramArguments paths if your clone is not at ~/bussymad
-    2. cp scripts/com.bussymad.gbfs.plist ~/Library/LaunchAgents/
-    3. launchctl load ~/Library/LaunchAgents/com.bussymad.gbfs.plist
-    4. launchctl start com.bussymad.gbfs   # optional immediate run
+    1. Edit WorkingDirectory / ProgramArguments paths if your clone is not at ~/busymad
+    2. cp scripts/com.busymad.gbfs.plist ~/Library/LaunchAgents/
+    3. launchctl load ~/Library/LaunchAgents/com.busymad.gbfs.plist
+    4. launchctl start com.busymad.gbfs   # optional immediate run
 
   Unload:
-    launchctl unload ~/Library/LaunchAgents/com.bussymad.gbfs.plist
+    launchctl unload ~/Library/LaunchAgents/com.busymad.gbfs.plist
 
   Caveat: LaunchAgents do NOT run while the Mac is asleep. Missed hours catch up
   on wake only if you use StartCalendarInterval (one fire per hour after wake,
@@ -19,15 +19,15 @@
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.bussymad.gbfs</string>
+  <string>com.busymad.gbfs</string>
 
   <key>WorkingDirectory</key>
-  <string>/Users/danielg/bussymad</string>
+  <string>/Users/danielg/busymad</string>
 
   <key>ProgramArguments</key>
   <array>
     <string>/opt/homebrew/bin/python3</string>
-    <string>/Users/danielg/bussymad/scripts/collect_gbfs.py</string>
+    <string>/Users/danielg/busymad/scripts/collect_gbfs.py</string>
   </array>
 
   <!-- Fire at minute 5 of every hour -->
@@ -38,9 +38,9 @@
   </dict>
 
   <key>StandardOutPath</key>
-  <string>/Users/danielg/bussymad/data/collected/launchd.out.log</string>
+  <string>/Users/danielg/busymad/data/collected/launchd.out.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/danielg/bussymad/data/collected/launchd.err.log</string>
+  <string>/Users/danielg/busymad/data/collected/launchd.err.log</string>
 
   <key>RunAtLoad</key>
   <true/>

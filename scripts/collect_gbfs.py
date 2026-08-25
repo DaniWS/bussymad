@@ -32,7 +32,7 @@ def default_out_path(when: datetime | None = None) -> Path:
 
 
 def fetch_json(url: str) -> dict:
-    req = urllib.request.Request(url, headers={"User-Agent": "bussymad-gbfs-collector/0.1"})
+    req = urllib.request.Request(url, headers={"User-Agent": "busymad-gbfs-collector/0.1"})
     with urllib.request.urlopen(req, timeout=60) as resp:
         return json.load(resp)
 

@@ -22,7 +22,7 @@ const locale = Astro.props.locale ?? 'es';
 const layout = Astro.props.layout ?? 'map';
 const strings = t(locale);
 const pageTitle = Astro.props.title ?? `${strings.siteName} · ${strings.tagline}`;
-const siteOrigin = Astro.site?.origin ?? 'https://bussymad.dev';
+const siteOrigin = Astro.site?.origin ?? 'https://busymad.dev';
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
 const esPath = Astro.props.alternateEs ?? '/';
 const enPath = Astro.props.alternateEn ?? '/en/';
@@ -68,6 +68,49 @@ const skipLabel = layout === 'map' ? strings.skipLink : strings.skipContent;
         } catch {
           document.documentElement.setAttribute('data-theme', 'light');
         }
+      })();
+    </script>
+    <script is:inline>
+      (function () {
+        // Stale PWA shells can serve Spanish HTML at /en/* (or the reverse). Recover.
+        var path = location.pathname;
+        var pathEn = path === '/en' || path.indexOf('/en/') === 0;
+        var htmlEn = document.documentElement.lang === 'en';
+        var flag = 'busymad-locale-repair';
+        if (pathEn === htmlEn) {
+          try {
+            sessionStorage.removeItem(flag);
+          } catch (_) {}
+          return;
+        }
+        try {
+          var attempts = Number(sessionStorage.getItem(flag) || '0');
+          if (attempts >= 2) return;
+          sessionStorage.setItem(flag, String(attempts + 1));
+        } catch (_) {}
+        var done = function () {
+          location.reload();
+        };
+        if (!('serviceWorker' in navigator)) {
+          done();
+          return;
+        }
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(
+            regs.map(function (r) {
+              return r.unregister();
+            }),
+          );
+        }).then(function () {
+          if (!('caches' in window)) return;
+          return caches.keys().then(function (keys) {
+            return Promise.all(
+              keys.map(function (k) {
+                return caches.delete(k);
+              }),
+            );
+          });
+        }).then(done, done);
       })();
     </script>
   </head>
