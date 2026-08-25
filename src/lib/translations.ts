@@ -55,7 +55,6 @@ export type Copy = {
   allYearSoon: string;
   legendLow: string;
   legendHigh: string;
-  stations: string;
   occupancy: string;
   bikes: string;
   docks: string;
@@ -166,7 +165,6 @@ export const copy: Record<Locale, Copy> = {
     allYearSoon: 'Próximamente',
     legendLow: 'Pocas bicis',
     legendHigh: 'Muchas bicis',
-    stations: 'estaciones',
     occupancy: 'Ocupación',
     bikes: 'bicis',
     docks: 'bases',
@@ -267,7 +265,6 @@ export const copy: Record<Locale, Copy> = {
     allYearSoon: 'Coming soon',
     legendLow: 'Few bikes',
     legendHigh: 'Many bikes',
-    stations: 'stations',
     occupancy: 'Occupancy',
     bikes: 'bikes',
     docks: 'docks',

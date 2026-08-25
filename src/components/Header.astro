@@ -8,11 +8,10 @@ import { t, GITHUB_REPO_URL, LINKEDIN_URL, PERSONAL_SITE_URL } from '../lib/tran
 interface Props {
   locale: Locale;
   currentPath: string;
-  stationCount?: number;
   surface?: 'site' | 'app' | 'doc';
 }
 
-const { locale, currentPath, stationCount = 0, surface = 'site' } = Astro.props;
+const { locale, currentPath, surface = 'site' } = Astro.props;
 const strings = t(locale);
 const logoHref = homePath(locale);
 ---
@@ -29,9 +28,6 @@ const logoHref = homePath(locale);
           <span>{strings.tagline}</span>
         </span>
       </a>
-      {stationCount > 0 && (
-        <span class="header__count mono">{stationCount} {strings.stations}</span>
-      )}
     </div>
 
     <div class="header__panel" id="site-menu">
@@ -262,13 +258,6 @@ const logoHref = homePath(locale);
     text-overflow: ellipsis;
   }
 
-  .header__count {
-    display: none;
-    font-size: 0.6875rem;
-    color: var(--ink-muted);
-    letter-spacing: 0.02em;
-  }
-
   .header__panel {
     margin-left: auto;
   }
@@ -439,17 +428,9 @@ const logoHref = homePath(locale);
     transform: rotate(-45deg);
   }
 
-  .mono {
-    font-family: var(--font-mono);
-  }
-
   @media (min-width: 640px) {
     .header__inner {
       padding: 0 1.25rem;
-    }
-
-    .header__count {
-      display: inline;
     }
   }
 
