@@ -1,10 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Landing from '../components/Landing.astro';
-import { datasetJsonLd, webApplicationJsonLd } from '../lib/seo';
+import { datasetJsonLd, webApplicationJsonLd, webSiteJsonLd } from '../lib/seo';
 
 const pageUrl = 'https://busymad.pages.dev/';
-const jsonLd = [webApplicationJsonLd('es', pageUrl), datasetJsonLd('es')];
+const jsonLd = [webSiteJsonLd('es', pageUrl), webApplicationJsonLd('es', pageUrl), datasetJsonLd('es')];
 ---
 
 <BaseLayout locale="es" layout="site" jsonLd={jsonLd}>

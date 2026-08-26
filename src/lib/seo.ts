@@ -1,6 +1,20 @@
 import type { Locale } from './i18n';
 import { AUTHOR, EMT_GBFS_URL, GITHUB_REPO_URL, SITE_ORIGIN, t } from './translations';
 
+/** Preferred site name for Google Search (avoids host brand like "Cloudflare" on pages.dev). */
+export function webSiteJsonLd(locale: Locale, pageUrl: string) {
+  const strings = t(locale);
+  const host = new URL(SITE_ORIGIN).hostname.toLowerCase();
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: strings.siteName,
+    alternateName: [host, 'Busy MAD'],
+    url: pageUrl,
+    inLanguage: locale === 'es' ? 'es-ES' : 'en-GB',
+  };
+}
+
 export function webApplicationJsonLd(locale: Locale, pageUrl: string) {
   const strings = t(locale);
   return {
