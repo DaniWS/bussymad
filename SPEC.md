@@ -10,7 +10,6 @@ Busymad is a web / responsive mobile app that shows a **map of BiciMAD station a
 - **Rating** view mode: per-station **mean available bikes over waking hours (06–23)**, excluding overnight 00–05. Hover shows a **precomputed percentile classifier** (baked into `stations_summer2022.json` by `npm run data` / deploy): quintiles of mean bike count among stations for that day type → *muy bueno* / *bueno* / *regular* / *malo* / *muy malo*. Bike-count cutoffs at P20/P40/P60/P80 live in `meta.ratingCutoffs`; hours used are in `meta.ratingHours`.
 - Color gradient: **red (few bikes)** → **green (many bikes)**. Both modes color by **empirical percentile** of absolute available bikes among stations (0→1): hourly = at the selected hour; Rating = daytime mean (06–23). Highest availability → greenest; lowest (often 0) → reddest. Capacity does not affect color.
 - Primary displayed metric: **available bikes** `dock_bikes` (popup still shows absolute count + docks).
-- **Network merge:** summer 2022 stations are geo-matched to current GBFS (`station_information`, ≤150 m). Matched cells blend **70% 2022 + 30% mined** GBFS; unmatched GBFS stations are added at 100% mined; unmatched 2022 stations stay 100% historical.
 - **Season toggle:** `summer` (Jun–Aug typical day) vs `all-year` (full-year typical day).
 - **Day-type toggle:** `weekday` vs `weekend`.
 
