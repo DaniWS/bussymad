@@ -169,7 +169,7 @@ export const copy: Record<Locale, Copy> = {
       'Agregados horarios de ocupación por estación BiciMAD en Madrid derivados de datos abiertos EMT/Ayuntamiento (Jun–Ago 2022), con medias diurnas y ratings por quintil.',
     skipLink: 'Ir al mapa',
     skipContent: 'Ir al contenido',
-    openApp: 'Abrir la app',
+    openApp: 'Acceder al mapa',
     landingLede:
       'Mapa interactivo de ocupación de estaciones BiciMAD.\nNo te quedes "a pie".',
     landingHint: 'También puedes instalarla como app en el móvil.',
@@ -312,7 +312,7 @@ export const copy: Record<Locale, Copy> = {
       'Hourly per-station BiciMAD occupancy aggregates for Madrid derived from EMT/City open data (Jun–Aug 2022), with daytime means and quintile ratings.',
     skipLink: 'Skip to map',
     skipContent: 'Skip to content',
-    openApp: 'Open the app',
+    openApp: 'Go to the map',
     landingLede:
       'Interactive map of BiciMAD station occupancy.\nDon\'t get left "on foot".',
     landingHint: 'You can also install it as an app on your phone.',
