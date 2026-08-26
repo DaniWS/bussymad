@@ -1,42 +1,31 @@
 import type { ExpressionSpecification } from 'maplibre-gl';
 
-/** MapLibre circle-color expression from occupancy 0→1 (red → green). */
-export function occupancyColorExpression(dark: boolean): ExpressionSpecification {
+/**
+ * Feature property driving the red→green scale.
+ * Both modes write an empirical percentile 0→1 into `percentile`
+ * (hourly: vs stations at that hour; rating: vs daytime mean bikes).
+ */
+export type ColorMetricProperty = 'percentile';
+
+const LIGHT_COLORS = ['#e63946', '#f4845f', '#f4a261', '#52b788', '#2a9d8f'] as const;
+const DARK_COLORS = ['#f07167', '#f4a261', '#e9c46a', '#52b788', '#2dd4a0'] as const;
+
+const UNIT_STOPS = [0, 0.25, 0.5, 0.75, 1] as const;
+
+/** MapLibre circle-color expression (red → green) from percentile 0→1. */
+export function metricColorExpression(
+  dark: boolean,
+  property: ColorMetricProperty = 'percentile',
+): ExpressionSpecification {
   const nullColor = dark ? '#636b74' : '#b0b8c0';
+  const palette = dark ? DARK_COLORS : LIGHT_COLORS;
 
-  const stops: ExpressionSpecification = dark
-    ? [
-        'interpolate',
-        ['linear'],
-        ['get', 'occupancy'],
-        0,
-        '#f07167',
-        0.25,
-        '#f4a261',
-        0.5,
-        '#e9c46a',
-        0.75,
-        '#52b788',
-        1,
-        '#2dd4a0',
-      ]
-    : [
-        'interpolate',
-        ['linear'],
-        ['get', 'occupancy'],
-        0,
-        '#e63946',
-        0.25,
-        '#f4845f',
-        0.45,
-        '#f4a261',
-        0.65,
-        '#52b788',
-        1,
-        '#2a9d8f',
-      ];
+  const interpolate: ExpressionSpecification = ['interpolate', ['linear'], ['get', property]];
+  for (let i = 0; i < palette.length; i++) {
+    interpolate.push(UNIT_STOPS[i]!, palette[i]!);
+  }
 
-  return ['case', ['<', ['get', 'occupancy'], 0], nullColor, stops];
+  return ['case', ['<', ['get', property], 0], nullColor, interpolate];
 }
 
 export const MAP_STYLES = {

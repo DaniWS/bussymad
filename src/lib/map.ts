@@ -1,6 +1,6 @@
 import maplibregl from 'maplibre-gl';
 import type { Copy } from './translations';
-import { occupancyColorExpression, MAP_STYLES, MAP_THEME } from './colors';
+import { metricColorExpression, MAP_STYLES, MAP_THEME } from './colors';
 import type { MapState, RatingTier, StationDataset, ViewMode } from './types';
 import type { Locale } from './i18n';
 
@@ -28,8 +28,8 @@ let dataset: StationDataset | null = null;
 let state: MapState = { hour: 8, dayType: 'weekday', season: 'summer', viewMode: 'hourly' };
 let mapLocale: Locale = 'es';
 let localeStrings: LocaleStrings = {
-  occupancy: 'Occupancy',
-  avgOccupancy: 'Avg occupancy',
+  occupancy: 'Bikes',
+  avgOccupancy: 'Avg bikes',
   ratingVeryGood: 'Very good',
   ratingGood: 'Good',
   ratingFair: 'Fair',
@@ -38,7 +38,7 @@ let localeStrings: LocaleStrings = {
   bikes: 'bikes',
   docks: 'docks',
   noData: 'No data',
-    attribution:
+  attribution:
     "© OpenStreetMap · Powered by <a href='https://www.emtmadrid.es' target='_blank' rel='noopener noreferrer'>EMT de Madrid</a>",
   locateMe: 'Go to my location',
   locateDenied: 'Could not get your location. Check GPS permission.',
@@ -97,6 +97,40 @@ function parseRating(raw: unknown): RatingTier | '' {
   return '';
 }
 
+function colorExpression() {
+  return metricColorExpression(isDark());
+}
+
+/** Empirical percentile of `value` among ascending `sortedVals` (ties → mid-rank). */
+function percentileRank(sortedVals: number[], value: number): number {
+  const n = sortedVals.length;
+  if (n <= 1) return 0.5;
+  let lo = 0;
+  while (lo < n && sortedVals[lo]! < value) lo += 1;
+  let hi = lo;
+  while (hi < n && sortedVals[hi]! === value) hi += 1;
+  const mid = (lo + hi - 1) / 2;
+  return mid / (n - 1);
+}
+
+/** Per-station percentile of available bikes at `hour` among all stations that hour. */
+function hourlyAvailabilityPercentiles(
+  profile: (number | null)[][],
+  hour: number,
+): (number | null)[] {
+  const vals: number[] = [];
+  for (const row of profile) {
+    const v = row?.[hour];
+    if (v !== null && v !== undefined) vals.push(v);
+  }
+  vals.sort((a, b) => a - b);
+  return profile.map((row) => {
+    const v = row?.[hour];
+    if (v === null || v === undefined || vals.length === 0) return null;
+    return percentileRank(vals, v);
+  });
+}
+
 function buildGeoJSON(
   data: StationDataset,
   hour: number,
@@ -104,14 +138,21 @@ function buildGeoJSON(
   viewMode: ViewMode,
 ) {
   const profile = data.profiles[dayType];
-  const means = data.meanOccupancy?.[dayType];
+  const means = data.meanBikes?.[dayType];
+  const ratingPercentiles = data.percentile?.[dayType];
   const ratings = data.rating?.[dayType];
+  const hourlyPercentiles =
+    viewMode === 'hourly' ? hourlyAvailabilityPercentiles(profile, hour) : null;
 
   return {
     type: 'FeatureCollection' as const,
     features: data.stations.map((st, i) => {
       const row = profile[i];
-      const occ = viewMode === 'dayPulse' ? (means?.[i] ?? null) : (row?.[hour] ?? null);
+      const bikes = viewMode === 'dayPulse' ? (means?.[i] ?? null) : (row?.[hour] ?? null);
+      const percentile =
+        viewMode === 'dayPulse'
+          ? (ratingPercentiles?.[i] ?? null)
+          : (hourlyPercentiles?.[i] ?? null);
       const rating = viewMode === 'dayPulse' ? parseRating(ratings?.[i]) : '';
       return {
         type: 'Feature' as const,
@@ -123,7 +164,13 @@ function buildGeoJSON(
           id: st.id,
           name: st.name,
           totalBases: st.totalBases,
-          occupancy: occ === null ? -1 : occ,
+          /** Absolute available bikes (hourly mean or daytime mean). */
+          bikes: bikes === null ? -1 : bikes,
+          /**
+           * Color driver 0→1: hourly = percentile of bikes at this hour among stations;
+           * rating = percentile of daytime mean bikes among stations.
+           */
+          percentile: percentile === null ? -1 : percentile,
           rating,
         },
       };
@@ -131,11 +178,19 @@ function buildGeoJSON(
   };
 }
 
+function applyCircleColors() {
+  if (!map) return;
+  const colorExpr = colorExpression();
+  if (map.getLayer(LAYER_GLOW)) map.setPaintProperty(LAYER_GLOW, 'circle-color', colorExpr);
+  if (map.getLayer(LAYER_CIRCLES)) map.setPaintProperty(LAYER_CIRCLES, 'circle-color', colorExpr);
+}
+
 function updateSource() {
   if (!map || !dataset) return;
   const geojson = buildGeoJSON(dataset, state.hour, state.dayType, state.viewMode);
   const source = map.getSource(SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
   source?.setData(geojson);
+  applyCircleColors();
 }
 
 function resolveStyle() {
@@ -195,7 +250,7 @@ function addStationLayers() {
   if (map.getSource(SOURCE_ID)) map.removeSource(SOURCE_ID);
 
   const theme = mapTheme();
-  const colorExpr = occupancyColorExpression(isDark());
+  const colorExpr = colorExpression();
 
   map.addSource(SOURCE_ID, {
     type: 'geojson',
@@ -228,22 +283,25 @@ function addStationLayers() {
   });
 }
 
-function parseOccupancy(raw: unknown): number | null {
+function parseBikes(raw: unknown): number | null {
   if (raw === null || raw === undefined || raw === -1 || raw === '-1') return null;
   const n = typeof raw === 'number' ? raw : Number(raw);
   return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
+function formatBikes(n: number): string {
+  return new Intl.NumberFormat(localeTag(), {
+    maximumFractionDigits: n < 10 ? 1 : 0,
+  }).format(n);
+}
+
 function formatPopup(
   name: string,
-  occ: number | null,
+  bikes: number | null,
   totalBases: number,
   rating: RatingTier | '',
 ): string {
-  const pct =
-    occ === null
-      ? localeStrings.noData
-      : new Intl.NumberFormat(localeTag(), { style: 'percent', maximumFractionDigits: 0 }).format(occ);
+  const bikesLabel = bikes === null ? localeStrings.noData : formatBikes(bikes);
 
   if (state.viewMode === 'dayPulse') {
     const tierHtml =
@@ -254,17 +312,17 @@ function formatPopup(
     <div class="map-popup">
       <strong>${escapeHtml(name)}</strong>
       ${tierHtml}
-      <span>${localeStrings.avgOccupancy}: <em>${pct}</em></span>
+      <span>${localeStrings.avgOccupancy}: <em>~${bikesLabel}</em> ${localeStrings.bikes}</span>
+      <span>${totalBases} ${localeStrings.docks}</span>
     </div>
   `;
   }
 
-  const bikes = occ === null ? '—' : String(Math.round(occ * totalBases));
   return `
     <div class="map-popup">
       <strong>${escapeHtml(name)}</strong>
-      <span>${localeStrings.occupancy}: <em>${pct}</em></span>
-      <span>~${bikes} ${localeStrings.bikes} · ${totalBases} ${localeStrings.docks}</span>
+      <span>${localeStrings.occupancy}: <em>~${bikesLabel}</em> ${localeStrings.bikes}</span>
+      <span>${totalBases} ${localeStrings.docks}</span>
     </div>
   `;
 }
@@ -372,15 +430,15 @@ export async function initMap(container: HTMLElement, locale: Locale, strings: L
       number,
       number,
     ];
-    const { name, occupancy: occRaw, totalBases, rating: ratingRaw } = f.properties as {
+    const { name, bikes: bikesRaw, totalBases, rating: ratingRaw } = f.properties as {
       name: string;
-      occupancy: unknown;
+      bikes: unknown;
       totalBases: number;
       rating?: string;
     };
     popup
       .setLngLat(coords)
-      .setHTML(formatPopup(name, parseOccupancy(occRaw), totalBases, parseRating(ratingRaw)))
+      .setHTML(formatPopup(name, parseBikes(bikesRaw), totalBases, parseRating(ratingRaw)))
       .addTo(map);
   });
 

@@ -7,9 +7,10 @@ Iterative product/data spec. Update this file as we learn more.
 Busymad is a web / responsive mobile app that shows a **map of BiciMAD station availability at a chosen time of day**.
 
 - Time slider at **1h** intervals (30 min later if data supports it).
-- **Rating** view mode: per-station **mean occupancy over waking hours (06–23)**, excluding overnight 00–05. Hover shows a **precomputed percentile classifier** (baked into `stations_summer2022.json` by `npm run data` / deploy): quintiles of mean occupancy among stations for that day type → *muy bueno* / *bueno* / *regular* / *malo* / *muy malo*. Occupancy cutoffs at P20/P40/P60/P80 live in `meta.ratingCutoffs`; hours used are in `meta.ratingHours`.
-- Color gradient: **red (low bikes)** → **green (high bikes)**.
-- Primary metric: **occupancy rate** `dock_bikes / total_bases` (not raw bike counts).
+- **Rating** view mode: per-station **mean available bikes over waking hours (06–23)**, excluding overnight 00–05. Hover shows a **precomputed percentile classifier** (baked into `stations_summer2022.json` by `npm run data` / deploy): quintiles of mean bike count among stations for that day type → *muy bueno* / *bueno* / *regular* / *malo* / *muy malo*. Bike-count cutoffs at P20/P40/P60/P80 live in `meta.ratingCutoffs`; hours used are in `meta.ratingHours`.
+- Color gradient: **red (few bikes)** → **green (many bikes)**. Both modes color by **empirical percentile** of absolute available bikes among stations (0→1): hourly = at the selected hour; Rating = daytime mean (06–23). Highest availability → greenest; lowest (often 0) → reddest. Capacity does not affect color.
+- Primary displayed metric: **available bikes** `dock_bikes` (popup still shows absolute count + docks).
+- **Network merge:** summer 2022 stations are geo-matched to current GBFS (`station_information`, ≤150 m). Matched cells blend **70% 2022 + 30% mined** GBFS; unmatched GBFS stations are added at 100% mined; unmatched 2022 stations stay 100% historical.
 - **Season toggle:** `summer` (Jun–Aug typical day) vs `all-year` (full-year typical day).
 - **Day-type toggle:** `weekday` vs `weekend`.
 
@@ -36,10 +37,10 @@ v0 focus is **data feasibility + hourly pattern check**, not the map yet.
 
 ## Metric & aggregation rules
 
-- `occupancy = dock_bikes / total_bases`
+- Primary map metric: `available bikes = dock_bikes` (popup/tooltip). Circle color = empirical percentile of absolute bikes vs other stations (hourly at selected hour; Rating on daytime mean). Capacity does not change color.
 - Drop closed stations: `activate != 1` or `no_available == 1`
 - Bin: **1 hour**
-- First viz: citywide mean occupancy by hour-of-day, one line per month, weekday vs weekend
+- First viz (citywide chart): mean occupancy rate by hour-of-day — see `scripts/aggregate_summer2022.py`
 
 ## Network caveat
 

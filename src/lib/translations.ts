@@ -133,7 +133,7 @@ export const copy: Record<Locale, Copy> = {
       'BusyMAD es un mapa de estadísticas de BiciMAD en Madrid basado en datos abiertos. Proyecto independiente; no está afiliado a EMT ni al Ayuntamiento.',
     landingH1: 'Disponibilidad de estaciones BiciMAD en Madrid',
     metaDescription:
-      'Mapa interactivo con estadísticas históricas de ocupación de 259 estaciones BiciMAD en Madrid. Datos abiertos EMT y GBFS, hora a hora, laborable o fin de semana.',
+      'Mapa interactivo con estadísticas de bicis disponibles en estaciones BiciMAD en Madrid. Datos abiertos EMT y GBFS, hora a hora, laborable o fin de semana.',
     appMetaDescription:
       'Consulta la ocupación hora a hora de cada estación BiciMAD en Madrid. Estadísticas históricas, rating por estación y datos abiertos de la EMT.',
     seoKeywords: [
@@ -157,7 +157,7 @@ export const copy: Record<Locale, Copy> = {
       },
       {
         q: '¿Qué muestra el mapa?',
-        a: 'Ocupación por estación y hora, medias diurnas y un rating relativo frente al resto de la red.',
+        a: 'Bicis disponibles por estación y hora (el color es el percentil de disponibilidad frente al resto a esa hora), medias diurnas y un rating relativo frente al resto de la red (por cantidad de bicis, no por % de capacidad).',
       },
       {
         q: '¿Es la app oficial de BiciMAD?',
@@ -202,14 +202,14 @@ export const copy: Record<Locale, Copy> = {
     locateDenied: 'No se pudo obtener la ubicación. Revisa el permiso de GPS.',
     locateOutside: 'Tu ubicación está fuera del área del mapa de Madrid.',
     locateInsecure: 'La ubicación GPS solo funciona en HTTPS (o localhost). Abre el sitio por https://.',
-    dataNote: 'Red histórica (~259 estaciones). Los datos en vivo llegarán pronto.',
+    dataNote: 'Red actual (690 estaciones). Verano 2022 + capturas GBFS recientes (peso 30%).',
     viewModeLabel: 'Vista',
     viewHourly: 'Por hora',
     viewDayPulse: 'Rating',
     dayPulseHint:
-      'Promedio de ocupación de 06:00 a 23:00 (sin madrugada). Al pasar el ratón ves el rating: quintiles precalculados del dataset (muy bueno → muy malo según la ocupación media frente al resto de estaciones).',
+      'Promedio de bicis disponibles de 06:00 a 23:00 (sin madrugada). Al pasar el ratón ves el rating: quintiles precalculados del dataset (muy bueno → muy malo según la media de bicis frente al resto de estaciones, sin importar la capacidad).',
     dayPulseValue: '06–23 h',
-    avgOccupancy: 'Ocupación media',
+    avgOccupancy: 'Media de bicis',
     ratingVeryGood: 'Muy bueno',
     ratingGood: 'Bueno',
     ratingFair: 'Regular',
@@ -225,7 +225,7 @@ export const copy: Record<Locale, Copy> = {
     allYearSoon: 'Próximamente',
     legendLow: 'Pocas bicis',
     legendHigh: 'Muchas bicis',
-    occupancy: 'Ocupación',
+    occupancy: 'Bicis',
     bikes: 'bicis',
     docks: 'bases',
     noData: 'Sin datos',
@@ -276,7 +276,7 @@ export const copy: Record<Locale, Copy> = {
       'BusyMAD is a BiciMAD statistics map for Madrid built on open data. An independent project — not affiliated with EMT or the City Council.',
     landingH1: 'BiciMAD station availability in Madrid',
     metaDescription:
-      'Interactive map with historical occupancy stats for 259 BiciMAD stations in Madrid. EMT open data and GBFS, hour by hour, weekday or weekend.',
+      'Interactive map with available-bike stats for BiciMAD stations in Madrid. EMT open data and GBFS, hour by hour, weekday or weekend.',
     appMetaDescription:
       'Hourly occupancy for every BiciMAD station in Madrid. Historical statistics, per-station ratings, and EMT open data on an interactive map.',
     seoKeywords: [
@@ -300,7 +300,7 @@ export const copy: Record<Locale, Copy> = {
       },
       {
         q: 'What does the map show?',
-        a: 'Occupancy per station and hour, daytime averages, and a relative rating vs the rest of the network.',
+        a: 'Available bikes per station and hour (color is the availability percentile vs the rest of the network at that hour), daytime averages, and a relative rating vs the rest of the network (by bike count, not fill rate).',
       },
       {
         q: 'Is this the official BiciMAD app?',
@@ -345,14 +345,14 @@ export const copy: Record<Locale, Copy> = {
     locateDenied: 'Could not get your location. Check GPS permission.',
     locateOutside: 'Your location is outside the Madrid map area.',
     locateInsecure: 'GPS only works over HTTPS (or localhost). Open the site via https://.',
-    dataNote: 'Historical network (~259 stations). Live data coming soon.',
+    dataNote: 'Current network (690 stations). Summer 2022 + recent GBFS captures (30% weight).',
     viewModeLabel: 'View',
     viewHourly: 'By hour',
     viewDayPulse: 'Rating',
     dayPulseHint:
-      'Average occupancy from 6am to 11pm (overnight excluded). Hover a station to see its rating: deploy-time quintiles from the dataset (very good → very bad by mean occupancy vs the rest of the network).',
+      'Average available bikes from 6am to 11pm (overnight excluded). Hover a station to see its rating: deploy-time quintiles from the dataset (very good → very bad by mean bike count vs the rest of the network, regardless of dock capacity).',
     dayPulseValue: '6am–11pm',
-    avgOccupancy: 'Avg occupancy',
+    avgOccupancy: 'Avg bikes',
     ratingVeryGood: 'Very good',
     ratingGood: 'Good',
     ratingFair: 'Fair',
@@ -368,7 +368,7 @@ export const copy: Record<Locale, Copy> = {
     allYearSoon: 'Coming soon',
     legendLow: 'Few bikes',
     legendHigh: 'Many bikes',
-    occupancy: 'Occupancy',
+    occupancy: 'Bikes',
     bikes: 'bikes',
     docks: 'docks',
     noData: 'No data',

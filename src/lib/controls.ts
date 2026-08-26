@@ -53,7 +53,10 @@ export function initControls() {
   let viewMode: ViewMode = saved.viewMode === 'dayPulse' ? 'dayPulse' : 'hourly';
   let lastHour =
     typeof saved.hour === 'number' && saved.hour >= 0 && saved.hour <= 23 ? saved.hour : 8;
-  let dayType: 'weekday' | 'weekend' = saved.dayType === 'weekend' ? 'weekend' : 'weekday';
+  let dayType: 'weekday' | 'weekend' = 'weekday';
+
+  /** Weekend profiles are incomplete for new GBFS stations — force weekday for now. */
+  const WEEKEND_ENABLED = false;
 
   function nearness(hour: number, center: number, radius: number) {
     return Math.max(0, 1 - Math.abs(hour - center) / radius);
@@ -109,9 +112,14 @@ export function initControls() {
   }
 
   function applyDayType(next: 'weekday' | 'weekend', persist = true) {
+    if (!WEEKEND_ENABLED && next === 'weekend') next = 'weekday';
     dayType = next;
     dayButtons.forEach((btn) => {
-      btn.classList.toggle('is-active', btn.getAttribute('data-day-type') === next);
+      const active = btn.getAttribute('data-day-type') === next;
+      btn.classList.toggle('is-active', active);
+      if (!btn.hasAttribute('disabled')) {
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      }
     });
     setMapState({ dayType: next });
     if (persist) saveControls({ dayType: next });
@@ -132,8 +140,10 @@ export function initControls() {
 
   dayButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
+      if (btn.hasAttribute('disabled')) return;
       const next = btn.getAttribute('data-day-type');
       if (next !== 'weekday' && next !== 'weekend') return;
+      if (!WEEKEND_ENABLED && next === 'weekend') return;
       applyDayType(next);
     });
   });

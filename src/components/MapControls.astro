@@ -86,8 +86,8 @@ const hoursLabels = hours.map((h) => formatHour(h, locale));
     <div class="control-group">
       <span class="control-group__label" id="day-type-label">{strings.dayTypeLabel}</span>
       <div class="chip-group" role="group" aria-labelledby="day-type-label">
-        <button type="button" class="chip is-active" data-day-type="weekday">{strings.weekday}</button>
-        <button type="button" class="chip" data-day-type="weekend">{strings.weekend}</button>
+        <button type="button" class="chip is-active" data-day-type="weekday" aria-pressed="true">{strings.weekday}</button>
+        <button type="button" class="chip is-disabled" data-day-type="weekend" disabled title={strings.allYearSoon} aria-disabled="true">{strings.weekend}</button>
       </div>
     </div>
 
