@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import AstroPWA from '@vite-pwa/astro';
+import { flattenSitemap } from './integrations/flatten-sitemap.mjs';
 
 export default defineConfig({
   site: 'https://busymad.pages.dev',
@@ -107,5 +108,7 @@ export default defineConfig({
         enabled: false,
       },
     }),
+    // After @astrojs/sitemap so sitemap-0.xml exists; ships /sitemap.xml in every astro build.
+    flattenSitemap(),
   ],
 });
