@@ -53,7 +53,7 @@ const jsonLdScript =
           : jsonLdPayload,
       )
     : null;
-const sitemapUrl = new URL('/sitemap-index.xml', siteOrigin).href;
+const sitemapUrl = new URL('/sitemap.xml', siteOrigin).href;
 const googleSiteVerification =
   import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ??
   'tWH1y_VnQ5OyLTVWG0WB1eF5A49crHRB4MjTIU0Jd8k';

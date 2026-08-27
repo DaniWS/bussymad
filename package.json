@@ -9,7 +9,7 @@
   "scripts": {
     "data": "python3 scripts/aggregate_stations_summer2022.py",
     "dev": "npm run data && astro dev",
-    "build": "npm run data && astro build",
+    "build": "npm run data && astro build && node scripts/flatten-sitemap.mjs",
     "preview": "astro preview",
     "seo:notify": "node scripts/notify-search-engines.mjs",
     "check": "astro check",

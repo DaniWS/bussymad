@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Ping Bing after deploy. Google Search Console requires manual sitemap submit:
- * https://search.google.com/search-console → Sitemaps → sitemap-index.xml
+ * https://search.google.com/search-console → Sitemaps → sitemap.xml
  */
 const site = process.env.SITE_URL ?? 'https://busymad.pages.dev';
-const sitemap = new URL('/sitemap-index.xml', site).href;
+const sitemap = new URL('/sitemap.xml', site).href;
 
 const targets = [
   `https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemap)}`,
