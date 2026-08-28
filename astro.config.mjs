@@ -49,6 +49,9 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // Unused news/image/video namespaces confuse some GSC parsers; keep xhtml for hreflang.
+      namespaces: { news: false, image: false, video: false, xhtml: true },
+      lastmod: new Date(),
       i18n: {
         defaultLocale: 'es',
         locales: {
@@ -58,7 +61,18 @@ export default defineConfig({
       },
       serialize(item) {
         const path = new URL(item.url).pathname;
-        if (path === '/faq/' || path === '/en/faq/') {
+        const site = 'https://busymad.pages.dev';
+        if (path === '/licencia/') {
+          item.links = [
+            { url: `${site}/licencia/`, lang: 'es-ES' },
+            { url: `${site}/en/license/`, lang: 'en-GB' },
+          ];
+        } else if (path === '/en/license/') {
+          item.links = [
+            { url: `${site}/licencia/`, lang: 'es-ES' },
+            { url: `${site}/en/license/`, lang: 'en-GB' },
+          ];
+        } else if (path === '/faq/' || path === '/en/faq/') {
           item.priority = 0.85;
           item.changefreq = 'monthly';
         } else if (path === '/' || path === '/en/') {

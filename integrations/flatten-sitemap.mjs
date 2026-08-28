@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -21,7 +21,8 @@ export function flattenSitemap() {
         if (!existsSync(src)) {
           throw new Error(`flatten-sitemap: missing ${src}`);
         }
-        copyFileSync(src, dest);
+        const xml = readFileSync(src, 'utf8').trimEnd();
+        writeFileSync(dest, `${xml}\n`);
 
         const robotsPath = join(dist, 'robots.txt');
         if (existsSync(robotsPath)) {
