@@ -49,30 +49,14 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Unused news/image/video namespaces confuse some GSC parsers; keep xhtml for hreflang.
-      namespaces: { news: false, image: false, video: false, xhtml: true },
-      lastmod: new Date(),
-      i18n: {
-        defaultLocale: 'es',
-        locales: {
-          es: 'es-ES',
-          en: 'en-GB',
-        },
-      },
+      // Plain urlset only — hreflang lives in HTML link tags. xhtml:link entries in
+      // sitemaps have triggered GSC "could not read sitemap" on pages.dev before.
+      namespaces: { news: false, image: false, video: false, xhtml: false },
       serialize(item) {
         const path = new URL(item.url).pathname;
-        const site = 'https://busymad.pages.dev';
-        if (path === '/licencia/') {
-          item.links = [
-            { url: `${site}/licencia/`, lang: 'es-ES' },
-            { url: `${site}/en/license/`, lang: 'en-GB' },
-          ];
-        } else if (path === '/en/license/') {
-          item.links = [
-            { url: `${site}/licencia/`, lang: 'es-ES' },
-            { url: `${site}/en/license/`, lang: 'en-GB' },
-          ];
-        } else if (path === '/faq/' || path === '/en/faq/') {
+        // Date-only lastmod; some crawlers choke on fractional ISO timestamps.
+        item.lastmod = new Date().toISOString().slice(0, 10);
+        if (path === '/faq/' || path === '/en/faq/') {
           item.priority = 0.85;
           item.changefreq = 'monthly';
         } else if (path === '/' || path === '/en/') {
