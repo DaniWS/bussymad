@@ -17,8 +17,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@fontsource/dm-sans": "^5.2.8",
-    "@fontsource/jetbrains-mono": "^5.2.8",
     "astro": "^7.1.3",
     "maplibre-gl": "^5.6.2",
     "sharp": "^0.35.3"

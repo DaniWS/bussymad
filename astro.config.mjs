@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import AstroPWA from '@vite-pwa/astro';
 import { flattenSitemap } from './integrations/flatten-sitemap.mjs';
@@ -17,6 +17,31 @@ export default defineConfig({
     port: 4322,
     host: true,
   },
+  // Astro's font pipeline emits real files. CSS `@fontsource/*` imports were
+  // rewriting URLs under Vite 8/Rolldown without copying the binaries into dist,
+  // so Googlebot got HTML soft-404s for every .woff / missing .woff2.
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: 'DM Sans',
+      cssVariable: '--font-dm-sans',
+      weights: [400, 500, 600, 700],
+      styles: ['normal'],
+      subsets: ['latin'],
+      formats: ['woff2'],
+      fallbacks: ['system-ui', 'sans-serif'],
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains-mono',
+      weights: [400],
+      styles: ['normal'],
+      subsets: ['latin'],
+      formats: ['woff2'],
+      fallbacks: ['ui-monospace', 'monospace'],
+    },
+  ],
   vite: {
     build: {
       cssMinify: 'esbuild',

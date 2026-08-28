@@ -20,8 +20,8 @@
   --hour-night: #3a3f3c;
   --hour-day: #f4d35e;
 
-  --font-sans: 'DM Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: var(--font-dm-sans, 'DM Sans', system-ui, sans-serif);
+  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono', ui-monospace, monospace);
 
   --header-h: 3.5rem;
   --panel-radius: 1rem;

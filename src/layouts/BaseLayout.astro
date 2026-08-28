@@ -1,4 +1,5 @@
 ---
+import { Font } from 'astro:assets';
 import { pwaInfo } from 'virtual:pwa-info';
 import '../styles/global.css';
 import InstallBanner from '../components/InstallBanner.astro';
@@ -59,18 +60,6 @@ const googleSiteVerification =
   'tWH1y_VnQ5OyLTVWG0WB1eF5A49crHRB4MjTIU0Jd8k';
 const bingSiteVerification =
   import.meta.env.PUBLIC_BING_SITE_VERIFICATION?.trim() ?? '370462E102FF94EC23EE014D67D7CCAA';
-
-if (layout === 'site') {
-  await import('@fontsource/dm-sans/latin-400.css');
-  await import('@fontsource/dm-sans/latin-600.css');
-  await import('@fontsource/dm-sans/latin-700.css');
-} else {
-  await import('@fontsource/dm-sans/latin-400.css');
-  await import('@fontsource/dm-sans/latin-500.css');
-  await import('@fontsource/dm-sans/latin-600.css');
-  await import('@fontsource/dm-sans/latin-700.css');
-  await import('@fontsource/jetbrains-mono/latin-400.css');
-}
 ---
 
 <!doctype html>
@@ -122,6 +111,8 @@ if (layout === 'site') {
       <script type="application/ld+json" set:html={jsonLdScript} />
     )}
     <title>{pageTitle}</title>
+    <Font cssVariable="--font-dm-sans" />
+    {layout !== 'site' && <Font cssVariable="--font-jetbrains-mono" />}
     {umamiWebsiteId && (
       <script
         defer
